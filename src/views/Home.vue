@@ -11,7 +11,7 @@
 				</v-col>
 				<v-col class="mt-12" cols="12" sm="12" md="6">
 					<h1 id="home-title">Work harder. <br> Be focused. <br> Succeed.</h1>
-					<v-btn class="mt-12" x-large @click="signIn">
+					<v-btn class="mt-12" x-large @click="signIn('Profil')">
 						<v-img class="mr-5" src="./../assets/google-logo-short.png" width="30"></v-img>
 						<span>Sign in</span>
 					</v-btn>
@@ -32,36 +32,37 @@
 
 		data: () => ({
 			provider: new firebase.auth.GoogleAuthProvider(),
-			token: null,
-			user: null,
-			error: null
+			token: '',
+			user: '',
+			error: ''
 		}),
 
 		methods: {
-			signIn() {
-				auth.signInWithPopup(this.provider).then(function (result) {
+
+			goTo(path) {
+				if (this.$router.currentRoute.path != path) {
+					this.$router.push(path)
+				}
+			},
+
+			signIn(path) {
+				auth.signInWithPopup(this.provider).then((result) => {
 					// This gives you a Google Access Token. You can use it to access the Google API.
-					// var token = result.credential.accessToken;
+					this.token = result.credential.accessToken;
 					// The signed-in user info.
-					// var user = result.user;
-					// ...
+					this.user = result.user;
 
-					console.log(result.credential.accessToken);
+					let token = this.token
+					let user = this.user
+					this.$store.dispatch('login', { token, user })
 
-					this.$router.push('/Profil')
+					this.goTo(path)
 
-				}).catch(function (error) {
-					// Handle Errors here.
-					// var errorCode = error.code;
-					// var errorMessage = error.message;
-					// The email of the user's account used.
-					// var email = error.email;
-					// The firebase.auth.AuthCredential type that was used.
-					// var credential = error.credential;
-					// ...
+					console.log('User logged in');
 
-					console.log(error);
 
+				}).catch((error) => {
+					this.error = error
 				});
 			}
 		}

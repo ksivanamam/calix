@@ -3,12 +3,12 @@
 		<v-app-bar app color="blue" dark>
 			<div class="d-flex align-center">
 				<v-img alt="Vuetify Logo" class="shrink mr-2" contain src="./assets/logo-full.png"
-					transition="scale-transition" width="50" @click="goTo('/')"/>
+					transition="scale-transition" width="50" @click="goTo('/')" />
 			</div>
 
 			<v-spacer></v-spacer>
 
-			<v-btn color="error" @click="signOut">
+			<v-btn color="error" @click="signOut('/')">
 				<v-icon>mdi-account-off</v-icon>
 			</v-btn>
 
@@ -34,26 +34,35 @@
 		name: 'App',
 
 		data: () => ({
-
+			isAuth: null
 		}),
 
+		created() {
+			this.init()
+		},
+
 		methods: {
-			signOut() {
-				auth.signOut().then(function () {
-					// Sign-out successful.
-					console.log('User logged out');
-
-				}).catch(function (error) {
-					// An error happened.
-					console.log(error);
-
-				});
+			init() {
+				this.isAuth = this.$store.getters.isLoggedIn
 			},
 
 			goTo(path) {
 				if (this.$router.currentRoute.path != path) {
 					this.$router.push(path)
 				}
+			},
+			signOut(path) {
+				auth.signOut().then(() => {
+					// Sign-out successful.
+					this.isAuth = false
+					this.$store.dispatch('logout')
+					this.goTo(path)
+					console.log('User logged out');
+
+				}).catch(function (error) {
+					// An error happened.
+					console.log(error);
+				});
 			}
 		}
 	};
