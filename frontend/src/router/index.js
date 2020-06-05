@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Profil from '../views/Profil.vue'
 import Collection from '../views/Collection.vue'
-import store from "../store/index.js"
+// import store from "../store/index.js"
 
 Vue.use(VueRouter)
 
@@ -15,12 +15,18 @@ const routes = [{
 	{
 		path: '/Profil',
 		name: 'Profil',
-		component: Profil
+		component: Profil,
+		meta: {
+			requiresAuth: true
+		}
 	},
 	{
 		path: '/Collection',
 		name: 'Collection',
-		component: Collection
+		component: Collection,
+		meta: {
+			requiresAuth: true
+		}
 	},
 ]
 
@@ -35,9 +41,9 @@ router.beforeEach((to, from, next) => {
 		// this route requires auth, check if logged in
 		// if not, redirect to login page.
 		// console.log("your token is: " + store.getters.isLoggedIn)
-		if (!store.getters.isLoggedIn) {
+		if (!localStorage.getItem('token')) {
 			next({
-				path: '/login',
+				path: '/',
 				query: {
 					redirect: to.fullPath
 				}
