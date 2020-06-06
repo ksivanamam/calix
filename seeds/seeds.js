@@ -44,6 +44,19 @@ exports.seed = async function (knex) {
 			equipment: false,
 			color: 'red',
 			admin: false
+		},
+		{
+			username: 'bahe',
+			password: 'bahe',
+			email: 'bahe@tfbern.ch',
+			firstname: 'Hezekiah',
+			lastname: 'Bakare-Johnson',
+			age: 20,
+			height: 185,
+			weight: 100,
+			equipment: false,
+			color: 'red',
+			admin: false
 		}
 	])
 

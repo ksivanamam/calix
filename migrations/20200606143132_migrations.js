@@ -19,6 +19,7 @@ exports.up = async function (knex) {
 		table.string('name').notNullable()
 		table.string('focus').notNullable()
 		table.integer('difficulty').notNullable()
+		table.boolean('public').defaultTo(true).notNullable()
 	})
 
 	await knex.schema.createTable('exerciseLibrary', (table) => {
