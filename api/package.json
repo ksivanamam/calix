@@ -2,9 +2,10 @@
   "name": "api",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "mainServer.js",
   "scripts": {
-    "api": "nodemon server.js"
+    "authServer": "nodemon authServer.js",
+    "mainServer": "nodemon mainServer.js"
   },
   "author": "",
   "license": "ISC",

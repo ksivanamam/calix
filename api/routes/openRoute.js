@@ -7,6 +7,8 @@ var router = express.Router()
 require('dotenv').config()
 // !SECTION
 
+var refreshTokens = []
+
 // SECTION Interfaces
 // ANCHOR THis interface will handle incoming register POST-Requests
 router.post('/register', async (req, res) => {
@@ -127,9 +129,19 @@ router.post('/login', async (req, res) => {
 					username
 				}
 
-				var accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
+				function generateAccessToken(user) {
+					return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15s'})
+				}
 
-				res.json({accessToken: accessToken})
+				function generateRefreshToken(user) {
+					return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
+				}
+
+				var accessToken = generateAccessToken(user)
+				var refreshToken = generateRefreshToken(user)
+				refreshTokens.push(refreshToken)
+
+				res.json({accessToken: accessToken, refreshToken: refreshToken})
 
 			} else {
 
@@ -157,6 +169,24 @@ router.post('/login', async (req, res) => {
 		}
 	}
 
+})
+
+// ANCHOR This interface will handle incoming POST-Request for new access tokens (refreshing with refresh token)
+router.post('/refresh', async (req, res) => {
+
+	function generateAccessToken(user) {
+		return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15s'})
+	}
+
+	var refreshToken = req.body.refreshToken
+
+	if(refreshToken == null) return res.sendStatus(401)
+	if(!refreshTokens.includes(refreshToken)) return res.sendStatus(403)
+	jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, user) => {
+		if(error) return res.sendStatus(403)
+		var accessToken = generateAccessToken({name: user.name})
+		res.json({accessToken: accessToken})
+	})
 })
 // !SECTION
 

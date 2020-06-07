@@ -1,6 +1,6 @@
 // SECTION Dependencies
 // ANCHOR Requires all the necessary dependencies
-var express = require('./node_modules/express')
+var express = require('express')
 var app = express()
 var verifyAuth = require('./middleware/verifyAuth')
 // !SECTION
@@ -9,7 +9,7 @@ var verifyAuth = require('./middleware/verifyAuth')
 app.use(express.json())
 
 // ANCHOR server listens to port 3000 and logs the statement below
-var port = 3000
+var port = 2000
 app.listen(port, () => console.log('Listening to port ' + port))
 
 // ANCHOR Requires the open route which does not require any authentication and uses the interfaces inside the file
