@@ -1,3 +1,5 @@
+var bcrypt = require('./../node_modules/bcryptjs')
+
 exports.seed = async function (knex) {
 	// Deletes ALL existing entries
 	await knex('users').del()
@@ -7,8 +9,21 @@ exports.seed = async function (knex) {
 	await knex('plans').del()
 
 	await knex('users').insert([{
+			username: 'admin',
+			password: await bcrypt.hash('admin', 10),
+			email: 'admin@calix.ch',
+			firstname: 'admin',
+			lastname: 'admin',
+			age: 1,
+			height: 1,
+			weight: 1,
+			equipment: false,
+			color: 'orange',
+			admin: true
+		},
+		{
 			username: 'kasi',
-			password: 'kasi',
+			password: await bcrypt.hash('admin', 10),
 			email: 'kasi@tfbern.ch',
 			firstname: 'Kabilan',
 			lastname: 'Sivanamam',
@@ -17,11 +32,11 @@ exports.seed = async function (knex) {
 			weight: 70,
 			equipment: false,
 			color: 'orange',
-			admin: true
+			admin: false
 		},
 		{
 			username: 'doke',
-			password: 'doke',
+			password: await bcrypt.hash('admin', 10),
 			email: 'doke@tfbern.ch',
 			firstname: 'Dominik',
 			lastname: 'Keller',
@@ -34,7 +49,7 @@ exports.seed = async function (knex) {
 		},
 		{
 			username: 'alul',
-			password: 'alul',
+			password: await bcrypt.hash('admin', 10),
 			email: 'alul@tfbern.ch',
 			firstname: 'Ali',
 			lastname: 'Ülgen',
@@ -47,7 +62,7 @@ exports.seed = async function (knex) {
 		},
 		{
 			username: 'bahe',
-			password: 'bahe',
+			password: await bcrypt.hash('admin', 10),
 			email: 'bahe@tfbern.ch',
 			firstname: 'Hezekiah',
 			lastname: 'Bakare-Johnson',
@@ -226,23 +241,24 @@ exports.seed = async function (knex) {
 	])
 
 	await knex('workoutExercises').insert([{
-		exerciseLibraryFK: 1,
-		sets: 2,
-		reps: 10,
-		workoutFK: 1
-	},
-	{
-		exerciseLibraryFK: 2,
-		sets: 2,
-		reps: 30,
-		workoutFK: 1
-	},
-	{
-		exerciseLibraryFK: 3,
-		sets: 2,
-		reps: 10,
-		workoutFK: 1
-	},])
+			exerciseLibraryFK: 1,
+			sets: 2,
+			reps: 10,
+			workoutFK: 1
+		},
+		{
+			exerciseLibraryFK: 2,
+			sets: 2,
+			reps: 30,
+			workoutFK: 1
+		},
+		{
+			exerciseLibraryFK: 3,
+			sets: 2,
+			reps: 10,
+			workoutFK: 1
+		},
+	])
 
 	await knex('plans').insert([{
 		userFK: 1,

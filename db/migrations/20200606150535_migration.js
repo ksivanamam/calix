@@ -10,7 +10,7 @@ exports.up = async function (knex) {
 		table.integer('height').notNullable()
 		table.integer('weight').notNullable()
 		table.boolean('equipment').notNullable()
-		table.string('color').defaultTo('blue').notNullable()
+		table.string('color').defaultTo('blue')
 		table.boolean('admin').defaultTo(false).notNullable()
 	})
 

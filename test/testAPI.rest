@@ -1,0 +1,41 @@
+// SECTION API test environment
+// ANCHOR This POST-Requests tests the registration interface
+POST http://localhost:3000/openRoute/register
+Content-Type: application/json
+
+{
+	"username": "hava",
+	"password": "hava",
+	"email": "hava@tfbern.ch",
+	"firstname": "Halid",
+	"lastname": "Vakuyev",
+	"age": 20,
+	"height": 180,
+	"weight": 75,
+	"equipment": false,
+	"color": "amber"
+}
+
+###
+
+// ANCHOR This POST-Requests tests the login interface
+POST http://localhost:3000/openRoute/login
+Content-Type: application/json
+
+
+{
+	"username": "hava",
+	"password": "hava"
+}
+
+###
+
+// ANCHOR This GET-Requests tests, if users have access to all exercises
+GET http://localhost:3000/protectedRoute/exercises
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhhdmEiLCJpYXQiOjE1OTE1NTQyMDN9.mPz2S_F-HUrFISO7eAVFBY0FC8GbDz_SV4sTSPmMnUc
+
+
+###
+
+// !SECTION
