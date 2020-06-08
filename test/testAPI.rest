@@ -19,7 +19,7 @@ Content-Type: application/json
 ###
 
 // ANCHOR This POST-Requests tests the login interface
-POST http://localhost:2000/openRoute/login
+POST http://localhost:1000/openRoute/login
 Content-Type: application/json
 
 
@@ -36,7 +36,7 @@ Content-Type: application/json
 
 
 {
-	"refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhhdmEiLCJpYXQiOjE1OTE1NzI2ODZ9.BUeaUm5OOUVlAuCy9VMmGeBTehHsPN_HyIJPPxp64Zs"
+	"refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhhdmEiLCJpYXQiOjE1OTE2MTU3NTJ9.72f--mVPzZ7s8qEmecKRqzaWkInDbRyqgsfEkRzJMYU"
 }
 
 ###
@@ -44,7 +44,7 @@ Content-Type: application/json
 // ANCHOR This GET-Requests tests, if users have access to all exercises
 GET http://localhost:2000/protectedRoute/exercises
 Content-Type: application/json
-Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhhdmEiLCJpYXQiOjE1OTE1NzI4MTQsImV4cCI6MTU5MTU3MjgyOX0.g0bQz1_SgBw-d21ORtm9Kj0kinyrdi4mxpbAs7vwJxo"
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTE2MTU3NzQsImV4cCI6MTU5MTYxNTc4OX0.VjFWDuBZT93XHKoNFyse1L-vGoifL7-1u6Mro4l29rs
 
 
 ###
