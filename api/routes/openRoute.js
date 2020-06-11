@@ -4,10 +4,8 @@ var bcrypt = require('./../node_modules/bcryptjs')
 var knex = require('./../knexReference.js')
 var jwt = require('./../node_modules/jsonwebtoken')
 var router = express.Router()
-require('dotenv').config()
+// require('dotenv').config()
 // !SECTION
-
-var refreshTokens = []
 
 // SECTION Interfaces
 // ANCHOR THis interface will handle incoming register POST-Requests
@@ -27,13 +25,13 @@ router.post('/register', async (req, res) => {
 			color
 		} = req.body
 
-		var usernameUnavailable = await knex('users').select().where({
+		var usernameUnavailable = await knex('users').where({
 			username: username
 		})
 
 		usernameUnavailable = usernameUnavailable[0]
 
-		var emailUnavailable = await knex('users').select().where({
+		var emailUnavailable = await knex('users').where({
 			email: email
 		})
 
@@ -44,7 +42,7 @@ router.post('/register', async (req, res) => {
 			var usernameTakenMessage = {
 				notifyerOn: true,
 				notifyerColor: 'warning',
-				notifyerMessage: 'User ' + username + ' already exists. Try another one.'
+				notifyerMessage: 'User ' + username + ' or email ' + email + ' already exists. Try another one.'
 			}
 
 			res.send(usernameTakenMessage)
@@ -66,7 +64,7 @@ router.post('/register', async (req, res) => {
 				weight: weight,
 				equipment: equipment,
 				color: color,
-				admin: false
+				adminAuthorization: false
 			})
 
 			var successMessage = {
@@ -102,7 +100,7 @@ router.post('/login', async (req, res) => {
 		password
 	} = req.body
 
-	var DBUser = await knex('users').select().where({
+	var DBUser = await knex('users').where({
 		username: username
 	})
 
@@ -125,23 +123,25 @@ router.post('/login', async (req, res) => {
 			
 			if(await bcrypt.compare(password, DBUser.password)) {
 
-				var user = {
-					username
+				var tokenData = {
+					id: DBUser.id,
+					dude: username
+				}
+				
+				function generateAccessToken(tokenData) {
+					console.log(process.env.ACCESS_TOKEN_SECRET);
+					
+					return jwt.sign(tokenData, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1d'})
 				}
 
-				function generateAccessToken(user) {
-					return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15s'})
-				}
+				// function generateRefreshToken(user) {
+				// 	return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
+				// }
 
-				function generateRefreshToken(user) {
-					return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
-				}
+				var accessToken = generateAccessToken(tokenData)
+				// var refreshToken = generateRefreshToken(user)
 
-				var accessToken = generateAccessToken(user)
-				var refreshToken = generateRefreshToken(user)
-				refreshTokens.push(refreshToken)
-
-				res.json({accessToken: accessToken, refreshToken: refreshToken})
+				res.json({accessToken: accessToken})
 
 			} else {
 

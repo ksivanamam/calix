@@ -1,18 +1,19 @@
 var express = require('../node_modules/express')
-var knex = require('./../knexReference')
 var router = express.Router()
+var knex = require('./../knexReference')
 
-router.get('/exercises', async (req, res) => {
+router.get('/profil', async (req, res) => {
 
 	try {
-
-		var data = await knex('users')
+		var data = await knex('users').where({
+			userPK: req.decodedToken.id
+		})
 		res.send(data)
 
 	} catch (error) {
-		
-		console.log(error);
-		
+
+		console.error(error.message);
+
 	}
 	
 })

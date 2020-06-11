@@ -19,7 +19,7 @@ exports.seed = async function (knex) {
 			weight: 1,
 			equipment: false,
 			color: 'orange',
-			admin: true
+			adminAuthorization: true
 		},
 		{
 			username: 'kasi',
@@ -32,7 +32,7 @@ exports.seed = async function (knex) {
 			weight: 70,
 			equipment: false,
 			color: 'orange',
-			admin: false
+			adminAuthorization: false
 		},
 		{
 			username: 'doke',
@@ -45,7 +45,7 @@ exports.seed = async function (knex) {
 			weight: 75,
 			equipment: false,
 			color: 'Green',
-			admin: false
+			adminAuthorization: false
 		},
 		{
 			username: 'alul',
@@ -58,7 +58,7 @@ exports.seed = async function (knex) {
 			weight: 100,
 			equipment: false,
 			color: 'red',
-			admin: false
+			adminAuthorization: false
 		},
 		{
 			username: 'bahe',
@@ -71,7 +71,7 @@ exports.seed = async function (knex) {
 			weight: 100,
 			equipment: false,
 			color: 'red',
-			admin: false
+			adminAuthorization: false
 		}
 	])
 

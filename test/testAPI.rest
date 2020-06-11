@@ -44,9 +44,16 @@ Content-Type: application/json
 // ANCHOR This GET-Requests tests, if users have access to all exercises
 GET http://localhost:2000/protectedRoute/exercises
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTE2MTU3NzQsImV4cCI6MTU5MTYxNTc4OX0.VjFWDuBZT93XHKoNFyse1L-vGoifL7-1u6Mro4l29rs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhhdmEiLCJpYXQiOjE1OTE2Mjc3MzQsImV4cCI6MTU5MTYyNzc5NH0.Da7otoTYATGI6ueG0BB8QYKo8FUE423gQBnq4O2jXBg
 
 
 ###
 
 // !SECTION
+
+// SECTION Protected route test interfaces
+// ANCHOR This GET-Requests tests, if users have access to all exercises
+GET http://localhost:2000/protectedRoute/profil
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkdWRlIjoiYWRtaW4iLCJpYXQiOjE1OTE5MTA5MzcsImV4cCI6MTU5MTk5NzMzN30.PsOVGRIxDw9a0_TduMwt0N3mApKweld03lJCFqy-J08
+###
