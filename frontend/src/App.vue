@@ -16,7 +16,7 @@
 
 		<v-content>
 			<router-view></router-view>
-			<v-footer fixed>
+			<v-footer max-height="50" fixed>
 				<v-col class="text-center" cols="12">
 					{{ new Date().getFullYear() }} — <strong>CaliX</strong>
 				</v-col>

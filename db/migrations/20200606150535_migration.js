@@ -6,7 +6,7 @@ exports.up = async function (knex) {
 		table.string('email').notNullable().unique()
 		table.string('firstname').notNullable()
 		table.string('lastname').notNullable()
-		table.integer('age').notNullable()
+		table.integer('yearOfBirth').notNullable()
 		table.integer('height').notNullable()
 		table.integer('weight').notNullable()
 		table.boolean('equipment').notNullable()

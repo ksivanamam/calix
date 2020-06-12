@@ -2,7 +2,6 @@
 // ANCHOR This POST-Requests tests the registration interface
 POST http://localhost:1000/openRoute/register
 Content-Type: application/json
-
 {
 	"username": "hava",
 	"password": "hava",
@@ -15,38 +14,29 @@ Content-Type: application/json
 	"equipment": false,
 	"color": "amber"
 }
-
 ###
 
 // ANCHOR This POST-Requests tests the login interface
 POST http://localhost:1000/openRoute/login
 Content-Type: application/json
-
-
 {
-	"username": "hava",
-	"password": "hava"
+	"username": "admin",
+	"password": "admin"
 }
-
 ###
 
 // ANCHOR This POST-Requests tests the refresh interface
 POST http://localhost:1000/openRoute/refresh
 Content-Type: application/json
-
-
 {
 	"refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhhdmEiLCJpYXQiOjE1OTE2MTU3NTJ9.72f--mVPzZ7s8qEmecKRqzaWkInDbRyqgsfEkRzJMYU"
 }
-
 ###
 
 // ANCHOR This GET-Requests tests, if users have access to all exercises
 GET http://localhost:2000/protectedRoute/exercises
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhhdmEiLCJpYXQiOjE1OTE2Mjc3MzQsImV4cCI6MTU5MTYyNzc5NH0.Da7otoTYATGI6ueG0BB8QYKo8FUE423gQBnq4O2jXBg
-
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiIsImlhdCI6MTU5MTk2MTg3OSwiZXhwIjoxNTkyMDQ4Mjc5fQ.gcRwjJDwU_bfxVxUTueBXdz4j9dyP_pO7toE9Xf12rQ
 ###
 
 // !SECTION
@@ -55,5 +45,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imhhd
 // ANCHOR This GET-Requests tests, if users have access to all exercises
 GET http://localhost:2000/protectedRoute/profil
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkdWRlIjoiYWRtaW4iLCJpYXQiOjE1OTE5MTA5MzcsImV4cCI6MTU5MTk5NzMzN30.PsOVGRIxDw9a0_TduMwt0N3mApKweld03lJCFqy-J08
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiIsImlhdCI6MTU5MTk2MjQwOSwiZXhwIjoxNTkyMDQ4ODA5fQ.YUVTxSPu49hQW5V-g9GOd9PIkv37TGqXUzY7oiA0kxk
 ###
+

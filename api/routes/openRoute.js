@@ -4,168 +4,126 @@ var bcrypt = require('./../node_modules/bcryptjs')
 var knex = require('./../knexReference.js')
 var jwt = require('./../node_modules/jsonwebtoken')
 var router = express.Router()
-// require('dotenv').config()
 // !SECTION
 
 // SECTION Interfaces
 // ANCHOR THis interface will handle incoming register POST-Requests
 router.post('/register', async (req, res) => {
 	try {
-
 		var {
 			username,
 			password,
 			email,
 			firstname,
 			lastname,
-			age,
+			yearOfBirth,
 			height,
 			weight,
 			equipment,
 			color
 		} = req.body
-
 		var usernameUnavailable = await knex('users').where({
 			username: username
 		})
-
 		usernameUnavailable = usernameUnavailable[0]
-
 		var emailUnavailable = await knex('users').where({
 			email: email
 		})
-
 		emailUnavailable = emailUnavailable[0]
-
 		if (usernameUnavailable || emailUnavailable) {
-
 			var usernameTakenMessage = {
 				notifyerOn: true,
 				notifyerColor: 'warning',
 				notifyerMessage: 'User ' + username + ' or email ' + email + ' already exists. Try another one.'
 			}
-
 			res.send(usernameTakenMessage)
-			console.log('User tried to registrate with unavailable username');
-
 		} else {
-
 			var salt = 10
 			var hashedPassword = await bcrypt.hash(password, salt)
-
 			await knex('users').insert({
 				username: username,
 				password: hashedPassword,
 				email: email,
 				firstname: firstname,
 				lastname: lastname,
-				age: age,
+				yearOfBirth: yearOfBirth,
 				height: height,
 				weight: weight,
 				equipment: equipment,
 				color: color,
 				adminAuthorization: false
 			})
-
 			var successMessage = {
 				notifyerOn: true,
-				notifyerColor: 'green',
+				notifyerColor: 'success',
 				notifyerMessage: 'Registered as ' + username
 			}
-
 			res.send(successMessage)
-			console.log('User ' + username + ' was registered');
-
 		}
-
 	} catch (error) {
-
+		console.error(error.message);
 		var errorMessage = {
 			notifyerOn: true,
 			notifyerColor: 'red',
 			notifyerMessage: 'Registration failed. Try agian later.'
 		}
-
 		res.send(errorMessage)
-		console.error(error.message);
-
 	}
 })
 
 // ANCHOR This interface will handle the incoming login POST-Requests
 router.post('/login', async (req, res) => {
-
 	var {
 		username,
 		password
 	} = req.body
-
 	var DBUser = await knex('users').where({
 		username: username
 	})
-
 	DBUser = DBUser[0]
-
 	if (DBUser == null) {
-
 		var userdoesNotExistMessage = {
 			notifyerOn: true,
 			notifyerColor: 'error',
 			notifyerMessage: 'Cannot find user ' + username + '. Try again.'
 		}
-
-		console.log('User ' + username + ' does not exist.');
 		return res.send(userdoesNotExistMessage)
-
 	} else {
-
 		try {
-			
-			if(await bcrypt.compare(password, DBUser.password)) {
-
+			if (await bcrypt.compare(password, DBUser.password)) {
 				var tokenData = {
-					id: DBUser.id,
-					dude: username
-				}
-				
-				function generateAccessToken(tokenData) {
-					console.log(process.env.ACCESS_TOKEN_SECRET);
-					
-					return jwt.sign(tokenData, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1d'})
+					userPK: DBUser.userPK
 				}
 
+				function generateAccessToken(tokenData) {
+					return jwt.sign(tokenData, process.env.ACCESS_TOKEN_SECRET, {
+						expiresIn: '1d'
+					})
+				}
 				// function generateRefreshToken(user) {
 				// 	return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
 				// }
-
 				var accessToken = generateAccessToken(tokenData)
 				// var refreshToken = generateRefreshToken(user)
-
-				res.json({accessToken: accessToken})
-
+				res.json({
+					accessToken: accessToken
+				})
 			} else {
-
 				var passwordIncorrectMessage = {
 					notifyerOn: true,
 					notifyerColor: 'error',
-					notifyerMessage: 'Pass word is incorrect. Try again.'
+					notifyerMessage: 'Password is incorrect. Try again.'
 				}
-
 				res.send(passwordIncorrectMessage)
-				console.log('User tried log into ' + username + ' with incorrect password.');
 			}
-
 		} catch (error) {
-			
+			console.error(error.message);
 			var errorMessage = {
 				notifyerOn: true,
-				notifyerColor: 'red',
+				notifyerColor: 'error',
 				notifyerMessage: 'Login failed. Try again.'
 			}
-	
 			res.send(errorMessage)
-			console.error(error);
-
 		}
 	}
 
@@ -173,20 +131,33 @@ router.post('/login', async (req, res) => {
 
 // ANCHOR This interface will handle incoming POST-Request for new access tokens (refreshing with refresh token)
 router.post('/refresh', async (req, res) => {
-
-	function generateAccessToken(user) {
-		return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15s'})
+	try {
+		function generateAccessToken(user) {
+			return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+				expiresIn: '15s'
+			})
+		}
+		var refreshToken = req.body.refreshToken
+		if (refreshToken == null) return res.sendStatus(401)
+		if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403)
+		jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, user) => {
+			if (error) return res.sendStatus(403)
+			var accessToken = generateAccessToken({
+				name: user.name
+			})
+			res.json({
+				accessToken: accessToken
+			})
+		})
+	} catch (error) {
+		console.error(error.message)
+		var errorMessage = {
+			notifyerOn: true,
+			notifyerColor: 'error',
+			notifyerMessage: 'Failed to refresh token. Try again.'
+		}
+		res.send(errorMessage)
 	}
-
-	var refreshToken = req.body.refreshToken
-
-	if(refreshToken == null) return res.sendStatus(401)
-	if(!refreshTokens.includes(refreshToken)) return res.sendStatus(403)
-	jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, user) => {
-		if(error) return res.sendStatus(403)
-		var accessToken = generateAccessToken({name: user.name})
-		res.json({accessToken: accessToken})
-	})
 })
 // !SECTION
 
