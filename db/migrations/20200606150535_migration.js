@@ -20,6 +20,8 @@ exports.up = async function (knex) {
 		table.string('focus').notNullable()
 		table.integer('difficulty').notNullable()
 		table.boolean('public').defaultTo(true).notNullable()
+		table.integer('userFK')
+		table.foreign('userFK').references('userPK').inTable('users')
 	})
 
 	await knex.schema.createTable('exerciseLibrary', (table) => {
@@ -43,8 +45,8 @@ exports.up = async function (knex) {
 
 	await knex.schema.createTable('plans', (table) => {
 		table.increments('planPK').primary()
-		table.integer('userFK')
-		table.foreign('userFK').references('userPK').inTable('users')
+		table.integer('plansUserFK')
+		table.foreign('plansUserFK').references('userPK').inTable('users')
 		table.integer('workoutFK')
 		table.foreign('workoutFK').references('workoutPK').inTable('workouts')
 		table.integer('day').defaultTo(0).notNullable()

@@ -1,13 +1,13 @@
-// SECTION Dependencies
+//SECTION Dependencies
 var express = require('./../node_modules/express')
 var bcrypt = require('./../node_modules/bcryptjs')
 var knex = require('./../knexReference.js')
 var jwt = require('./../node_modules/jsonwebtoken')
 var router = express.Router()
-// !SECTION
+//!SECTION
 
-// SECTION Interfaces
-// ANCHOR THis interface will handle incoming register POST-Requests
+//SECTION Interfaces
+//ANCHOR THis interface will handle incoming register POST-Requests
 router.post('/register', async (req, res) => {
 	try {
 		var {
@@ -40,19 +40,20 @@ router.post('/register', async (req, res) => {
 		} else {
 			var salt = 10
 			var hashedPassword = await bcrypt.hash(password, salt)
-			await knex('users').insert({
-				username: username,
-				password: hashedPassword,
-				email: email,
-				firstname: firstname,
-				lastname: lastname,
-				yearOfBirth: yearOfBirth,
-				height: height,
-				weight: weight,
-				equipment: equipment,
-				color: color,
-				adminAuthorization: false
-			})
+			await knex('users')
+				.insert({
+					username: username,
+					password: hashedPassword,
+					email: email,
+					firstname: firstname,
+					lastname: lastname,
+					yearOfBirth: yearOfBirth,
+					height: height,
+					weight: weight,
+					equipment: equipment,
+					color: color,
+					adminAuthorization: false
+				})
 			var successMessage = {
 				notifyerOn: true,
 				notifyerColor: 'success',
@@ -71,15 +72,16 @@ router.post('/register', async (req, res) => {
 	}
 })
 
-// ANCHOR This interface will handle the incoming login POST-Requests
+//ANCHOR This interface will handle the incoming login POST-Requests
 router.post('/login', async (req, res) => {
 	var {
 		username,
 		password
 	} = req.body
-	var DBUser = await knex('users').where({
-		username: username
-	})
+	var DBUser = await knex('users')
+		.where({
+			username: username
+		})
 	DBUser = DBUser[0]
 	if (DBUser == null) {
 		var userdoesNotExistMessage = {
@@ -129,7 +131,7 @@ router.post('/login', async (req, res) => {
 
 })
 
-// ANCHOR This interface will handle incoming POST-Request for new access tokens (refreshing with refresh token)
+//ANCHOR This interface will handle incoming POST-Request for new access tokens (refreshing with refresh token)
 router.post('/refresh', async (req, res) => {
 	try {
 		function generateAccessToken(user) {
@@ -159,8 +161,8 @@ router.post('/refresh', async (req, res) => {
 		res.send(errorMessage)
 	}
 })
-// !SECTION
+//!SECTION
 
-// SECTION Exports
+//SECTION Exports
 module.exports = router
-// !SECTION
+//!SECTION

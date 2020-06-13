@@ -27,7 +27,7 @@ exports.seed = async function (knex) {
 			email: 'kasi@tfbern.ch',
 			firstname: 'Kabilan',
 			lastname: 'Sivanamam',
-			yearOfBirth: 22,
+			yearOfBirth: 1998,
 			height: 171,
 			weight: 70,
 			equipment: false,
@@ -40,7 +40,7 @@ exports.seed = async function (knex) {
 			email: 'doke@tfbern.ch',
 			firstname: 'Dominik',
 			lastname: 'Keller',
-			yearOfBirth: 18,
+			yearOfBirth: 2001,
 			height: 180,
 			weight: 75,
 			equipment: false,
@@ -53,7 +53,7 @@ exports.seed = async function (knex) {
 			email: 'alul@tfbern.ch',
 			firstname: 'Ali',
 			lastname: 'Ülgen',
-			yearOfBirth: 20,
+			yearOfBirth: 1999,
 			height: 185,
 			weight: 100,
 			equipment: false,
@@ -66,7 +66,20 @@ exports.seed = async function (knex) {
 			email: 'bahe@tfbern.ch',
 			firstname: 'Hezekiah',
 			lastname: 'Bakare-Johnson',
-			yearOfBirth: 20,
+			yearOfBirth: 1999,
+			height: 185,
+			weight: 100,
+			equipment: false,
+			color: 'red',
+			adminAuthorization: false
+		},
+		{
+			username: 'test',
+			password: await bcrypt.hash('test', 10),
+			email: 'test@tfbern.ch',
+			firstname: 'test',
+			lastname: 'test-test',
+			yearOfBirth: 1999,
 			height: 185,
 			weight: 100,
 			equipment: false,
@@ -78,37 +91,58 @@ exports.seed = async function (knex) {
 	await knex('workouts').insert([{
 			name: 'A',
 			focus: 'Arms & Back',
-			difficulty: 2
+			difficulty: 2,
+			userFK: 1,
+			public: true
 		},
 		{
 			name: 'B',
-			focus: 'runningning',
-			difficulty: 3
+			focus: 'running',
+			difficulty: 3,
+			userFK: 1,
+			public: true
 		},
 		{
 			name: 'C',
-			focus: 'runningning',
-			difficulty: 3
+			focus: 'running',
+			difficulty: 3,
+			userFK: 1,
+			public: true
 		},
 		{
 			name: 'D',
-			focus: 'runningning',
-			difficulty: 3
+			focus: 'running',
+			difficulty: 3,
+			userFK: 1,
+			public: true
 		},
 		{
 			name: 'E',
-			focus: 'runningning',
-			difficulty: 3
+			focus: 'running',
+			difficulty: 3,
+			userFK: 1,
+			public: true
 		},
 		{
 			name: 'F',
-			focus: 'runningning',
-			difficulty: 3
+			focus: 'running',
+			difficulty: 3,
+			userFK: 1,
+			public: true
 		},
 		{
 			name: 'G',
-			focus: 'runningning',
-			difficulty: 3
+			focus: 'running',
+			difficulty: 3,
+			userFK: 1,
+			public: true
+		},
+		{
+			name: 'H',
+			focus: 'flexibility',
+			difficulty: 1,
+			userFK: 6,
+			public: false
 		}
 	])
 
@@ -238,6 +272,13 @@ exports.seed = async function (knex) {
 			engagement: 'Legs',
 			type: 'Endurance'
 		},
+		{
+			name: 'Split',
+			weighted: false,
+			advanced: false,
+			engagement: 'Legs',
+			type: 'Flexibility'
+		},
 	])
 
 	await knex('workoutExercises').insert([{
@@ -258,10 +299,52 @@ exports.seed = async function (knex) {
 			reps: 10,
 			workoutFK: 1
 		},
+		{
+			exerciseLibraryFK: 4,
+			sets: 2,
+			reps: 10,
+			workoutFK: 2
+		},
+		{
+			exerciseLibraryFK: 5,
+			sets: 2,
+			reps: 10,
+			workoutFK: 3
+		},
+		{
+			exerciseLibraryFK: 6,
+			sets: 2,
+			reps: 10,
+			workoutFK: 4
+		},
+		{
+			exerciseLibraryFK: 7,
+			sets: 2,
+			reps: 10,
+			workoutFK: 5
+		},
+		{
+			exerciseLibraryFK: 8,
+			sets: 2,
+			reps: 10,
+			workoutFK: 6
+		},
+		{
+			exerciseLibraryFK: 9,
+			sets: 2,
+			reps: 10,
+			workoutFK: 7
+		},
+		{
+			exerciseLibraryFK: 19,
+			sets: 2,
+			reps: 10,
+			workoutFK: 8
+		}
 	])
 
 	await knex('plans').insert([{
-		userFK: 1,
+		plansUserFK: 6,
 		workoutFK: 1,
 		day: 0
 	}])
