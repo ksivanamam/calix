@@ -31,6 +31,9 @@ exports.up = async function (knex) {
 		table.boolean('advanced').notNullable()
 		table.string('engagement').notNullable()
 		table.string('type').notNullable()
+		table.boolean('public').notNullable()
+		table.integer('userFK').notNullable()
+		table.foreign('userFK').references('userPK').inTable('users')
 	})
 
 	await knex.schema.createTable('workoutExercises', (table) => {

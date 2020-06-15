@@ -23,7 +23,8 @@ router.get('/profil', async (req, res) => {
 				'height',
 				'weight',
 				'equipment',
-				'color')
+				'color'
+				)
 			.where({
 				userPK: req.decodedToken.userPK
 			})
@@ -105,9 +106,12 @@ router.delete('/delProfil', async (req, res) => {
 })
 
 //ANCHOR Send all exercises in table "exerciseLibrary"
-router.get('/exercises', async (req, res) => {
+router.get('/publicExercises', async (req, res) => {
 	try {
 		var data = await knex('exerciseLibrary')
+		.where({
+			public: true
+		})
 		res.send(data)
 	} catch (error) {
 		console.error(error.message)
@@ -120,8 +124,28 @@ router.get('/exercises', async (req, res) => {
 	}
 })
 
+//ANCHOR Send all exercises created by the user
+router.get('/customExercises', async (req, res) => {
+	try {
+		var data = await knex('exerciseLibrary')
+		.where({
+			public: false,
+			userFK: req.decodedToken.userPK
+		})
+		res.send(data)
+	} catch(error) {
+		console.error(error.message)
+		var errorMessage = {
+			notifyerOn: true,
+			notifyerColor: 'error',
+			notifyerMessage: 'Custom exercises could not be loaded. Try again.'
+		}
+		res.send(errorMessage)
+	}
+})
+
 //ANCHOR Sends all public workouts
-router.get('/workouts', async (req, res) => {
+router.get('/publicWorkouts', async (req, res) => {
 	try {
 		var data = await knex('workouts')
 			.where({
@@ -144,6 +168,7 @@ router.get('/customWorkouts', async (req, res) => {
 	try {
 		var data = await knex('workouts')
 			.where({
+				public: false,
 				userFK: req.decodedToken.userPK
 			})
 			.join(

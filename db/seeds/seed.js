@@ -151,133 +151,171 @@ exports.seed = async function (knex) {
 			weighted: false,
 			advanced: false,
 			engagement: 'Upper Back',
-			type: 'Strength'
+			type: 'Strength',
+			public: true,
+			userFK: 1
 		},
 		{
 			name: 'Push Up',
 			weighted: false,
 			advanced: false,
 			engagement: 'Triceps',
-			type: 'Strength'
+			type: 'Strength',
+			public: true,
+			userFK: 1
 		},
 		{
 			name: 'Chin Up',
 			weighted: false,
 			advanced: false,
 			engagement: 'Biceps',
-			type: 'Strength'
+			type: 'Strength',
+			public: true,
+			userFK: 1
 		},
 		{
 			name: '100m running',
 			weighted: false,
 			advanced: false,
 			engagement: 'Legs',
-			type: 'Speed'
+			type: 'Speed',
+			public: true,
+			userFK: 1
 		},
 		{
 			name: '200m running',
 			weighted: false,
 			advanced: false,
 			engagement: 'Legs',
-			type: 'Speed'
+			type: 'Speed',
+			public: true,
+			userFK: 1
 		},
 		{
 			name: '300m running',
 			weighted: false,
 			advanced: false,
 			engagement: 'Legs',
-			type: 'Speed'
+			type: 'Speed',
+			public: true,
+			userFK: 1
 		},
 		{
 			name: '400m running',
 			weighted: false,
 			advanced: false,
 			engagement: 'Legs',
-			type: 'Speed'
+			type: 'Speed',
+			public: true,
+			userFK: 1
 		},
 		{
 			name: '500m running',
 			weighted: false,
 			advanced: false,
 			engagement: 'Legs',
-			type: 'Speed'
+			type: 'Speed',
+			public: true,
+			userFK: 1
 		},
 		{
 			name: '600m running',
 			weighted: false,
 			advanced: false,
 			engagement: 'Legs',
-			type: 'Speed'
+			type: 'Speed',
+			public: true,
+			userFK: 1
 		},
 		{
 			name: '700m running',
 			weighted: false,
 			advanced: false,
 			engagement: 'Legs',
-			type: 'Speed'
+			type: 'Speed',
+			public: true,
+			userFK: 1
 		},
 		{
 			name: '800m running',
 			weighted: false,
 			advanced: false,
 			engagement: 'Legs',
-			type: 'Speed'
+			type: 'Speed',
+			public: true,
+			userFK: 1
 		},
 		{
 			name: '900m running',
 			weighted: false,
 			advanced: false,
 			engagement: 'Legs',
-			type: 'Speed'
+			type: 'Speed',
+			public: true,
+			userFK: 1
 		},
 		{
 			name: '1000m running',
 			weighted: false,
 			advanced: false,
 			engagement: 'Legs',
-			type: 'Speed'
+			type: 'Speed',
+			public: true,
+			userFK: 1
 		},
 		{
 			name: '2km jogging',
 			weighted: false,
 			advanced: false,
 			engagement: 'Legs',
-			type: 'Endurance'
+			type: 'Endurance',
+			public: true,
+			userFK: 1
 		},
 		{
 			name: '4km jogging',
 			weighted: false,
 			advanced: false,
 			engagement: 'Legs',
-			type: 'Endurance'
+			type: 'Endurance',
+			public: true,
+			userFK: 1
 		},
 		{
 			name: '6km jogging',
 			weighted: false,
 			advanced: false,
 			engagement: 'Legs',
-			type: 'Endurance'
+			type: 'Endurance',
+			public: true,
+			userFK: 1
 		},
 		{
 			name: '8km jogging',
 			weighted: false,
 			advanced: false,
 			engagement: 'Legs',
-			type: 'Endurance'
+			type: 'Endurance',
+			public: true,
+			userFK: 1
 		},
 		{
 			name: '10km jogging',
 			weighted: false,
 			advanced: false,
 			engagement: 'Legs',
-			type: 'Endurance'
+			type: 'Endurance',
+			public: true,
+			userFK: 1
 		},
 		{
 			name: 'Split',
 			weighted: false,
 			advanced: false,
 			engagement: 'Legs',
-			type: 'Flexibility'
+			type: 'Flexibility',
+			public: false,
+			userFK: 6
 		},
 	])
 
