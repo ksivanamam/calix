@@ -2,9 +2,6 @@
 var express = require('../node_modules/express')
 var router = express.Router()
 var knex = require('./../knexReference')
-const {
-	where
-} = require('./../knexReference')
 //!SECTION
 
 //SECTION Interfaces for all users
@@ -24,7 +21,7 @@ router.get('/profil', async (req, res) => {
 				'weight',
 				'equipment',
 				'color'
-				)
+			)
 			.where({
 				userPK: req.decodedToken.userPK
 			})
@@ -109,9 +106,9 @@ router.delete('/delProfil', async (req, res) => {
 router.get('/publicExercises', async (req, res) => {
 	try {
 		var data = await knex('exerciseLibrary')
-		.where({
-			public: true
-		})
+			.where({
+				public: true
+			})
 		res.send(data)
 	} catch (error) {
 		console.error(error.message)
@@ -128,17 +125,120 @@ router.get('/publicExercises', async (req, res) => {
 router.get('/customExercises', async (req, res) => {
 	try {
 		var data = await knex('exerciseLibrary')
-		.where({
-			public: false,
-			userFK: req.decodedToken.userPK
-		})
+			.where({
+				public: false,
+				userFK: req.decodedToken.userPK
+			})
 		res.send(data)
-	} catch(error) {
+	} catch (error) {
 		console.error(error.message)
 		var errorMessage = {
 			notifyerOn: true,
 			notifyerColor: 'error',
 			notifyerMessage: 'Custom exercises could not be loaded. Try again.'
+		}
+		res.send(errorMessage)
+	}
+})
+
+//ANCHOR Adds a custom exercise
+router.post('/customExercises', async (req, res) => {
+	try {
+		var {
+			name,
+			weighted,
+			advanced,
+			engagement,
+			type
+		} = req.body
+		await knex('exerciseLibrary')
+			.insert({
+				name: name,
+				weighted: weighted,
+				advanced: advanced,
+				engagement: engagement,
+				type: type,
+				public: false,
+				userFK: req.decodedToken.userPK
+			})
+		var successMessage = {
+			notifyerOn: true,
+			notifyerColor: 'success',
+			notifyerMessage: 'Custom exercise successfully added.'
+		}
+		res.send(successMessage)
+	} catch (error) {
+		console.error(error.message)
+		var errorMessage = {
+			notifyerOn: true,
+			notifyerColor: 'error',
+			notifyerMessage: 'Unable to add a custom exercise. Try again.'
+		}
+		res.send(errorMessage)
+	}
+})
+
+//ANCHOR Changes properties of custom exercise
+router.put('/customExercises/:exerciseLibaryPK', async (req, res) => {
+	try {
+		var {
+			name,
+			weighted,
+			advanced,
+			engagement,
+			type
+		} = req.body
+		await knex('exerciseLibrary')
+			.update({
+				name: name,
+				weighted: weighted,
+				advanced: advanced,
+				engagement: engagement,
+				type: type
+			})
+			.where({
+				userFK: req.decodedToken.userPK,
+				exerciseLibraryPK: req.params.exerciseLibraryPK
+			})
+		var successMessage = {
+			notifyerOn: true,
+			notifyerColor: 'success',
+			notifyerMessage: 'Custom exercise successfully added.'
+		}
+		res.send(successMessage)
+	} catch (error) {
+		console.error(error.message)
+		var errorMessage = {
+			notifyerOn: true,
+			notifyerColor: 'error',
+			notifyerMessage: 'Unable to add a custom exercise. Try again.'
+		}
+		res.send(errorMessage)
+	}
+})
+
+router.delete('/customExercises/:exerciseLibraryPK', async (req, res) => {
+	console.log(req.decodedToken.userPK)
+	try {
+		await knex('exerciseLibrary')
+			.delete()
+			.where({
+				userFK: req.decodedToken.userPK,
+				exerciseLibraryPK: req.params.exerciseLibraryPK
+			})
+		var successMessage = {
+			notifyerOn: true,
+			notifyerColor: 'success',
+			notifyerMessage: 'Custom exercise has been removed.'
+		}
+		res.send(successMessage)
+	} catch (error) {
+		console.error(error.message)
+		var errorMessage = {
+			notifyerOn: true,
+			notifyerColor: 'error',
+			notifyerMessage: 'Unable to delete custom exercise. Try again.'
+
 		}
 		res.send(errorMessage)
 	}
@@ -188,6 +288,101 @@ router.get('/customWorkouts', async (req, res) => {
 	}
 })
 
+//ANCHOR Adds custom workout to table workouts
+router.post('/customWorkouts', async (req, res) => {
+	try {
+		var {
+			name,
+			focus,
+			difficulty
+		} = req.body
+		await knex('workouts')
+			.insert({
+				name: name,
+				focus: focus,
+				difficulty: difficulty,
+				public: false,
+				userFK: req.decodedToken.userPK
+			})
+		var successMessage = {
+			notifyerOn: true,
+			notifyerColor: 'success',
+			notifyerMessage: 'Successfully created custom workout.'
+		}
+		res.send(successMessage)
+	} catch (error) {
+		console.error(error.message)
+		var errorMessage = {
+			notifyerOn: true,
+			notifyerColor: 'error',
+			notifyerMessage: 'Unable to create custom workout. Try again.'
+		}
+		res.send(errorMessage)
+	}
+})
+
+//ANCHOR Changes the properties of a custom workout
+router.put('/customWorkouts/:workoutPK', async (req, res) => {
+	try {
+		var {
+			name,
+			focus,
+			difficulty
+		} = req.body
+		await knex('workouts')
+			.update({
+				name: name,
+				focus: focus,
+				difficulty: difficulty
+			})
+			.where({
+				userFK: req.decodedToken.userPK,
+				workoutPK: req.params.workoutPK
+			})
+		var successMessage = {
+			notifyerOn: true,
+			notifyerColor: 'success',
+			notifyerMessage: 'Properties of workout changed.'
+		}
+		res.send(successMessage)
+	} catch (error) {
+		console.error(error.message)
+		var errorMessage = {
+			notifyerOn: true,
+			notifyerColor: 'error',
+			notifyerMessage: 'Unable to change properties. Try again.'
+		}
+		res.send(errorMessage)
+	}
+})
+
+//ANCHOR Deletes custom workout by user
+router.delete('/customWorkouts/:workoutPK', async (req, res) => {
+	try {
+		await knex('workouts')
+			.delete()
+			.where({
+				userFK: req.decodedToken.userPK,
+				workoutPK: req.params.workoutPK
+			})
+		var successMessage = {
+			notifyerOn: true,
+			notifyerColor: 'success',
+			notifyerMessage: 'Successfully deleted custom workout.'
+		}
+		res.send(successMessage)
+	} catch (error) {
+		console.error(error.message)
+		var errorMessage = {
+			notifyerOn: true,
+			notifyerColor: 'error',
+			notifyerMessage: 'Unable to delete custom workout. Try again.'
+		}
+		res.send(errorMessage)
+	}
+})
+
+//ANCHOR Send all exercises related to a workout
 router.get('/workoutExercises/:workoutPK', async (req, res) => {
 	try {
 		var data = await knex('workoutExercises')
@@ -224,7 +419,7 @@ router.get('/plans', async (req, res) => {
 		var errorMessage = {
 			notifyerOn: true,
 			notifyerColor: 'error',
-			notifyerMEssage: 'Weekly workout plan could not be loaded. Try agian.'
+			notifyerMessage: 'Weekly workout plan could not be loaded. Try agian.'
 		}
 		res.send(errorMessage)
 	}
