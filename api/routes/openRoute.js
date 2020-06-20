@@ -7,7 +7,7 @@ var router = express.Router()
 //!SECTION
 
 //SECTION Interfaces
-//ANCHOR THis interface will handle incoming register POST-Requests
+//ANCHOR Creates a new user
 router.post('/register', async (req, res) => {
 	try {
 		var {
@@ -72,7 +72,7 @@ router.post('/register', async (req, res) => {
 	}
 })
 
-//ANCHOR This interface will handle the incoming login POST-Requests
+//ANCHOR Logs user in with a token if credentials are correct
 router.post('/login', async (req, res) => {
 	var {
 		username,
@@ -131,12 +131,12 @@ router.post('/login', async (req, res) => {
 
 })
 
-//ANCHOR This interface will handle incoming POST-Request for new access tokens (refreshing with refresh token)
+//ANCHOR Sends refreshed acces token
 router.post('/refresh', async (req, res) => {
 	try {
 		function generateAccessToken(user) {
 			return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-				expiresIn: '15s'
+				expiresIn: '1d'
 			})
 		}
 		var refreshToken = req.body.refreshToken

@@ -217,6 +217,7 @@ router.put('/customExercises/:exerciseLibaryPK', async (req, res) => {
 	}
 })
 
+//ANCHOR Deletes custom exercies from exercise library
 router.delete('/customExercises/:exerciseLibraryPK', async (req, res) => {
 	console.log(req.decodedToken.userPK)
 	try {
@@ -386,6 +387,11 @@ router.delete('/customWorkouts/:workoutPK', async (req, res) => {
 router.get('/workoutExercises/:workoutPK', async (req, res) => {
 	try {
 		var data = await knex('workoutExercises')
+			.join(
+				'exerciseLibrary',
+				'exerciseLibrary.exerciseLibraryPK',
+				'workoutExercises.exerciseLibraryFk'
+			)
 			.where({
 				workoutFK: req.params.workoutPK
 			})
@@ -398,6 +404,189 @@ router.get('/workoutExercises/:workoutPK', async (req, res) => {
 			notifyerMessage: 'Unable to load exersices for this workout. Try again.'
 		}
 		res.send(errorMessage)
+	}
+})
+
+//ANCHOR Adds exercise to workout
+router.post('/workoutExercises', async (req, res) => {
+	var {
+		exerciseLibraryFK,
+		sets,
+		reps,
+		workoutFK
+	} = req.body
+	var targetExercise = await knex('exerciseLibrary')
+		.where({
+			exerciseLibraryPK: exerciseLibraryFK
+		})
+	targetExercise = targetExercise[0]
+	var targetWorkout = await knex('workouts')
+		.where({
+			workoutPK: workoutFK
+		})
+	targetWorkout = targetWorkout[0]
+	if (targetExercise == null || targetWorkout == null) {
+		var exerciseOrWorkoutDoesNotExist = {
+			notifyerOn: true,
+			notifyerColor: 'error',
+			notifyerMessage: 'Exercise or Workout does not exist.'
+		}
+		return res.send(exerciseOrWorkoutDoesNotExist)
+	} else {
+		try {
+			if (targetExercise.userFK == req.decodedToken.userPK && targetWorkout.userFK == req.decodedToken.userPK) {
+				await knex('workoutExercises')
+					.insert({
+						exerciseLibraryFK: exerciseLibraryFK,
+						sets: sets,
+						reps: reps,
+						workoutFK: workoutFK
+					})
+				var successMessage = {
+					notifyerOn: true,
+					notifyerColor: 'success',
+					notifyerMessage: 'Exercise successfully added to workout.'
+				}
+				res.send(successMessage)
+			} else {
+				var notTheCreator = {
+					notifyerOn: true,
+					notifyerColor: 'warning',
+					notifyerMessage: 'Exercise or workout is not created by this account.'
+				}
+				res.send(notTheCreator)
+			}
+		} catch (error) {
+			console.error(error.message)
+			var errorMessage = {
+				notifyerOn: true,
+				notifyerColor: 'error',
+				notifyerMessage: 'Unable to add exercise to workout. Try again.'
+			}
+			res.send(errorMessage)
+		}
+	}
+})
+
+//ANCHOR Changes properties of exercises in workouts
+router.put('/workoutExercises/:workoutExercisePK', async (req, res) => {
+	var {
+		exerciseLibraryFK,
+		sets,
+		reps,
+		workoutFK
+	} = req.body
+	var targetExercise = await knex('exerciseLibrary')
+		.where({
+			exerciseLibraryPK: exerciseLibraryFK
+		})
+	targetExercise = targetExercise[0]
+	var targetWorkout = await knex('workouts')
+		.where({
+			workoutPK: workoutFK
+		})
+	targetWorkout = targetWorkout[0]
+	if (targetExercise == null || targetWorkout == null) {
+		var exerciseOrWorkoutDoesNotExist = {
+			notifyerOn: true,
+			notifyerColor: 'error',
+			notifyerMessage: 'Exercise or Workout does not exist.'
+		}
+		return res.send(exerciseOrWorkoutDoesNotExist)
+	} else {
+		try {
+			if (targetExercise.userFK == req.decodedToken.userPK && targetWorkout.userFK == req.decodedToken.userPK) {
+				await knex('workoutExercises')
+					.update({
+						exerciseLibraryFK: exerciseLibraryFK,
+						sets: sets,
+						reps: reps,
+						workoutFK: workoutFK
+					})
+					.where({
+						workoutExercisePK: req.params.workoutExercisePK
+					})
+				var successMessage = {
+					notifyerOn: true,
+					notifyerColor: 'success',
+					notifyerMessage: 'Successfully changed properties of exercise.'
+				}
+				res.send(successMessage)
+			} else {
+				var notTheCreator = {
+					notifyerOn: true,
+					notifyerColor: 'warning',
+					notifyerMessage: 'Exercise or workout is not created by this account.'
+				}
+				res.send(notTheCreator)
+			}
+		} catch (error) {
+			console.error(error.message)
+			var errorMessage = {
+				notifyerOn: true,
+				notifyerColor: 'error',
+				notifyerMessage: 'Unable to change properties of exercise. Try again.'
+			}
+			res.send(errorMessage)
+		}
+	}
+})
+
+//ANCHOR Removes exercise from workout but remeins in exercise library
+router.delete('/workoutExercises/:workoutExercisePK', async (req, res) => {
+	var targetWorkoutExercise = await knex('workoutExercises')
+		.where({
+			workoutExercisePK: req.params.workoutExercisePK
+		})
+	targetWorkoutExercise = targetWorkoutExercise[0]
+	var targetExercise = await knex('exerciseLibrary')
+		.where({
+			exerciseLibraryPK: targetWorkoutExercise.exerciseLibraryFK
+		})
+	targetExercise = targetExercise[0]
+	var targetWorkout = await knex('workouts')
+		.where({
+			workoutPK: targetWorkoutExercise.workoutFK
+		})
+	targetWorkout = targetWorkout[0]
+	if (targetExercise == null || targetWorkout == null) {
+		var exerciseOrWorkoutDoesNotExist = {
+			notifyerOn: true,
+			notifyerColor: 'error',
+			notifyerMessage: 'Exercise or Workout does not exist.'
+		}
+		return res.send(exerciseOrWorkoutDoesNotExist)
+	} else {
+		try {
+			if (targetExercise.userFK == req.decodedToken.userPK && targetWorkout.userFK == req.decodedToken.userPK) {
+				await knex('workoutExercises')
+					.del()
+					.where({
+						workoutExercisePK: req.params.workoutExercisePK
+					})
+				var successMessage = {
+					notifyerOn: true,
+					notifyerColor: 'success',
+					notifyerMessage: 'Exercise successfully removed from workout.'
+				}
+				res.send(successMessage)
+			} else {
+				var notTheCreator = {
+					notifyerOn: true,
+					notifyerColor: 'warning',
+					notifyerMessage: 'Exercise or workout is not created by this account.'
+				}
+				res.send(notTheCreator)
+			}
+		} catch (error) {
+			console.error(error.message)
+			var errorMessage = {
+				notifyerOn: true,
+				notifyerColor: 'error',
+				notifyerMessage: 'Unable to remove exercise from workout. Try again.'
+			}
+			res.send(errorMessage)
+		}
 	}
 })
 
