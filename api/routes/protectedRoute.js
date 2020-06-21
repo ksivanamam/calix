@@ -11,19 +11,19 @@ router.get('/profil', async (req, res) => {
 	try {
 		var data = await knex('users')
 			.select(
-				'userPK',
-				'username',
-				'email',
-				'firstname',
-				'lastname',
-				'yearOfBirth',
-				'height',
-				'weight',
-				'equipment',
-				'color'
+				'user_PK',
+				'user_username',
+				'user_email',
+				'user_firstname',
+				'user_lastname',
+				'user_yearOfBirth',
+				'user_height',
+				'user_weight',
+				'user_equipment',
+				'user_color'
 			)
 			.where({
-				userPK: req.decodedToken.userPK
+				user_PK: req.decodedToken.user_PK
 			})
 		res.send(data)
 	} catch (error) {
@@ -41,24 +41,24 @@ router.get('/profil', async (req, res) => {
 router.put('/profil', async (req, res) => {
 	try {
 		var {
-			email,
-			yearOfBirth,
-			height,
-			weight,
-			equipment,
-			color
+			req_email,
+			req_yearOfBirth,
+			req_height,
+			req_weight,
+			req_equipment,
+			req_color
 		} = req.body
 		await knex('users')
 			.update({
-				email: email,
-				yearOfBirth: yearOfBirth,
-				height: height,
-				weight: weight,
-				equipment: equipment,
-				color: color
+				user_email: req_email,
+				user_yearOfBirth: req_yearOfBirth,
+				user_height: req_height,
+				user_weight: req_weight,
+				user_equipment: req_equipment,
+				user_color: req_color
 			})
 			.where({
-				userPK: req.decodedToken.userPK
+				user_PK: req.decodedToken.user_PK
 			})
 		var successMessage = {
 			notifyerOn: true,
@@ -83,7 +83,7 @@ router.delete('/delProfil', async (req, res) => {
 		await knex('users')
 			.delete()
 			.where({
-				userPK: req.decodedToken.userPK
+				user_PK: req.decodedToken.user_PK
 			})
 		var successMessage = {
 			notifyerOn: true,
@@ -102,12 +102,12 @@ router.delete('/delProfil', async (req, res) => {
 	}
 })
 
-//ANCHOR Send all exercises in table "exerciseLibrary"
+//ANCHOR Send all exercises in table "exercises"
 router.get('/publicExercises', async (req, res) => {
 	try {
-		var data = await knex('exerciseLibrary')
+		var data = await knex('exercises')
 			.where({
-				public: true
+				exercise_public: true
 			})
 		res.send(data)
 	} catch (error) {
@@ -124,10 +124,10 @@ router.get('/publicExercises', async (req, res) => {
 //ANCHOR Send all exercises created by the user
 router.get('/customExercises', async (req, res) => {
 	try {
-		var data = await knex('exerciseLibrary')
+		var data = await knex('exercises')
 			.where({
-				public: false,
-				userFK: req.decodedToken.userPK
+				exercise_public: false,
+				exercise_user_FK: req.decodedToken.user_PK
 			})
 		res.send(data)
 	} catch (error) {
@@ -145,21 +145,21 @@ router.get('/customExercises', async (req, res) => {
 router.post('/customExercises', async (req, res) => {
 	try {
 		var {
-			name,
-			weighted,
-			advanced,
-			engagement,
-			type
+			req_name,
+			req_weighted,
+			req_advanced,
+			req_engagement,
+			req_type
 		} = req.body
-		await knex('exerciseLibrary')
+		await knex('exercises')
 			.insert({
-				name: name,
-				weighted: weighted,
-				advanced: advanced,
-				engagement: engagement,
-				type: type,
-				public: false,
-				userFK: req.decodedToken.userPK
+				exercise_name: req_name,
+				exercise_weighted: req_weighted,
+				exercise_advanced: req_advanced,
+				exercise_engagement: req_engagement,
+				exercise_type: req_type,
+				exercise_public: false,
+				exercise_user_FK: req.decodedToken.user_PK
 			})
 		var successMessage = {
 			notifyerOn: true,
@@ -179,26 +179,26 @@ router.post('/customExercises', async (req, res) => {
 })
 
 //ANCHOR Changes properties of custom exercise
-router.put('/customExercises/:exerciseLibaryPK', async (req, res) => {
+router.put('/customExercises/:exercise_PK', async (req, res) => {
 	try {
 		var {
-			name,
-			weighted,
-			advanced,
-			engagement,
-			type
+			req_name,
+			req_weighted,
+			req_advanced,
+			req_engagement,
+			req_type
 		} = req.body
-		await knex('exerciseLibrary')
+		await knex('exercises')
 			.update({
-				name: name,
-				weighted: weighted,
-				advanced: advanced,
-				engagement: engagement,
-				type: type
+				exercise_name: req_name,
+				exercise_weighted: req_weighted,
+				exercise_advanced: req_advanced,
+				exercise_engagement: req_engagement,
+				exercise_type: req_type
 			})
 			.where({
-				userFK: req.decodedToken.userPK,
-				exerciseLibraryPK: req.params.exerciseLibraryPK
+				exercise_user_FK: req.decodedToken.user_PK,
+				exercise_PK: req.params.exercises_PK
 			})
 		var successMessage = {
 			notifyerOn: true,
@@ -218,14 +218,14 @@ router.put('/customExercises/:exerciseLibaryPK', async (req, res) => {
 })
 
 //ANCHOR Deletes custom exercies from exercise library
-router.delete('/customExercises/:exerciseLibraryPK', async (req, res) => {
-	console.log(req.decodedToken.userPK)
+router.delete('/customExercises/:exercises_PK', async (req, res) => {
+	console.log(req.decodedToken.user_PK)
 	try {
-		await knex('exerciseLibrary')
+		await knex('exercises')
 			.delete()
 			.where({
-				userFK: req.decodedToken.userPK,
-				exerciseLibraryPK: req.params.exerciseLibraryPK
+				exercise_user_FK: req.decodedToken.user_PK,
+				exercises_PK: req.params.exercises_PK
 			})
 		var successMessage = {
 			notifyerOn: true,
@@ -250,7 +250,7 @@ router.get('/publicWorkouts', async (req, res) => {
 	try {
 		var data = await knex('workouts')
 			.where({
-				public: true
+				workout_public: true
 			})
 		res.send(data)
 	} catch (error) {
@@ -269,13 +269,13 @@ router.get('/customWorkouts', async (req, res) => {
 	try {
 		var data = await knex('workouts')
 			.where({
-				public: false,
-				userFK: req.decodedToken.userPK
+				workout_public: false,
+				workout_user_FK: req.decodedToken.user_PK
 			})
 			.join(
 				'workoutExercises',
-				'workoutExercises.workoutFK',
-				'workouts.workoutPK'
+				'workoutExercises.workoutExercise_workout_FK',
+				'workouts.workout_PK'
 			)
 		res.send(data)
 	} catch (error) {
@@ -293,17 +293,17 @@ router.get('/customWorkouts', async (req, res) => {
 router.post('/customWorkouts', async (req, res) => {
 	try {
 		var {
-			name,
-			focus,
-			difficulty
+			req_name,
+			req_focus,
+			req_difficulty
 		} = req.body
 		await knex('workouts')
 			.insert({
-				name: name,
-				focus: focus,
-				difficulty: difficulty,
-				public: false,
-				userFK: req.decodedToken.userPK
+				workout_name: req_name,
+				workout_focus: req_focus,
+				workout_difficulty: req_difficulty,
+				workout_public: false,
+				workout_userFK: req.decodedToken.user_PK
 			})
 		var successMessage = {
 			notifyerOn: true,
@@ -323,22 +323,22 @@ router.post('/customWorkouts', async (req, res) => {
 })
 
 //ANCHOR Changes the properties of a custom workout
-router.put('/customWorkouts/:workoutPK', async (req, res) => {
+router.put('/customWorkouts/:workout_PK', async (req, res) => {
 	try {
 		var {
-			name,
-			focus,
-			difficulty
+			req_name,
+			req_focus,
+			req_difficulty
 		} = req.body
 		await knex('workouts')
 			.update({
-				name: name,
-				focus: focus,
-				difficulty: difficulty
+				workout_name: req_name,
+				workout_focus: req_focus,
+				workout_difficulty: req_difficulty
 			})
 			.where({
-				userFK: req.decodedToken.userPK,
-				workoutPK: req.params.workoutPK
+				user_FK: req.decodedToken.user_PK,
+				workout_PK: req.params.workout_PK
 			})
 		var successMessage = {
 			notifyerOn: true,
@@ -358,13 +358,13 @@ router.put('/customWorkouts/:workoutPK', async (req, res) => {
 })
 
 //ANCHOR Deletes custom workout by user
-router.delete('/customWorkouts/:workoutPK', async (req, res) => {
+router.delete('/customWorkouts/:workout_PK', async (req, res) => {
 	try {
 		await knex('workouts')
 			.delete()
 			.where({
-				userFK: req.decodedToken.userPK,
-				workoutPK: req.params.workoutPK
+				user_FK: req.decodedToken.user_PK,
+				workout_PK: req.params.workout_PK
 			})
 		var successMessage = {
 			notifyerOn: true,
@@ -384,16 +384,16 @@ router.delete('/customWorkouts/:workoutPK', async (req, res) => {
 })
 
 //ANCHOR Send all exercises related to a workout
-router.get('/workoutExercises/:workoutPK', async (req, res) => {
+router.get('/workoutExercises/:workout_PK', async (req, res) => {
 	try {
 		var data = await knex('workoutExercises')
 			.join(
-				'exerciseLibrary',
-				'exerciseLibrary.exerciseLibraryPK',
-				'workoutExercises.exerciseLibraryFk'
+				'exercises',
+				'exercises.exercise_PK',
+				'workoutExercises.workoutExercise_exercise_Fk'
 			)
 			.where({
-				workoutFK: req.params.workoutPK
+				workout_FK: req.params.workout_PK
 			})
 		res.send(data)
 	} catch (error) {
@@ -410,19 +410,19 @@ router.get('/workoutExercises/:workoutPK', async (req, res) => {
 //ANCHOR Adds exercise to workout
 router.post('/workoutExercises', async (req, res) => {
 	var {
-		exerciseLibraryFK,
-		sets,
-		reps,
-		workoutFK
+		req_exercises_FK,
+		req_sets,
+		req_reps,
+		req_workout_FK
 	} = req.body
-	var targetExercise = await knex('exerciseLibrary')
+	var targetExercise = await knex('exercises')
 		.where({
-			exerciseLibraryPK: exerciseLibraryFK
+			exercise_exercises_PK: req_exercises_FK
 		})
 	targetExercise = targetExercise[0]
 	var targetWorkout = await knex('workouts')
 		.where({
-			workoutPK: workoutFK
+			workout_workout_PK: req_workout_FK
 		})
 	targetWorkout = targetWorkout[0]
 	if (targetExercise == null || targetWorkout == null) {
@@ -434,13 +434,13 @@ router.post('/workoutExercises', async (req, res) => {
 		return res.send(exerciseOrWorkoutDoesNotExist)
 	} else {
 		try {
-			if (targetExercise.userFK == req.decodedToken.userPK && targetWorkout.userFK == req.decodedToken.userPK) {
+			if (targetExercise.user_FK == req.decodedToken.user_PK && targetWorkout.user_FK == req.decodedToken.user_PK) {
 				await knex('workoutExercises')
 					.insert({
-						exerciseLibraryFK: exerciseLibraryFK,
-						sets: sets,
-						reps: reps,
-						workoutFK: workoutFK
+						workoutExercise_exercisesFK: req_exercisesFK,
+						workoutExercise_sets: req_sets,
+						workoutExercise_reps: req_reps,
+						workoutExercise_workoutFK: req_workoutFK
 					})
 				var successMessage = {
 					notifyerOn: true,
@@ -469,21 +469,21 @@ router.post('/workoutExercises', async (req, res) => {
 })
 
 //ANCHOR Changes properties of exercises in workouts
-router.put('/workoutExercises/:workoutExercisePK', async (req, res) => {
+router.put('/workoutExercises/:workoutExercise_PK', async (req, res) => {
 	var {
-		exerciseLibraryFK,
-		sets,
-		reps,
-		workoutFK
+		workoutExercise_exercises_FK,
+		workoutExercise_sets,
+		workoutExercise_reps,
+		workoutExercise_workout_FK
 	} = req.body
-	var targetExercise = await knex('exerciseLibrary')
+	var targetExercise = await knex('exercises')
 		.where({
-			exerciseLibraryPK: exerciseLibraryFK
+			exercises_PK: workoutExercise_exercises_FK
 		})
 	targetExercise = targetExercise[0]
 	var targetWorkout = await knex('workouts')
 		.where({
-			workoutPK: workoutFK
+			workout_PK: workoutExercise_workout_FK
 		})
 	targetWorkout = targetWorkout[0]
 	if (targetExercise == null || targetWorkout == null) {
@@ -495,16 +495,16 @@ router.put('/workoutExercises/:workoutExercisePK', async (req, res) => {
 		return res.send(exerciseOrWorkoutDoesNotExist)
 	} else {
 		try {
-			if (targetExercise.userFK == req.decodedToken.userPK && targetWorkout.userFK == req.decodedToken.userPK) {
+			if (targetExercise.user_FK == req.decodedToken.user_PK && targetWorkout.user_FK == req.decodedToken.user_PK) {
 				await knex('workoutExercises')
 					.update({
-						exerciseLibraryFK: exerciseLibraryFK,
-						sets: sets,
-						reps: reps,
-						workoutFK: workoutFK
+						workoutExercise_exercisesFK: req_exercisesFK,
+						workoutExercise_sets: req_sets,
+						workoutExercise_reps: req_reps,
+						workoutExercise_workoutFK: req_workoutFK
 					})
 					.where({
-						workoutExercisePK: req.params.workoutExercisePK
+						workoutExercise_PK: req.params.workoutExercise_PK
 					})
 				var successMessage = {
 					notifyerOn: true,
@@ -533,20 +533,20 @@ router.put('/workoutExercises/:workoutExercisePK', async (req, res) => {
 })
 
 //ANCHOR Removes exercise from workout but remeins in exercise library
-router.delete('/workoutExercises/:workoutExercisePK', async (req, res) => {
+router.delete('/workoutExercises/:workoutExercise_PK', async (req, res) => {
 	var targetWorkoutExercise = await knex('workoutExercises')
 		.where({
-			workoutExercisePK: req.params.workoutExercisePK
+			workoutExercise_PK: req.params.workoutExercise_PK
 		})
 	targetWorkoutExercise = targetWorkoutExercise[0]
-	var targetExercise = await knex('exerciseLibrary')
+	var targetExercise = await knex('exercises')
 		.where({
-			exerciseLibraryPK: targetWorkoutExercise.exerciseLibraryFK
+			exercises_PK: targetWorkoutExercise.exercises_FK
 		})
 	targetExercise = targetExercise[0]
 	var targetWorkout = await knex('workouts')
 		.where({
-			workoutPK: targetWorkoutExercise.workoutFK
+			workout_PK: targetWorkoutExercise.workout_FK
 		})
 	targetWorkout = targetWorkout[0]
 	if (targetExercise == null || targetWorkout == null) {
@@ -558,11 +558,11 @@ router.delete('/workoutExercises/:workoutExercisePK', async (req, res) => {
 		return res.send(exerciseOrWorkoutDoesNotExist)
 	} else {
 		try {
-			if (targetExercise.userFK == req.decodedToken.userPK && targetWorkout.userFK == req.decodedToken.userPK) {
+			if (targetExercise.user_FK == req.decodedToken.user_PK && targetWorkout.user_FK == req.decodedToken.user_PK) {
 				await knex('workoutExercises')
 					.del()
 					.where({
-						workoutExercisePK: req.params.workoutExercisePK
+						workoutExercise_PK: req.params.workoutExercise_PK
 					})
 				var successMessage = {
 					notifyerOn: true,
@@ -595,12 +595,12 @@ router.get('/plans', async (req, res) => {
 	try {
 		var data = await knex('plans')
 			.where({
-				plansUserFK: req.decodedToken.userPK
+				plan_user_FK: req.decodedToken.user_PK
 			})
 			.join(
 				'workouts',
-				'workouts.workoutPK',
-				'plans.workoutFK'
+				'workouts.workout_PK',
+				'plans.plan_workout_FK'
 			)
 		res.send(data)
 	} catch (error) {

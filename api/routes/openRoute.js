@@ -11,53 +11,53 @@ var router = express.Router()
 router.post('/register', async (req, res) => {
 	try {
 		var {
-			username,
-			password,
-			email,
-			firstname,
-			lastname,
-			yearOfBirth,
-			height,
-			weight,
-			equipment,
-			color
+			req_username,
+			req_password,
+			req_email,
+			req_firstname,
+			req_lastname,
+			req_yearOfBirth,
+			req_height,
+			req_weight,
+			req_equipment,
+			req_color
 		} = req.body
 		var usernameUnavailable = await knex('users').where({
-			username: username
+			user_username: req_username
 		})
 		usernameUnavailable = usernameUnavailable[0]
 		var emailUnavailable = await knex('users').where({
-			email: email
+			user_email: req_email
 		})
 		emailUnavailable = emailUnavailable[0]
 		if (usernameUnavailable || emailUnavailable) {
 			var usernameTakenMessage = {
 				notifyerOn: true,
 				notifyerColor: 'warning',
-				notifyerMessage: 'User ' + username + ' or email ' + email + ' already exists. Try another one.'
+				notifyerMessage: 'User ' + req_username + ' or email ' + req_email + ' already exists. Try another one.'
 			}
 			res.send(usernameTakenMessage)
 		} else {
 			var salt = 10
-			var hashedPassword = await bcrypt.hash(password, salt)
+			var hashedPassword = await bcrypt.hash(req_password, salt)
 			await knex('users')
 				.insert({
-					username: username,
-					password: hashedPassword,
-					email: email,
-					firstname: firstname,
-					lastname: lastname,
-					yearOfBirth: yearOfBirth,
-					height: height,
-					weight: weight,
-					equipment: equipment,
-					color: color,
-					adminAuthorization: false
+					user_username: req_username,
+					user_password: hashedPassword,
+					user_email: req_email,
+					user_firstname: req_firstname,
+					user_lastname: req_lastname,
+					user_yearOfBirth: req_yearOfBirth,
+					user_height: req_height,
+					user_weight: req_weight,
+					user_equipment: req_equipment,
+					user_color: req_color,
+					user_adminAuthorization: false
 				})
 			var successMessage = {
 				notifyerOn: true,
 				notifyerColor: 'success',
-				notifyerMessage: 'Registered as ' + username
+				notifyerMessage: 'Registered as ' + req_username
 			}
 			res.send(successMessage)
 		}
@@ -75,26 +75,27 @@ router.post('/register', async (req, res) => {
 //ANCHOR Logs user in with a token if credentials are correct
 router.post('/login', async (req, res) => {
 	var {
-		username,
-		password
+		req_username,
+		req_password
 	} = req.body
 	var DBUser = await knex('users')
 		.where({
-			username: username
+			user_username: req_username
 		})
 	DBUser = DBUser[0]
 	if (DBUser == null) {
 		var userdoesNotExistMessage = {
 			notifyerOn: true,
 			notifyerColor: 'error',
-			notifyerMessage: 'Cannot find user ' + username + '. Try again.'
+			notifyerMessage: 'Cannot find user ' + req_username + '. Try again.'
 		}
 		return res.send(userdoesNotExistMessage)
 	} else {
 		try {
-			if (await bcrypt.compare(password, DBUser.password)) {
+			if (await bcrypt.compare(req_password, DBUser.user_password)) {
 				var tokenData = {
-					userPK: DBUser.userPK
+					user_PK: DBUser.user_PK,
+					user_adminAuthorization: DBUser.user_adminAuthorization
 				}
 
 				function generateAccessToken(tokenData) {
@@ -134,18 +135,19 @@ router.post('/login', async (req, res) => {
 //ANCHOR Sends refreshed acces token
 router.post('/refresh', async (req, res) => {
 	try {
-		function generateAccessToken(user) {
-			return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+		function generateAccessToken(tokenData) {
+			return jwt.sign(tokenData, process.env.ACCESS_TOKEN_SECRET, {
 				expiresIn: '1d'
 			})
 		}
 		var refreshToken = req.body.refreshToken
 		if (refreshToken == null) return res.sendStatus(401)
 		if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403)
-		jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, user) => {
+		jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, tokenData) => {
 			if (error) return res.sendStatus(403)
 			var accessToken = generateAccessToken({
-				name: user.name
+				user_PK: tokenData.user_PK,
+				user_adminAuthorization: tokenData.user_adminAuthorization
 			})
 			res.json({
 				accessToken: accessToken
