@@ -189,17 +189,17 @@ router.put('/customExercises/:exercise_PK', async (req, res) => {
 			req_type
 		} = req.body
 		await knex('exercises')
-			.update({
-				exercise_name: req_name,
-				exercise_weighted: req_weighted,
-				exercise_advanced: req_advanced,
-				exercise_engagement: req_engagement,
-				exercise_type: req_type
-			})
-			.where({
-				exercise_user_FK: req.decodedToken.user_PK,
-				exercise_PK: req.params.exercises_PK
-			})
+		.update({
+			exercise_name: req_name,
+			exercise_weighted: req_weighted,
+			exercise_advanced: req_advanced,
+			exercise_engagement: req_engagement,
+			exercise_type: req_type,
+		})
+		.where({
+			exercise_user_FK: req.decodedToken.user_PK,
+			exercise_PK: req.params.exercise_PK
+		})
 		var successMessage = {
 			notifyerOn: true,
 			notifyerColor: 'success',
@@ -225,7 +225,7 @@ router.delete('/customExercises/:exercises_PK', async (req, res) => {
 			.delete()
 			.where({
 				exercise_user_FK: req.decodedToken.user_PK,
-				exercises_PK: req.params.exercises_PK
+				exercise_PK: req.params.exercises_PK
 			})
 		var successMessage = {
 			notifyerOn: true,
@@ -272,11 +272,11 @@ router.get('/customWorkouts', async (req, res) => {
 				workout_public: false,
 				workout_user_FK: req.decodedToken.user_PK
 			})
-			.join(
-				'workoutExercises',
-				'workoutExercises.workoutExercise_workout_FK',
-				'workouts.workout_PK'
-			)
+			// .join(
+			// 	'workoutExercises',
+			// 	'workoutExercises.workoutExercise_workout_FK',
+			// 	'workouts.workout_PK'
+			// )
 		res.send(data)
 	} catch (error) {
 		console.error(error.message)
@@ -303,7 +303,7 @@ router.post('/customWorkouts', async (req, res) => {
 				workout_focus: req_focus,
 				workout_difficulty: req_difficulty,
 				workout_public: false,
-				workout_userFK: req.decodedToken.user_PK
+				workout_user_FK: req.decodedToken.user_PK
 			})
 		var successMessage = {
 			notifyerOn: true,
@@ -337,7 +337,7 @@ router.put('/customWorkouts/:workout_PK', async (req, res) => {
 				workout_difficulty: req_difficulty
 			})
 			.where({
-				user_FK: req.decodedToken.user_PK,
+				workout_user_FK: req.decodedToken.user_PK,
 				workout_PK: req.params.workout_PK
 			})
 		var successMessage = {
@@ -363,7 +363,7 @@ router.delete('/customWorkouts/:workout_PK', async (req, res) => {
 		await knex('workouts')
 			.delete()
 			.where({
-				user_FK: req.decodedToken.user_PK,
+				workout_user_FK: req.decodedToken.user_PK,
 				workout_PK: req.params.workout_PK
 			})
 		var successMessage = {
@@ -393,7 +393,7 @@ router.get('/workoutExercises/:workout_PK', async (req, res) => {
 				'workoutExercises.workoutExercise_exercise_Fk'
 			)
 			.where({
-				workout_FK: req.params.workout_PK
+				workoutExercise_workout_FK: req.params.workout_PK
 			})
 		res.send(data)
 	} catch (error) {
@@ -410,19 +410,19 @@ router.get('/workoutExercises/:workout_PK', async (req, res) => {
 //ANCHOR Adds exercise to workout
 router.post('/workoutExercises', async (req, res) => {
 	var {
-		req_exercises_FK,
-		req_sets,
-		req_reps,
-		req_workout_FK
+		req_exercise_PK,
+		req_workoutExercise_sets,
+		req_workoutExercise_reps,
+		req_workout_PK
 	} = req.body
 	var targetExercise = await knex('exercises')
 		.where({
-			exercise_exercises_PK: req_exercises_FK
+			exercise_PK: req_exercise_PK
 		})
 	targetExercise = targetExercise[0]
 	var targetWorkout = await knex('workouts')
 		.where({
-			workout_workout_PK: req_workout_FK
+			workout_PK: req_workout_PK
 		})
 	targetWorkout = targetWorkout[0]
 	if (targetExercise == null || targetWorkout == null) {
@@ -434,13 +434,13 @@ router.post('/workoutExercises', async (req, res) => {
 		return res.send(exerciseOrWorkoutDoesNotExist)
 	} else {
 		try {
-			if (targetExercise.user_FK == req.decodedToken.user_PK && targetWorkout.user_FK == req.decodedToken.user_PK) {
+			if (targetExercise.exercise_user_FK === req.decodedToken.user_PK && targetWorkout.workout_user_FK === req.decodedToken.user_PK) {
 				await knex('workoutExercises')
 					.insert({
-						workoutExercise_exercisesFK: req_exercisesFK,
-						workoutExercise_sets: req_sets,
-						workoutExercise_reps: req_reps,
-						workoutExercise_workoutFK: req_workoutFK
+						workoutExercise_exercise_FK: req_exercise_PK,
+						workoutExercise_sets: req_workoutExercise_sets,
+						workoutExercise_reps: req_workoutExercise_reps,
+						workoutExercise_workout_FK: req_workout_PK
 					})
 				var successMessage = {
 					notifyerOn: true,
@@ -471,19 +471,19 @@ router.post('/workoutExercises', async (req, res) => {
 //ANCHOR Changes properties of exercises in workouts
 router.put('/workoutExercises/:workoutExercise_PK', async (req, res) => {
 	var {
-		workoutExercise_exercises_FK,
-		workoutExercise_sets,
-		workoutExercise_reps,
-		workoutExercise_workout_FK
+		req_exercise_PK,
+		req_workoutExercise_sets,
+		req_workoutExercise_reps,
+		req_workout_PK
 	} = req.body
 	var targetExercise = await knex('exercises')
 		.where({
-			exercises_PK: workoutExercise_exercises_FK
+			exercise_PK: req_exercise_PK
 		})
 	targetExercise = targetExercise[0]
 	var targetWorkout = await knex('workouts')
 		.where({
-			workout_PK: workoutExercise_workout_FK
+			workout_PK: req_workout_PK
 		})
 	targetWorkout = targetWorkout[0]
 	if (targetExercise == null || targetWorkout == null) {
@@ -495,13 +495,13 @@ router.put('/workoutExercises/:workoutExercise_PK', async (req, res) => {
 		return res.send(exerciseOrWorkoutDoesNotExist)
 	} else {
 		try {
-			if (targetExercise.user_FK == req.decodedToken.user_PK && targetWorkout.user_FK == req.decodedToken.user_PK) {
+			if (targetExercise.exercise_user_FK === req.decodedToken.user_PK && targetWorkout.workout_user_FK === req.decodedToken.user_PK) {
 				await knex('workoutExercises')
 					.update({
-						workoutExercise_exercisesFK: req_exercisesFK,
-						workoutExercise_sets: req_sets,
-						workoutExercise_reps: req_reps,
-						workoutExercise_workoutFK: req_workoutFK
+						workoutExercise_exercise_FK: req_exercise_PK,
+						workoutExercise_sets: req_workoutExercise_sets,
+						workoutExercise_reps: req_workoutExercise_reps,
+						workoutExercise_workout_FK: req_workout_PK
 					})
 					.where({
 						workoutExercise_PK: req.params.workoutExercise_PK
@@ -539,26 +539,21 @@ router.delete('/workoutExercises/:workoutExercise_PK', async (req, res) => {
 			workoutExercise_PK: req.params.workoutExercise_PK
 		})
 	targetWorkoutExercise = targetWorkoutExercise[0]
-	var targetExercise = await knex('exercises')
-		.where({
-			exercises_PK: targetWorkoutExercise.exercises_FK
-		})
-	targetExercise = targetExercise[0]
 	var targetWorkout = await knex('workouts')
 		.where({
-			workout_PK: targetWorkoutExercise.workout_FK
+			workout_PK: targetWorkoutExercise.workoutExercise_workout_FK
 		})
 	targetWorkout = targetWorkout[0]
-	if (targetExercise == null || targetWorkout == null) {
+	if (targetWorkout == null) {
 		var exerciseOrWorkoutDoesNotExist = {
 			notifyerOn: true,
 			notifyerColor: 'error',
-			notifyerMessage: 'Exercise or Workout does not exist.'
+			notifyerMessage: 'Workout does not exist.'
 		}
 		return res.send(exerciseOrWorkoutDoesNotExist)
 	} else {
 		try {
-			if (targetExercise.user_FK == req.decodedToken.user_PK && targetWorkout.user_FK == req.decodedToken.user_PK) {
+			if (targetWorkout.workout_user_FK == req.decodedToken.user_PK) {
 				await knex('workoutExercises')
 					.del()
 					.where({
@@ -613,6 +608,61 @@ router.get('/plans', async (req, res) => {
 		res.send(errorMessage)
 	}
 })
+
+//ANCHOR Adds workout to weekly plan
+router.post('/plans/:plan_day', async (req, res) => {
+	try {
+		var {
+			req_plan_workout_FK,
+		} = req.body
+		await knex('plans')
+		.insert({
+			plan_user_FK: req.decodedToken.user_PK,
+			plan_workout_FK: req_plan_workout_FK,
+			plan_day: req.params.plan_day
+		})
+		var errorMessage = {
+			notifyerOn: true,
+			notifyerColor: 'success',
+			notifyerMessage: 'Workout successfully added to plan.'
+		}
+		res.send(successMessage)
+	} catch(error) {
+		console.error(error.message)
+		var errorMessage = {
+			notifyerOn: true,
+			notifyerColor: 'error',
+			notifyerMessage: 'Unable to add workout to plan. Try again.'
+		}
+		res.send(errorMessage)
+	}
+})
+
+ //ANCHOR Deletes workout in weekly plan
+ router.delete('/plans/:plan_PK', async (req, res) => {
+	 try {
+		await knex('plans')
+		.del()
+		.where({
+			plan_user_FK: req.decodedToken.user_PK,
+			plan_PK: req.params.plan_PK
+		})
+		var errorMessage = {
+			notifyerOn: true,
+			notifyerColor: 'success',
+			notifyerMessage: 'Workout successfully deleted from plan.'
+		}
+		res.send(successMessage)
+	 } catch(error) {
+		 console.error(error.message)
+		 var errorMessage = {
+			 notifyerOn: true,
+			 notifyerColor: 'error',
+			 notifyerMessage: 'Unable to delete workout in weekly plan. Try again.'
+		 }
+		 res.send(errorMessage)
+	 }
+ })
 // !SECTION
 
 // SECTION Exports

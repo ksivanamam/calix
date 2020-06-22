@@ -382,8 +382,14 @@ exports.seed = async function (knex) {
 	])
 
 	await knex('plans').insert([{
-		plan_user_FK: 6,
-		plan_workout_FK: 1,
-		plan_day: 0
-	}])
+			plan_user_FK: 6,
+			plan_workout_FK: 1,
+			plan_day: 0
+		},
+		{
+			plan_user_FK: 6,
+			plan_workout_FK: 2,
+			plan_day: 1
+		}
+	])
 };
