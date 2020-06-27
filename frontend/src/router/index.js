@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Profil from '../views/Profil.vue'
-import Collection from '../views/Collection.vue'
+import Exercises from '../views/Exercises.vue'
 // import store from "../store/index.js"
 
 Vue.use(VueRouter)
@@ -21,9 +21,9 @@ const routes = [{
 		}
 	},
 	{
-		path: '/Collection',
-		name: 'Collection',
-		component: Collection,
+		path: '/Exercises',
+		name: 'Exercises',
+		component: Exercises,
 		meta: {
 			requiresAuth: true
 		}

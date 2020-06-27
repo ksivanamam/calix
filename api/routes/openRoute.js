@@ -32,9 +32,9 @@ router.post('/register', async (req, res) => {
 		emailUnavailable = emailUnavailable[0]
 		if (usernameUnavailable || emailUnavailable) {
 			var usernameTakenMessage = {
-				notifyerOn: true,
-				notifyerColor: 'warning',
-				notifyerMessage: 'User ' + req_username + ' or email ' + req_email + ' already exists. Try another one.'
+				snackOn: true,
+				snackColor: 'warning',
+				snackMessage: 'User ' + req_username + ' or email ' + req_email + ' already exists. Try another one.'
 			}
 			res.send(usernameTakenMessage)
 		} else {
@@ -55,18 +55,18 @@ router.post('/register', async (req, res) => {
 					user_adminAuthorization: false
 				})
 			var successMessage = {
-				notifyerOn: true,
-				notifyerColor: 'success',
-				notifyerMessage: 'Registered as ' + req_username
+				snackOn: true,
+				snackColor: 'success',
+				snackMessage: 'Registered as ' + req_username
 			}
 			res.send(successMessage)
 		}
 	} catch (error) {
 		console.error(error.message);
 		var errorMessage = {
-			notifyerOn: true,
-			notifyerColor: 'red',
-			notifyerMessage: 'Registration failed. Try agian later.'
+			snackOn: true,
+			snackColor: 'red',
+			snackMessage: 'Registration failed. Try agian later.'
 		}
 		res.send(errorMessage)
 	}
@@ -85,9 +85,9 @@ router.post('/login', async (req, res) => {
 	DBUser = DBUser[0]
 	if (DBUser == null) {
 		var userdoesNotExistMessage = {
-			notifyerOn: true,
-			notifyerColor: 'error',
-			notifyerMessage: 'Cannot find user ' + req_username + '. Try again.'
+			snackOn: true,
+			snackColor: 'error',
+			snackMessage: 'Cannot find user ' + req_username + '. Try again.'
 		}
 		return res.send(userdoesNotExistMessage)
 	} else {
@@ -113,18 +113,18 @@ router.post('/login', async (req, res) => {
 				})
 			} else {
 				var passwordIncorrectMessage = {
-					notifyerOn: true,
-					notifyerColor: 'error',
-					notifyerMessage: 'Password is incorrect. Try again.'
+					snackOn: true,
+					snackColor: 'error',
+					snackMessage: 'Password is incorrect. Try again.'
 				}
 				res.send(passwordIncorrectMessage)
 			}
 		} catch (error) {
 			console.error(error.message);
 			var errorMessage = {
-				notifyerOn: true,
-				notifyerColor: 'error',
-				notifyerMessage: 'Login failed. Try again.'
+				snackOn: true,
+				snackColor: 'error',
+				snackMessage: 'Login failed. Try again.'
 			}
 			res.send(errorMessage)
 		}
@@ -156,9 +156,9 @@ router.post('/refresh', async (req, res) => {
 	} catch (error) {
 		console.error(error.message)
 		var errorMessage = {
-			notifyerOn: true,
-			notifyerColor: 'error',
-			notifyerMessage: 'Failed to refresh token. Try again.'
+			snackOn: true,
+			snackColor: 'error',
+			snackMessage: 'Failed to refresh token. Try again.'
 		}
 		res.send(errorMessage)
 	}

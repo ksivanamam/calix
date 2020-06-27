@@ -3,7 +3,7 @@
 		<v-app-bar app color="blue" dark>
 			<div class="d-flex align-center">
 				<v-img alt="Vuetify Logo" class="shrink mr-2" contain src="./assets/logo-full.png"
-					transition="scale-transition" width="50"/>
+					transition="scale-transition" width="50" />
 			</div>
 
 			<v-spacer></v-spacer>
@@ -16,7 +16,7 @@
 
 		<v-content>
 			<router-view></router-view>
-			<v-footer max-height="50" fixed>
+			<v-footer absolute class="font-weight-medium">
 				<v-col class="text-center" cols="12">
 					{{ new Date().getFullYear() }} — <strong>CaliX</strong>
 				</v-col>
@@ -28,9 +28,7 @@
 <script>
 	export default {
 		name: 'App',
-		data: () => ({
-		}),
-		methods: {
-		}
+		data: () => ({}),
+		methods: {}
 	};
 </script>
