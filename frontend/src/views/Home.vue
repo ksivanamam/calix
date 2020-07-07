@@ -5,7 +5,7 @@
 				<v-col cols="12" sm="12" md="5">
 
 					<v-card elevation="0">
-						<v-img src="./../assets/co-workout-3.svg" width="1000"></v-img>
+						<v-img src="./../assets/obstacle-course-1.svg" width="1000"></v-img>
 					</v-card>
 				</v-col>
 				<v-col cols="12" sm="0" md="1">

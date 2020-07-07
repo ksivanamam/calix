@@ -7,8 +7,10 @@
 			<v-container>
 				<v-row>
 					<v-col cols="12" sm="12" md="12">
-						<v-text-field solo placeholder="Username*" v-model="credentials.username" required></v-text-field>
-						<v-text-field solo placeholder="Password*" v-model="credentials.password" type="password" required></v-text-field>
+						<v-text-field solo placeholder="Username*" v-model="credentials.req_username" required>
+						</v-text-field>
+						<v-text-field solo placeholder="Password*" v-model="credentials.req_password" type="password"
+							required></v-text-field>
 					</v-col>
 				</v-row>
 			</v-container>
@@ -23,19 +25,26 @@
 </template>
 
 <script>
+	import axios from 'axios'
 	export default {
 		data: () => ({
 			credentials: {
-				username: '',
-				password: ''
+				req_username: '',
+				req_password: ''
 			}
 		}),
 		methods: {
-			login() {
-				var credentials = this.credentials
-				this.store.dispatch('login', {
-					credentials
-				})
+			async login() {
+				try {
+					var token = await axios.post('/openRoute/login', this.credentials).then(response => response.data.accessToken)
+					this.$store.dispatch('login', {
+						token
+					}).then(() => {
+						this.$router.push('/Profil')
+					})
+				} catch (error) {
+					console.error(error)
+				}
 			},
 			reset() {
 				this.credentials = {}

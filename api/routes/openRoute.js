@@ -78,6 +78,7 @@ router.post('/login', async (req, res) => {
 		req_username,
 		req_password
 	} = req.body
+	console.log(req.body);
 	var DBUser = await knex('users')
 		.where({
 			user_username: req_username
@@ -103,13 +104,14 @@ router.post('/login', async (req, res) => {
 						expiresIn: '1d'
 					})
 				}
-				// function generateRefreshToken(user) {
-				// 	return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
-				// }
+				function generateRefreshToken(tokenData) {
+					return jwt.sign(tokenData, process.env.REFRESH_TOKEN_SECRET)
+				}
 				var accessToken = generateAccessToken(tokenData)
-				// var refreshToken = generateRefreshToken(user)
+				var refreshToken = generateRefreshToken(tokenData)
 				res.json({
-					accessToken: accessToken
+					accessToken: accessToken,
+					refreshToken: refreshToken
 				})
 			} else {
 				var passwordIncorrectMessage = {

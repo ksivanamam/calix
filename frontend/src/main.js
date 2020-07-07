@@ -7,10 +7,11 @@ import vuetify from './plugins/vuetify';
 import './registerServiceWorker'
 
 Vue.prototype.$http = axios;
-const token = localStorage.getItem('token')
-if (token) {
-	Vue.prototype.$http.defaults.headers.common['Authorization'] = token
-}
+// var token = localStorage.getItem('token')
+// if (token) {
+// 	Vue.prototype.$http.defaults.headers.common['Authorization'] = token
+// }
+axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
 
 Vue.config.productionTip = false
 
