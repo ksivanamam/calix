@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import router from '../router/index'
 import vxps from '../../node_modules/vuex-persistedstate'
 
 
@@ -13,12 +14,7 @@ export default new Vuex.Store({
 		token: localStorage.getItem('token') || ''
 	},
 	getters: {
-		token: state => {
-			return state.token
-		},
-		notifyer: state => {
-			return state.notifyer
-		}
+		isLoggedIn: state => !!state.token
 	},
 	mutations: {
 		// ANCHOR Sets the token in object state.
@@ -33,11 +29,14 @@ export default new Vuex.Store({
 	},
 	actions: {
 		// ANCHOR Calls a mutation to set the token.
-		login(context, data) {
+		async login(context, data) {
 			try {
-				context.commit('setToken', data.token)
+				console.log(data);
+				var token = await axios.post('/openRoute/login', data.credentials).then(response => response.data.accessToken)
+				context.commit('setToken', token)
+				router.push('/Profil')
 				// localStorage.setItem('token', data.token)
-				axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
+				// axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
 			} catch (error) {
 				console.log(error);
 			}

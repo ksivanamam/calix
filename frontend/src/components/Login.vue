@@ -25,7 +25,6 @@
 </template>
 
 <script>
-	import axios from 'axios'
 	export default {
 		data: () => ({
 			credentials: {
@@ -36,11 +35,9 @@
 		methods: {
 			async login() {
 				try {
-					var token = await axios.post('/openRoute/login', this.credentials).then(response => response.data.accessToken)
+					var credentials = this.credentials
 					this.$store.dispatch('login', {
-						token
-					}).then(() => {
-						this.$router.push('/Profil')
+						credentials
 					})
 				} catch (error) {
 					console.error(error)

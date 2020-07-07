@@ -41,7 +41,25 @@ router.beforeEach((to, from, next) => {
 		// this route requires auth, check if logged in
 		// if not, redirect to login page.
 		// console.log("your token is: " + store.getters.isLoggedIn)
-		if (!localStorage.getItem('vuex')) {
+		var token = null
+		var tokenStructure = null
+		if (localStorage.getItem('vuex')) {
+			var states = JSON.parse(localStorage.getItem('vuex'))
+			if (states.token) {
+				token = JSON.parse(localStorage.getItem('vuex')).token
+				tokenStructure = token.split('.')
+			}
+		}
+		if (!token) {
+			console.log('shit');
+			next({
+				path: '/',
+				query: {
+					redirect: to.fullPath
+				}
+			})
+		} else if (tokenStructure.length !== 3) {
+			token = null
 			next({
 				path: '/',
 				query: {
