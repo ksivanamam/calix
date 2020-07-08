@@ -17,6 +17,7 @@ router.get('/profil', async (req, res) => {
 				'user_firstname',
 				'user_lastname',
 				'user_yearOfBirth',
+				'user_sex',
 				'user_height',
 				'user_weight',
 				'user_equipment',

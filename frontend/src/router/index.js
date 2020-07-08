@@ -51,7 +51,6 @@ router.beforeEach((to, from, next) => {
 			}
 		}
 		if (!token) {
-			console.log('shit');
 			next({
 				path: '/',
 				query: {

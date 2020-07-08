@@ -12,13 +12,21 @@
 				</v-col>
 				<v-col class="mt-12" cols="12" sm="12" md="6">
 					<h1 id="home-title">Work harder. <br> Be focused. <br> Succeed.</h1>
-					<v-btn class="mt-12 mr-5" color="info" x-large @click="openSignUpDialog('Profil')">
+					<v-btn v-show="!isLoggedIn" class="mt-12 mr-5" color="info" x-large @click="log()">
 						<v-icon class="mr-2">mdi-account-plus</v-icon>
 						Sign Up
 					</v-btn>
-					<v-btn class="mt-12" color="success" x-large @click="openLogInDialog('Profil')">
+					<v-btn v-show="isLoggedIn" class="mt-12 mr-5" color="info" x-large @click="log()">
+						<v-icon class="mr-2">mdi-account-plus</v-icon>
+						Profil
+					</v-btn>
+					<v-btn v-show="!isLoggedIn" class="mt-12" color="success" x-large @click="openLogInDialog('Profil')">
 						<v-icon class="mr-2">mdi-login</v-icon>
 						Log in
+					</v-btn>
+					<v-btn v-show="isLoggedIn" class="mt-12" color="success" x-large @click="openLogInDialog('Profil')">
+						<v-icon class="mr-2">mdi-login</v-icon>
+						Today's Workout
 					</v-btn>
 					<v-row justify="center">
 						<v-dialog v-model="logInDialog" max-width="600px">
@@ -47,6 +55,14 @@
 		methods: {
 			openLogInDialog() {
 				this.logInDialog = true
+			},
+			log() {
+				console.log(this.$store.getters.token);
+			}
+		},
+		computed: {
+			isLoggedIn() {
+				return this.$store.getters.isLoggedIn
 			}
 		}
 	}

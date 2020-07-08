@@ -11,41 +11,70 @@ export default new Vuex.Store({
 	strict: true,
 	plugins: [vxps()],
 	state: {
-		token: localStorage.getItem('token') || ''
+		token: localStorage.getItem('token') || '',
+		user: {},
+		snackbarData: {
+			on: false,
+			color: '',
+			message: ''
+		}
 	},
 	getters: {
-		isLoggedIn: state => !!state.token
+		isLoggedIn: state => !!state.token,
+		user: state => state.user,
+		snackbarData: state => state.snackbarData
 	},
 	mutations: {
 		// ANCHOR Sets the token in object state.
 		setToken: (state, token) => {
 			state.token = token;
 		},
-
-		// ANCHOR Resets the token by setting it's value to ""
-		removeToken: state => {
+		//ANCHOR Sets the user in obejct state.
+		setUser: (state, userData) => {
+			state.user = userData
+		},
+		//ANCHOR Sets the snackbar data in object.
+		setSnackbarData: (state, snackbarData) => {
+			state.snackbarData = snackbarData
+		},
+		resetSnackbarData: (state) => {
+			state.snackbarData = {
+				on: false,
+				color: '',
+				message: ''
+			}
+		},
+		// ANCHOR Resets the token and user by setting it's values to ''
+		logout: state => {
 			state.token = ''
+			state.user = ''
 		}
 	},
 	actions: {
 		// ANCHOR Calls a mutation to set the token.
 		async login(context, data) {
 			try {
-				console.log(data);
 				var token = await axios.post('/openRoute/login', data.credentials).then(response => response.data.accessToken)
 				context.commit('setToken', token)
+				axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+				var user = await axios.get('/protectedRoute/profil').then(response => response.data)
+				context.commit('setUser', user)
 				router.push('/Profil')
-				// localStorage.setItem('token', data.token)
-				// axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 
 		},
-
 		// ANCHOR Calls a mutation to reset the state object.
 		logout(context) {
-			context.commit('removeToken')
+			context.commit('logout')
+			router.push('/')
+		},
+		callSnackbar(context, data) {
+			context.commit('setSnackbarData', data.snackbarData)
+			setTimeout(() => {
+				context.commit('resetSnackbarData')
+			}, 2500);
 		}
 	},
 	modules: {}

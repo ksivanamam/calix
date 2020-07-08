@@ -7,6 +7,7 @@ exports.up = async function (knex) {
 		table.string('user_firstname').notNullable()
 		table.string('user_lastname').notNullable()
 		table.integer('user_yearOfBirth').notNullable()
+		table.boolean('user_sex').defaultTo('male').notNullable()
 		table.integer('user_height').notNullable()
 		table.integer('user_weight').notNullable()
 		table.boolean('user_equipment').notNullable()
