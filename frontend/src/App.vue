@@ -104,8 +104,7 @@
 		}),
 		methods: {
 			init() {
-				this.userData = this.$store.getters.user[0]
-				console.log(this.userData.user_sex);
+				this.userData = this.$store.getters.user
 			},
 			registerClicked(register) {
 				if (register.name !== 'Logout' && register.path !== this.$route.path) {
@@ -121,32 +120,22 @@
 					this.$store.dispatch('callSnackbar', {
 						snackbarData
 					})
-				} else if (register.name == 'Logout' && register.path == this.$route.path) {
-					this.logout()
+				} else if (register.name === 'Logout' && register.path === this.$route.path) {
+					console.log('shit');
+					var routes = {
+						currentRoute: this.$route.path,
+						targetRoute: '/'
+					}
+					this.logout(routes)
 					this.navigationDrawer = false
-					snackbarData = {
-						on: true,
-						color: 'success',
-						message: 'Successfully logged out.'
-					}
-					this.$store.dispatch('callSnackbar', {
-						snackbarData
-					})
 				} else {
-					this.logout()
-					this.navigationDrawer != this.navigationDrawer
-					snackbarData = {
-						on: true,
-						color: 'success',
-						message: 'Successfully logged out.'
-					}
-					this.$store.dispatch('callSnackbar', {
-						snackbarData
-					})
+					console.log('kek');
+					this.logout(routes)
+					this.navigationDrawer = false
 				}
 			},
-			logout() {
-				this.$store.dispatch('logout')
+			logout(path) {
+				this.$store.dispatch('logout', {path})
 			}
 		},
 		created() {
@@ -154,31 +143,32 @@
 		},
 		computed: {
 			isLoggedIn() {
-				return this.$store.getters.isLoggedIn
+				return !!this.$store.state.token
 			},
 			fullName() {
-				var firstname = null
-				var lastname = null
-				if (localStorage.getItem('vuex')) {
-					var states = JSON.parse(localStorage.getItem('vuex'))
-					if (states.user) {
-						firstname = JSON.parse(localStorage.getItem('vuex')).user[0].user_firstname
-						lastname = JSON.parse(localStorage.getItem('vuex')).user[0].user_lastname
-					} else {
-						firstname = 'No user found'
-						lastname = ''
-					}
-				}
+				var firstname = this.$store.state.user.user_firstname
+				var lastname = this.$store.state.user.user_lastname
+
+				// if (localStorage.getItem('vuex')) {
+				// 	var states = JSON.parse(localStorage.getItem('vuex'))
+				// 	if (states.user) {
+				// 		firstname = JSON.parse(localStorage.getItem('vuex')).user.user_firstname
+				// 		lastname = JSON.parse(localStorage.getItem('vuex')).user.user_lastname
+				// 	} else {
+				// 		firstname = 'No user found'
+				// 		lastname = ''
+				// 	}
+				// }
 				return firstname + ' ' + lastname
 			},
 			checkSex() {
-				var sex = null
-				if (localStorage.getItem('vuex')) {
-					var states = JSON.parse(localStorage.getItem('vuex'))
-					if (states.user) {
-						sex = JSON.parse(localStorage.getItem('vuex')).user[0].user_sex
-					}
-				}
+				var sex = this.$store.state.user.user_sex
+				// if (localStorage.getItem('vuex')) {
+				// 	var states = JSON.parse(localStorage.getItem('vuex'))
+				// 	if (states.user) {
+				// 		sex = JSON.parse(localStorage.getItem('vuex')).user.user_sex
+				// 	}
+				// }
 				return sex
 			}
 		}

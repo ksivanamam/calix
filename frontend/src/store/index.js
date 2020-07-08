@@ -57,7 +57,7 @@ export default new Vuex.Store({
 				var token = await axios.post('/openRoute/login', data.credentials).then(response => response.data.accessToken)
 				context.commit('setToken', token)
 				axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-				var user = await axios.get('/protectedRoute/profil').then(response => response.data)
+				var user = await axios.get('/protectedRoute/profil').then(response => response.data[0])
 				context.commit('setUser', user)
 				router.push('/Profil')
 			} catch (error) {
@@ -66,9 +66,25 @@ export default new Vuex.Store({
 
 		},
 		// ANCHOR Calls a mutation to reset the state object.
-		logout(context) {
+		logout(context, data) {
 			context.commit('logout')
-			router.push('/')
+			if (data.currentRoute !== data.targetRoute) {
+				router.push(data.targetRoute)
+				var snackbarData = {
+					on: true,
+					color: 'success',
+					message: 'Successfully logged out.'
+				}
+				context.commit('setSnackbarData', snackbarData)
+				setTimeout(() => {
+					context.commit('resetSnackbarData')
+				}, 2500);
+			} else {
+				context.commit('setSnackbarData', snackbarData)
+				setTimeout(() => {
+					context.commit('resetSnackbarData')
+				}, 2500);
+			}
 		},
 		callSnackbar(context, data) {
 			context.commit('setSnackbarData', data.snackbarData)
