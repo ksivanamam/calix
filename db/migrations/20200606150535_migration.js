@@ -47,18 +47,18 @@ exports.up = async function (knex) {
 		table.foreign('workoutExercise_workout_FK').references('workout_PK').inTable('workouts')
 	})
 
-	await knex.schema.createTable('plans', (table) => {
-		table.increments('plan_PK').primary()
-		table.integer('plan_user_FK')
-		table.foreign('plan_user_FK').references('user_PK').inTable('users')
-		table.integer('plan_workout_FK')
-		table.foreign('plan_workout_FK').references('workout_PK').inTable('workouts')
-		table.integer('plan_day').defaultTo(0).notNullable()
+	await knex.schema.createTable('schedules', (table) => {
+		table.increments('schedule_PK').primary()
+		table.integer('schedule_user_FK')
+		table.foreign('schedule_user_FK').references('user_PK').inTable('users')
+		table.integer('schedule_workout_FK')
+		table.foreign('schedule_workout_FK').references('workout_PK').inTable('workouts')
+		table.integer('schedule_day').defaultTo(0).notNullable()
 	})
 };
 
 exports.down = async function (knex) {
-	await knex.schema.dropTable('plans')
+	await knex.schema.dropTable('schedules')
 	await knex.schema.dropTable('workoutExercises')
 	await knex.schema.dropTable('exercises')
 	await knex.schema.dropTable('workouts')

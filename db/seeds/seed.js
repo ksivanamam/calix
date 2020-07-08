@@ -6,7 +6,7 @@ exports.seed = async function (knex) {
 	await knex('workouts').del()
 	await knex('exercises').del()
 	await knex('workoutExercises').del()
-	await knex('plans').del()
+	await knex('schedules').del()
 
 	await knex('users').insert([{
 			user_username: 'admin',
@@ -387,15 +387,15 @@ exports.seed = async function (knex) {
 		}
 	])
 
-	await knex('plans').insert([{
-			plan_user_FK: 6,
-			plan_workout_FK: 1,
-			plan_day: 0
+	await knex('schedules').insert([{
+			schedule_user_FK: 6,
+			schedule_workout_FK: 1,
+			schedule_day: 0
 		},
 		{
-			plan_user_FK: 6,
-			plan_workout_FK: 2,
-			plan_day: 1
+			schedule_user_FK: 6,
+			schedule_workout_FK: 2,
+			schedule_day: 1
 		}
 	])
 };
