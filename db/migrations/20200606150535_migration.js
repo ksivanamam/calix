@@ -10,6 +10,7 @@ exports.up = async function (knex) {
 		table.boolean('user_sex').defaultTo('male').notNullable()
 		table.integer('user_height').notNullable()
 		table.integer('user_weight').notNullable()
+		table.specificType('user_image', 'blob')
 		table.boolean('user_equipment').notNullable()
 		table.string('user_color').defaultTo('blue')
 		table.boolean('user_adminAuthorization').defaultTo(false).notNullable()

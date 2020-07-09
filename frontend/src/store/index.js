@@ -68,8 +68,8 @@ export default new Vuex.Store({
 		// ANCHOR Calls a mutation to reset the state object.
 		logout(context, data) {
 			context.commit('logout')
-			if (data.currentRoute !== data.targetRoute) {
-				router.push(data.targetRoute)
+			if (data.routes.currentRoute !== data.routes.targetRoute) {
+				router.push(data.routes.targetRoute)
 				var snackbarData = {
 					on: true,
 					color: 'success',

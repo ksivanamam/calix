@@ -13,13 +13,13 @@
 		},
 		computed: {
 			on() {
-				return this.$store.getters.snackbarData.on
+				return this.$store.state.snackbarData.on
 			},
 			color() {
-				return this.$store.getters.snackbarData.color
+				return this.$store.state.snackbarData.color
 			},
 			message() {
-				return this.$store.getters.snackbarData.message
+				return this.$store.state.snackbarData.message
 			}
 		}
 	}

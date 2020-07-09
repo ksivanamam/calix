@@ -16,10 +16,7 @@
 			<v-list-item>
 				<v-list-item-avatar>
 					<!-- <v-img src="https://randomuser.me/api/portraits/women/12.jpg"></v-img> -->
-					<v-img v-if="checkSex"
-						src="https://i.pinimg.com/originals/1d/a5/a0/1da5a0d16d1f7dd7e43b6da4b68cdf46.png"></v-img>
-					<v-img v-else src="https://i.pinimg.com/originals/64/54/9b/64549bd374b83e9b1ba73a78a3477a57.jpg">
-					</v-img>
+					<v-img v-if="getAvatar" :src="getAvatar"></v-img>
 				</v-list-item-avatar>
 
 				<v-list-item-content>
@@ -105,6 +102,7 @@
 		methods: {
 			init() {
 				this.userData = this.$store.getters.user
+				console.log(this.userData);
 			},
 			registerClicked(register) {
 				if (register.name !== 'Logout' && register.path !== this.$route.path) {
@@ -121,21 +119,21 @@
 						snackbarData
 					})
 				} else if (register.name === 'Logout' && register.path === this.$route.path) {
-					console.log('shit');
-					var routes = {
-						currentRoute: this.$route.path,
-						targetRoute: '/'
-					}
-					this.logout(routes)
+					this.logout()
 					this.navigationDrawer = false
 				} else {
-					console.log('kek');
-					this.logout(routes)
+					this.logout()
 					this.navigationDrawer = false
 				}
 			},
-			logout(path) {
-				this.$store.dispatch('logout', {path})
+			logout() {
+				var routes = {
+					currentRoute: this.$route.path,
+					targetRoute: '/'
+				}
+				this.$store.dispatch('logout', {
+					routes
+				})
 			}
 		},
 		created() {
@@ -161,8 +159,8 @@
 				// }
 				return firstname + ' ' + lastname
 			},
-			checkSex() {
-				var sex = this.$store.state.user.user_sex
+			getAvatar() {
+				var sex = this.$store.state.user.user_image
 				// if (localStorage.getItem('vuex')) {
 				// 	var states = JSON.parse(localStorage.getItem('vuex'))
 				// 	if (states.user) {

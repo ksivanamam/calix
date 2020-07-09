@@ -20,6 +20,7 @@ router.get('/profil', async (req, res) => {
 				'user_sex',
 				'user_height',
 				'user_weight',
+				'user_image',
 				'user_equipment',
 				'user_color'
 			)
