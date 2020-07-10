@@ -16,15 +16,16 @@
 						<v-icon class="mr-2">mdi-account-plus</v-icon>
 						Sign Up
 					</v-btn>
-					<v-btn v-show="isLoggedIn" class="mt-12 mr-5" color="info" x-large @click="log()">
+					<v-btn v-show="isLoggedIn" class="mt-12 mr-5" :color="setColor" x-large to="/Profil">
 						<v-icon class="mr-2">mdi-account-plus</v-icon>
 						Profil
 					</v-btn>
-					<v-btn v-show="!isLoggedIn" class="mt-12" color="success" x-large @click="openLogInDialog('Profil')">
+					<v-btn v-show="!isLoggedIn" class="mt-12" color="success" x-large
+						@click="openLogInDialog('Profil')">
 						<v-icon class="mr-2">mdi-login</v-icon>
 						Log in
 					</v-btn>
-					<v-btn v-show="isLoggedIn" class="mt-12" color="success" x-large @click="openLogInDialog('Profil')">
+					<v-btn v-show="isLoggedIn" class="mt-12" :color="setColor" x-large to="/Today">
 						<v-icon class="mr-2">mdi-login</v-icon>
 						Today's Workout
 					</v-btn>
@@ -55,14 +56,14 @@
 		methods: {
 			openLogInDialog() {
 				this.logInDialog = true
-			},
-			log() {
-				console.log(this.$store.getters.token);
 			}
 		},
 		computed: {
 			isLoggedIn() {
 				return this.$store.getters.isLoggedIn
+			},
+			setColor() {
+				return this.$store.state.user.user_color
 			}
 		}
 	}

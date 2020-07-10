@@ -1,14 +1,9 @@
 <template>
 	<v-app>
-		<v-app-bar app color="blue" dark>
+		<v-app-bar app :color="setColor" dark>
 			<div class="d-flex align-center">
 				<v-app-bar-nav-icon v-show="isLoggedIn" @click.stop="navigationDrawer = !navigationDrawer">
 				</v-app-bar-nav-icon>
-			</div>
-			<v-spacer></v-spacer>
-			<div class="d-flex align-center">
-				<v-img alt="Vuetify Logo" class="shrink mr-2" contain src="./assets/logo-img-no-bg.png"
-					transition="scale-transition" width="50" />
 			</div>
 		</v-app-bar>
 
@@ -40,15 +35,15 @@
 			</v-list>
 		</v-navigation-drawer>
 
-		<v-content>
+		<v-content class="pa-5">
 			<router-view></router-view>
 			<Snackbar />
-			<v-footer absolute class="font-weight-medium">
+		</v-content>
+		<v-footer class="font-weight-medium">
 				<v-col class="text-center" cols="12">
 					{{ new Date().getFullYear() }} — <strong>CaliX</strong>
 				</v-col>
 			</v-footer>
-		</v-content>
 	</v-app>
 </template>
 
@@ -88,12 +83,18 @@
 				},
 				{
 					id: 5,
-					icon: 'mdi-calendar',
+					icon: 'mdi-calendar-range',
 					name: 'Schedule',
 					path: '/Schedule'
 				},
 				{
 					id: 6,
+					icon: 'mdi-calendar',
+					name: 'Today',
+					path: '/Today'
+				},
+				{
+					id: 7,
 					icon: 'mdi-logout',
 					name: 'Logout'
 				}
@@ -101,8 +102,7 @@
 		}),
 		methods: {
 			init() {
-				this.userData = this.$store.getters.user
-				console.log(this.userData);
+				this.userData = this.$store.state.user
 			},
 			registerClicked(register) {
 				if (register.name !== 'Logout' && register.path !== this.$route.path) {
@@ -146,28 +146,18 @@
 			fullName() {
 				var firstname = this.$store.state.user.user_firstname
 				var lastname = this.$store.state.user.user_lastname
-
-				// if (localStorage.getItem('vuex')) {
-				// 	var states = JSON.parse(localStorage.getItem('vuex'))
-				// 	if (states.user) {
-				// 		firstname = JSON.parse(localStorage.getItem('vuex')).user.user_firstname
-				// 		lastname = JSON.parse(localStorage.getItem('vuex')).user.user_lastname
-				// 	} else {
-				// 		firstname = 'No user found'
-				// 		lastname = ''
-				// 	}
-				// }
 				return firstname + ' ' + lastname
 			},
 			getAvatar() {
 				var sex = this.$store.state.user.user_image
-				// if (localStorage.getItem('vuex')) {
-				// 	var states = JSON.parse(localStorage.getItem('vuex'))
-				// 	if (states.user) {
-				// 		sex = JSON.parse(localStorage.getItem('vuex')).user.user_sex
-				// 	}
-				// }
 				return sex
+			},
+			setColor() {
+				if (this.$store.state.token) {
+					return this.$store.state.user.user_color
+				} else {
+					return 'info'
+				}
 			}
 		}
 	};
