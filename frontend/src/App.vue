@@ -111,9 +111,9 @@
 					})
 				} else if (register.name !== 'Logout' && register.path == this.$route.path) {
 					var snackbarData = {
-						on: true,
-						color: 'warning',
-						message: 'Currently on this page.'
+						snackbarOn: true,
+						snackbarColor: 'warning',
+						snackbarMessage: 'Currently on this page.'
 					}
 					this.$store.dispatch('callSnackbar', {
 						snackbarData

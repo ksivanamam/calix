@@ -31,9 +31,9 @@ router.get('/profil', async (req, res) => {
 	} catch (error) {
 		console.error(error.message)
 		var errorMessage = {
-			snackOn: true,
-			snackColor: 'error',
-			snackMessage: 'Profil data cannot be loaded. Try again.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Profil data cannot be loaded. Try again.'
 		}
 		res.send(errorMessage)
 	}
@@ -63,17 +63,17 @@ router.put('/profil', async (req, res) => {
 				user_PK: req.decodedToken.user_PK
 			})
 		var successMessage = {
-			snackOn: true,
-			snackColor: 'success',
-			snackMessage: 'Profil data successfully changed.'
+			snackbarOn: true,
+			snackbarColor: 'success',
+			snackbarMessage: 'Profil data successfully changed.'
 		}
 		res.send(successMessage)
 	} catch (error) {
 		console.error(error.message)
 		var errorMessage = {
-			snackOn: true,
-			snackColor: 'error',
-			snackMessage: 'Profil data cannot be changed. Try again.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Profil data cannot be changed. Try again.'
 		}
 		res.send(errorMessage)
 	}
@@ -88,17 +88,17 @@ router.delete('/delProfil', async (req, res) => {
 				user_PK: req.decodedToken.user_PK
 			})
 		var successMessage = {
-			snackOn: true,
-			snackColor: "info",
-			snackMessage: "Profil has been deleted. So long partner..."
+			snackbarOn: true,
+			snackbarColor: "info",
+			snackbarMessage: "Profil has been deleted. So long partner..."
 		}
 		res.send(successMessage)
 	} catch (error) {
 		console.error(error.message)
 		var errorMessage = {
-			snackOn: true,
-			snackColor: 'error',
-			snackMessage: "Account could not be deleted. Try again."
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: "Account could not be deleted. Try again."
 		}
 		res.send(errorMessage)
 	}
@@ -115,9 +115,9 @@ router.get('/publicExercises', async (req, res) => {
 	} catch (error) {
 		console.error(error.message)
 		var errorMessage = {
-			snackOn: true,
-			snackColor: 'error',
-			snackMessage: 'Exercises could not be loaded. Try again.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Exercises could not be loaded. Try again.'
 		}
 		res.send(errorMessage)
 	}
@@ -135,9 +135,9 @@ router.get('/customExercises', async (req, res) => {
 	} catch (error) {
 		console.error(error.message)
 		var errorMessage = {
-			snackOn: true,
-			snackColor: 'error',
-			snackMessage: 'Custom exercises could not be loaded. Try again.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Custom exercises could not be loaded. Try again.'
 		}
 		res.send(errorMessage)
 	}
@@ -164,17 +164,17 @@ router.post('/customExercises', async (req, res) => {
 				exercise_user_FK: req.decodedToken.user_PK
 			})
 		var successMessage = {
-			snackOn: true,
-			snackColor: 'success',
-			snackMessage: 'Custom exercise successfully added.'
+			snackbarOn: true,
+			snackbarColor: 'success',
+			snackbarMessage: 'Custom exercise successfully added.'
 		}
 		res.send(successMessage)
 	} catch (error) {
 		console.error(error.message)
 		var errorMessage = {
-			snackOn: true,
-			snackColor: 'error',
-			snackMessage: 'Unable to add a custom exercise. Try again.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Unable to add a custom exercise. Try again.'
 		}
 		res.send(errorMessage)
 	}
@@ -203,17 +203,17 @@ router.put('/customExercises/:exercise_PK', async (req, res) => {
 			exercise_PK: req.params.exercise_PK
 		})
 		var successMessage = {
-			snackOn: true,
-			snackColor: 'success',
-			snackMessage: 'Custom exercise successfully added.'
+			snackbarOn: true,
+			snackbarColor: 'success',
+			snackbarMessage: 'Custom exercise successfully added.'
 		}
 		res.send(successMessage)
 	} catch (error) {
 		console.error(error.message)
 		var errorMessage = {
-			snackOn: true,
-			snackColor: 'error',
-			snackMessage: 'Unable to add a custom exercise. Try again.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Unable to add a custom exercise. Try again.'
 		}
 		res.send(errorMessage)
 	}
@@ -230,17 +230,17 @@ router.delete('/customExercises/:exercises_PK', async (req, res) => {
 				exercise_PK: req.params.exercises_PK
 			})
 		var successMessage = {
-			snackOn: true,
-			snackColor: 'success',
-			snackMessage: 'Custom exercise has been removed.'
+			snackbarOn: true,
+			snackbarColor: 'success',
+			snackbarMessage: 'Custom exercise has been removed.'
 		}
 		res.send(successMessage)
 	} catch (error) {
 		console.error(error.message)
 		var errorMessage = {
-			snackOn: true,
-			snackColor: 'error',
-			snackMessage: 'Unable to delete custom exercise. Try again.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Unable to delete custom exercise. Try again.'
 
 		}
 		res.send(errorMessage)
@@ -258,9 +258,9 @@ router.get('/publicWorkouts', async (req, res) => {
 	} catch (error) {
 		console.error(error.message)
 		var errorMessage = {
-			snackOn: true,
-			snackColor: 'error',
-			snackMessage: 'Workouts could not be loaded. Try again.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Workouts could not be loaded. Try again.'
 		}
 		res.send(errorMessage)
 	}
@@ -283,9 +283,9 @@ router.get('/customWorkouts', async (req, res) => {
 	} catch (error) {
 		console.error(error.message)
 		var errorMessage = {
-			snackOn: true,
-			snackColor: 'error',
-			notifyer: 'Custom workouts could not be loaded. Try again.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Custom workouts could not be loaded. Try again.'
 		}
 		res.send(errorMessage)
 	}
@@ -308,17 +308,17 @@ router.post('/customWorkouts', async (req, res) => {
 				workout_user_FK: req.decodedToken.user_PK
 			})
 		var successMessage = {
-			snackOn: true,
-			snackColor: 'success',
-			snackMessage: 'Successfully created custom workout.'
+			snackbarOn: true,
+			snackbarColor: 'success',
+			snackbarMessage: 'Successfully created custom workout.'
 		}
 		res.send(successMessage)
 	} catch (error) {
 		console.error(error.message)
 		var errorMessage = {
-			snackOn: true,
-			snackColor: 'error',
-			snackMessage: 'Unable to create custom workout. Try again.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Unable to create custom workout. Try again.'
 		}
 		res.send(errorMessage)
 	}
@@ -343,17 +343,17 @@ router.put('/customWorkouts/:workout_PK', async (req, res) => {
 				workout_PK: req.params.workout_PK
 			})
 		var successMessage = {
-			snackOn: true,
-			snackColor: 'success',
-			snackMessage: 'Properties of workout changed.'
+			snackbarOn: true,
+			snackbarColor: 'success',
+			snackbarMessage: 'Properties of workout changed.'
 		}
 		res.send(successMessage)
 	} catch (error) {
 		console.error(error.message)
 		var errorMessage = {
-			snackOn: true,
-			snackColor: 'error',
-			snackMessage: 'Unable to change properties. Try again.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Unable to change properties. Try again.'
 		}
 		res.send(errorMessage)
 	}
@@ -369,17 +369,17 @@ router.delete('/customWorkouts/:workout_PK', async (req, res) => {
 				workout_PK: req.params.workout_PK
 			})
 		var successMessage = {
-			snackOn: true,
-			snackColor: 'success',
-			snackMessage: 'Successfully deleted custom workout.'
+			snackbarOn: true,
+			snackbarColor: 'success',
+			snackbarMessage: 'Successfully deleted custom workout.'
 		}
 		res.send(successMessage)
 	} catch (error) {
 		console.error(error.message)
 		var errorMessage = {
-			snackOn: true,
-			snackColor: 'error',
-			snackMessage: 'Unable to delete custom workout. Try again.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Unable to delete custom workout. Try again.'
 		}
 		res.send(errorMessage)
 	}
@@ -401,9 +401,9 @@ router.get('/workoutExercises/:workout_PK', async (req, res) => {
 	} catch (error) {
 		console.error(error.message)
 		var errorMessage = {
-			snackOn: true,
-			snackColor: 'error',
-			snackMessage: 'Unable to load exersices for this workout. Try again.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Unable to load exersices for this workout. Try again.'
 		}
 		res.send(errorMessage)
 	}
@@ -429,9 +429,9 @@ router.post('/workoutExercises', async (req, res) => {
 	targetWorkout = targetWorkout[0]
 	if (targetExercise == null || targetWorkout == null) {
 		var exerciseOrWorkoutDoesNotExist = {
-			snackOn: true,
-			snackColor: 'error',
-			snackMessage: 'Exercise or Workout does not exist.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Exercise or Workout does not exist.'
 		}
 		return res.send(exerciseOrWorkoutDoesNotExist)
 	} else {
@@ -445,25 +445,25 @@ router.post('/workoutExercises', async (req, res) => {
 						workoutExercise_workout_FK: req_workout_PK
 					})
 				var successMessage = {
-					snackOn: true,
-					snackColor: 'success',
-					snackMessage: 'Exercise successfully added to workout.'
+					snackbarOn: true,
+					snackbarColor: 'success',
+					snackbarMessage: 'Exercise successfully added to workout.'
 				}
 				res.send(successMessage)
 			} else {
 				var notTheCreator = {
-					snackOn: true,
-					snackColor: 'warning',
-					snackMessage: 'Exercise or workout is not created by this account.'
+					snackbarOn: true,
+					snackbarColor: 'warning',
+					snackbarMessage: 'Exercise or workout is not created by this account.'
 				}
 				res.send(notTheCreator)
 			}
 		} catch (error) {
 			console.error(error.message)
 			var errorMessage = {
-				snackOn: true,
-				snackColor: 'error',
-				snackMessage: 'Unable to add exercise to workout. Try again.'
+				snackbarOn: true,
+				snackbarColor: 'error',
+				snackbarMessage: 'Unable to add exercise to workout. Try again.'
 			}
 			res.send(errorMessage)
 		}
@@ -490,9 +490,9 @@ router.put('/workoutExercises/:workoutExercise_PK', async (req, res) => {
 	targetWorkout = targetWorkout[0]
 	if (targetExercise == null || targetWorkout == null) {
 		var exerciseOrWorkoutDoesNotExist = {
-			snackOn: true,
-			snackColor: 'error',
-			snackMessage: 'Exercise or Workout does not exist.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Exercise or Workout does not exist.'
 		}
 		return res.send(exerciseOrWorkoutDoesNotExist)
 	} else {
@@ -509,25 +509,25 @@ router.put('/workoutExercises/:workoutExercise_PK', async (req, res) => {
 						workoutExercise_PK: req.params.workoutExercise_PK
 					})
 				var successMessage = {
-					snackOn: true,
-					snackColor: 'success',
-					snackMessage: 'Successfully changed properties of exercise.'
+					snackbarOn: true,
+					snackbarColor: 'success',
+					snackbarMessage: 'Successfully changed properties of exercise.'
 				}
 				res.send(successMessage)
 			} else {
 				var notTheCreator = {
-					snackOn: true,
-					snackColor: 'warning',
-					snackMessage: 'Exercise or workout is not created by this account.'
+					snackbarOn: true,
+					snackbarColor: 'warning',
+					snackbarMessage: 'Exercise or workout is not created by this account.'
 				}
 				res.send(notTheCreator)
 			}
 		} catch (error) {
 			console.error(error.message)
 			var errorMessage = {
-				snackOn: true,
-				snackColor: 'error',
-				snackMessage: 'Unable to change properties of exercise. Try again.'
+				snackbarOn: true,
+				snackbarColor: 'error',
+				snackbarMessage: 'Unable to change properties of exercise. Try again.'
 			}
 			res.send(errorMessage)
 		}
@@ -548,9 +548,9 @@ router.delete('/workoutExercises/:workoutExercise_PK', async (req, res) => {
 	targetWorkout = targetWorkout[0]
 	if (targetWorkout == null) {
 		var exerciseOrWorkoutDoesNotExist = {
-			snackOn: true,
-			snackColor: 'error',
-			snackMessage: 'Workout does not exist.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Workout does not exist.'
 		}
 		return res.send(exerciseOrWorkoutDoesNotExist)
 	} else {
@@ -562,25 +562,25 @@ router.delete('/workoutExercises/:workoutExercise_PK', async (req, res) => {
 						workoutExercise_PK: req.params.workoutExercise_PK
 					})
 				var successMessage = {
-					snackOn: true,
-					snackColor: 'success',
-					snackMessage: 'Exercise successfully removed from workout.'
+					snackbarOn: true,
+					snackbarColor: 'success',
+					snackbarMessage: 'Exercise successfully removed from workout.'
 				}
 				res.send(successMessage)
 			} else {
 				var notTheCreator = {
-					snackOn: true,
-					snackColor: 'warning',
-					snackMessage: 'Exercise or workout is not created by this account.'
+					snackbarOn: true,
+					snackbarColor: 'warning',
+					snackbarMessage: 'Exercise or workout is not created by this account.'
 				}
 				res.send(notTheCreator)
 			}
 		} catch (error) {
 			console.error(error.message)
 			var errorMessage = {
-				snackOn: true,
-				snackColor: 'error',
-				snackMessage: 'Unable to remove exercise from workout. Try again.'
+				snackbarOn: true,
+				snackbarColor: 'error',
+				snackbarMessage: 'Unable to remove exercise from workout. Try again.'
 			}
 			res.send(errorMessage)
 		}
@@ -603,9 +603,9 @@ router.get('/plans', async (req, res) => {
 	} catch (error) {
 		console.error(error.message)
 		var errorMessage = {
-			snackOn: true,
-			snackColor: 'error',
-			snackMessage: 'Weekly workout plan could not be loaded. Try agian.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Weekly workout plan could not be loaded. Try agian.'
 		}
 		res.send(errorMessage)
 	}
@@ -624,17 +624,17 @@ router.post('/plans/:plan_day', async (req, res) => {
 			plan_day: req.params.plan_day
 		})
 		var errorMessage = {
-			snackOn: true,
-			snackColor: 'success',
-			snackMessage: 'Workout successfully added to plan.'
+			snackbarOn: true,
+			snackbarColor: 'success',
+			snackbarMessage: 'Workout successfully added to plan.'
 		}
 		res.send(successMessage)
 	} catch(error) {
 		console.error(error.message)
 		var errorMessage = {
-			snackOn: true,
-			snackColor: 'error',
-			snackMessage: 'Unable to add workout to plan. Try again.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Unable to add workout to plan. Try again.'
 		}
 		res.send(errorMessage)
 	}
@@ -650,17 +650,17 @@ router.post('/plans/:plan_day', async (req, res) => {
 			plan_PK: req.params.plan_PK
 		})
 		var errorMessage = {
-			snackOn: true,
-			snackColor: 'success',
-			snackMessage: 'Workout successfully deleted from plan.'
+			snackbarOn: true,
+			snackbarColor: 'success',
+			snackbarMessage: 'Workout successfully deleted from plan.'
 		}
 		res.send(successMessage)
 	 } catch(error) {
 		 console.error(error.message)
 		 var errorMessage = {
-			 snackOn: true,
-			 snackColor: 'error',
-			 snackMessage: 'Unable to delete workout in weekly plan. Try again.'
+			 snackbarOn: true,
+			 snackbarColor: 'error',
+			 snackbarMessage: 'Unable to delete workout in weekly plan. Try again.'
 		 }
 		 res.send(errorMessage)
 	 }

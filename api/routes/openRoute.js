@@ -7,6 +7,49 @@ var router = express.Router()
 //!SECTION
 
 //SECTION Interfaces
+//ANCHOR Checks credentials of new user
+router.post('/checkCredentials', async (req, res) => {
+	try {
+		console.log(req.body);
+		var {
+			req_username,
+		} = req.body
+		var DBUser = await knex('users')
+			.where({
+				user_username: req_username
+			})
+		DBUser = DBUser[0]
+		if (DBUser == null) {
+			var usernameStatus = {
+				alertValue: true,
+				alertType: 'success',
+				alertMessage: 'Username is available.'
+			}
+			return res.json({
+				usernameStatus: usernameStatus,
+				continue: true
+			})
+		} else {
+			var usernameStatus = {
+				alertValue: true,
+				alertType: 'error',
+				alertMessage: 'Username is unavailable.'
+			}
+			return res.json({
+				usernameStatus: usernameStatus,
+				continue: false
+			})
+		}
+	} catch (error) {
+		console.error(error.message)
+		var errorMessage = {
+			notifyerOn: true,
+			notifyerColor: 'error',
+			notifyerMessage: 'Unable to check credentials.'
+		}
+		res.send(errorMessage)
+	}
+})
 //ANCHOR Creates a new user
 router.post('/register', async (req, res) => {
 	try {
@@ -32,9 +75,9 @@ router.post('/register', async (req, res) => {
 		emailUnavailable = emailUnavailable[0]
 		if (usernameUnavailable || emailUnavailable) {
 			var usernameTakenMessage = {
-				snackOn: true,
-				snackColor: 'warning',
-				snackMessage: 'User ' + req_username + ' or email ' + req_email + ' already exists. Try another one.'
+				snackbarOn: true,
+				snackbarColor: 'warning',
+				snackbarMessage: 'User ' + req_username + ' or email ' + req_email + ' already exists. Try another one.'
 			}
 			res.send(usernameTakenMessage)
 		} else {
@@ -55,18 +98,18 @@ router.post('/register', async (req, res) => {
 					user_adminAuthorization: false
 				})
 			var successMessage = {
-				snackOn: true,
-				snackColor: 'success',
-				snackMessage: 'Registered as ' + req_username
+				snackbarOn: true,
+				snackbarColor: 'success',
+				snackbarMessage: 'Registered as ' + req_username
 			}
 			res.send(successMessage)
 		}
 	} catch (error) {
 		console.error(error.message);
 		var errorMessage = {
-			snackOn: true,
-			snackColor: 'red',
-			snackMessage: 'Registration failed. Try agian later.'
+			snackbarOn: true,
+			snackbarColor: 'red',
+			snackbarMessage: 'Registration failed. Try agian later.'
 		}
 		res.send(errorMessage)
 	}
@@ -86,9 +129,9 @@ router.post('/login', async (req, res) => {
 	DBUser = DBUser[0]
 	if (DBUser == null) {
 		var userdoesNotExistMessage = {
-			snackOn: true,
-			snackColor: 'error',
-			snackMessage: 'Cannot find user ' + req_username + '. Try again.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Cannot find user ' + req_username + '. Try again.'
 		}
 		return res.send(userdoesNotExistMessage)
 	} else {
@@ -104,6 +147,7 @@ router.post('/login', async (req, res) => {
 						expiresIn: '1d'
 					})
 				}
+
 				function generateRefreshToken(tokenData) {
 					return jwt.sign(tokenData, process.env.REFRESH_TOKEN_SECRET)
 				}
@@ -115,18 +159,18 @@ router.post('/login', async (req, res) => {
 				})
 			} else {
 				var passwordIncorrectMessage = {
-					snackOn: true,
-					snackColor: 'error',
-					snackMessage: 'Password is incorrect. Try again.'
+					snackbarOn: true,
+					snackbarColor: 'error',
+					snackbarMessage: 'Password is incorrect. Try again.'
 				}
 				res.send(passwordIncorrectMessage)
 			}
 		} catch (error) {
 			console.error(error.message);
 			var errorMessage = {
-				snackOn: true,
-				snackColor: 'error',
-				snackMessage: 'Login failed. Try again.'
+				snackbarOn: true,
+				snackbarColor: 'error',
+				snackbarMessage: 'Login failed. Try again.'
 			}
 			res.send(errorMessage)
 		}
@@ -158,9 +202,9 @@ router.post('/refresh', async (req, res) => {
 	} catch (error) {
 		console.error(error.message)
 		var errorMessage = {
-			snackOn: true,
-			snackColor: 'error',
-			snackMessage: 'Failed to refresh token. Try again.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Failed to refresh token. Try again.'
 		}
 		res.send(errorMessage)
 	}

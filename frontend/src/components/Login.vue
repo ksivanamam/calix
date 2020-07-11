@@ -5,7 +5,7 @@
 		</v-card-title>
 		<v-card-text>
 			<v-container>
-				<v-row>
+				<v-row no-gutters>
 					<v-col cols="12" sm="12" md="12">
 						<v-text-field solo placeholder="Username*" v-model="credentials.req_username" required>
 						</v-text-field>

@@ -12,26 +12,27 @@
 				</v-col>
 				<v-col class="mt-12" cols="12" sm="12" md="6">
 					<h1 id="home-title">Work harder. <br> Be focused. <br> Succeed.</h1>
-					<v-btn v-show="!isLoggedIn" class="mt-12 mr-5" color="info" x-large @click="log()">
+					<v-btn v-show="!isLoggedIn" class="mt-12 mr-5" color="info" x-large @click="openHomeDialog(true)">
 						<v-icon class="mr-2">mdi-account-plus</v-icon>
-						<span class="white--text">Sign up</span>
+						<span class="white--text">Register</span>
 					</v-btn>
 					<v-btn v-show="isLoggedIn" class="mt-12 mr-5" :color="setColor" x-large to="/Profil">
 						<v-icon class="mr-2">mdi-account-plus</v-icon>
 						<span class="white--text">Profil</span>
 					</v-btn>
 					<v-btn v-show="!isLoggedIn" class="mt-12" color="success" x-large
-						@click="openLogInDialog('Profil')">
+						@click="openHomeDialog(false)">
 						<v-icon class="mr-2">mdi-login</v-icon>
-						<span class="white--text">Sign up</span>
+						<span class="white--text">Login</span>
 					</v-btn>
 					<v-btn v-show="isLoggedIn" class="mt-12" :color="setColor" x-large to="/Today">
 						<v-icon class="mr-2">mdi-login</v-icon>
 						<span class="white--text">Today's Workout</span>
 					</v-btn>
 					<v-row justify="center">
-						<v-dialog v-model="logInDialog" max-width="600px">
-							<Login></Login>
+						<v-dialog v-model="homeDialog.on" max-width="600px">
+							<Register v-if="homeDialog.option == true"></Register>
+							<Login v-else></Login>
 						</v-dialog>
 					</v-row>
 				</v-col>
@@ -42,21 +43,28 @@
 
 <script>
 	import Login from './../components/Login'
+	import Register from './../components/Register'
 	export default {
 		name: 'Home',
 		components: {
-			'Login': Login
+			'Login': Login,
+			'Register': Register
 		},
 		data: () => ({
 			username: '',
 			password: '',
 
-			logInDialog: false
+			homeDialog: {
+				on: false,
+				option: false
+			}
 		}),
 		methods: {
-			openLogInDialog() {
-				this.logInDialog = true
-			}
+			openHomeDialog(option) {
+				this.homeDialog.option = option
+				this.homeDialog.on = true
+				console.log(this.homeDialog.option);
+			},
 		},
 		computed: {
 			isLoggedIn() {

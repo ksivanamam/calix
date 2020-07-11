@@ -13,16 +13,17 @@ export default new Vuex.Store({
 	state: {
 		token: localStorage.getItem('token') || '',
 		user: {},
-		snackbarData: {
-			on: false,
-			color: '',
-			message: ''
-		}
+		snackbar: {
+			snackbarOn: false,
+			snackbarColor: '',
+			snackbarMessage: ''
+		},
+		alert: {}
 	},
 	getters: {
 		isLoggedIn: state => !!state.token,
 		user: state => state.user,
-		snackbarData: state => state.snackbarData
+		snackbar: state => state.snackbar
 	},
 	mutations: {
 		// ANCHOR Sets the token in object state.
@@ -34,14 +35,25 @@ export default new Vuex.Store({
 			state.user = userData
 		},
 		//ANCHOR Sets the snackbar data in object.
-		setSnackbarData: (state, snackbarData) => {
-			state.snackbarData = snackbarData
+		setSnackbar: (state, snackbarData) => {
+			state.snackbar = snackbarData
+			console.log(snackbarData);
 		},
-		resetSnackbarData: (state) => {
-			state.snackbarData = {
-				on: false,
-				color: '',
-				message: ''
+		resetSnackbar: (state) => {
+			state.snackbar = {
+				snackbarOn: false,
+				snackbarColor: '',
+				snackbarMessage: ''
+			}
+		},
+		setAlert: (state, alertData) => {
+			state.alert = alertData.usernameStatus
+		},
+		resetAlert: (state) => {
+			state.alert = {
+				alertValue: false,
+				alertColor: '',
+				alertMessage: ''
 			}
 		},
 		// ANCHOR Resets the token and user by setting it's values to ''
@@ -60,6 +72,15 @@ export default new Vuex.Store({
 				var user = await axios.get('/protectedRoute/profil').then(response => response.data[0])
 				context.commit('setUser', user)
 				router.push('/Profil')
+				var snackbarData = {
+					snackbarOn: true,
+					snackbarColor: 'success',
+					snackbarMessage: 'Successfully logged in.'
+				}
+				context.commit('setSnackbar', snackbarData)
+				setTimeout(() => {
+					context.commit('resetSnackbar')
+				}, 2500);
 			} catch (error) {
 				console.error(error);
 			}
@@ -68,28 +89,35 @@ export default new Vuex.Store({
 		// ANCHOR Calls a mutation to reset the state object.
 		logout(context, data) {
 			context.commit('logout')
+			var snackbarData = {
+				snackbarOn: true,
+				snackbarColor: 'success',
+				snackbarMessage: 'Successfully logged out.'
+			}
 			if (data.routes.currentRoute !== data.routes.targetRoute) {
 				router.push(data.routes.targetRoute)
-				var snackbarData = {
-					on: true,
-					color: 'success',
-					message: 'Successfully logged out.'
-				}
-				context.commit('setSnackbarData', snackbarData)
+				context.commit('setSnackbar', snackbarData)
 				setTimeout(() => {
-					context.commit('resetSnackbarData')
+					context.commit('resetSnackbar')
 				}, 2500);
 			} else {
-				context.commit('setSnackbarData', snackbarData)
+				context.commit('setSnackbar', snackbarData)
 				setTimeout(() => {
-					context.commit('resetSnackbarData')
+					context.commit('resetSnackbar')
 				}, 2500);
 			}
 		},
 		callSnackbar(context, data) {
-			context.commit('setSnackbarData', data.snackbarData)
+			context.commit('setSnackbar', data.snackbarData)
 			setTimeout(() => {
-				context.commit('resetSnackbarData')
+				context.commit('resetSnackbar')
+			}, 2500);
+		},
+		callAlert(context, data) {
+			context.commit('setAlert', data.alertData)
+			console.log(data.alertData);
+			setTimeout(() => {
+				context.commit('resetAlert')
 			}, 2500);
 		}
 	},

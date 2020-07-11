@@ -1,6 +1,6 @@
 <template>
-	<v-snackbar class="ml-2" left :color="color" v-model="on">
-		<span class="white--text">{{message}}</span>
+	<v-snackbar class="ml-2" top right v-model="snackbarOn" :color="snackbarColor">
+		<span class="white--text">{{snackbarMessage}}</span>
 	</v-snackbar>
 </template>
 
@@ -8,18 +8,18 @@
 	export default {
 		data() {
 			return {
-
+				//...
 			}
 		},
 		computed: {
-			on() {
-				return this.$store.state.snackbarData.on
+			snackbarOn() {
+				return this.$store.state.snackbar.snackbarOn
 			},
-			color() {
-				return this.$store.state.snackbarData.color
+			snackbarColor() {
+				return this.$store.state.snackbar.snackbarColor
 			},
-			message() {
-				return this.$store.state.snackbarData.message
+			snackbarMessage() {
+				return this.$store.state.snackbar.snackbarMessage
 			}
 		}
 	}
