@@ -24,6 +24,12 @@
 						<v-col>
 							<v-list-item two-line>
 								<v-list-item-content>
+									<v-list-item-subtitle>ID</v-list-item-subtitle>
+									<v-list-item-title>{{userData.user_PK}}</v-list-item-title>
+								</v-list-item-content>
+							</v-list-item>
+							<v-list-item two-line>
+								<v-list-item-content>
 									<v-list-item-subtitle>Username</v-list-item-subtitle>
 									<v-list-item-title>{{userData.user_username}}</v-list-item-title>
 								</v-list-item-content>
@@ -46,6 +52,8 @@
 									<v-list-item-title>{{userData.user_email}}</v-list-item-title>
 								</v-list-item-content>
 							</v-list-item>
+						</v-col>
+						<v-col>
 							<v-list-item two-line>
 								<v-list-item-content>
 									<v-list-item-subtitle>Year of birth</v-list-item-subtitle>
@@ -59,9 +67,26 @@
 									<v-list-item-title v-else>Female</v-list-item-title>
 								</v-list-item-content>
 							</v-list-item>
+							<v-list-item two-line>
+								<v-list-item-content>
+									<v-list-item-subtitle>Favourite color</v-list-item-subtitle>
+									<v-list-item-title>{{userData.user_color}}</v-list-item-title>
+								</v-list-item-content>
+							</v-list-item>
 						</v-col>
+					</v-row>
+				</v-card>
+			</v-col>
+			<v-col class="pa-3" cols="12" sm="12" md="6">
+				<v-card height="450px">
+					<v-card-text>
+						Stats
+					</v-card-text>
+					<!-- <v-img :src="image"></v-img>
+					<input @change="imgToBase64" class="custom-input" type="file" accept="image/*"> -->
+					<v-row no-glutter>
 						<v-col>
-							<v-card class="mr-5" color="blue-grey">
+							<v-card class="ma-5" color="blue-grey">
 								<v-card-text class="pb-0 white--text">
 									Height
 								</v-card-text>
@@ -69,7 +94,9 @@
 									{{userData.user_height}} cm
 								</v-card-title>
 							</v-card>
-							<v-card class="mt-5 mr-5" color="blue-grey">
+						</v-col>
+						<v-col>
+							<v-card class="ma-5" color="blue-grey">
 								<v-card-text class="pb-0 white--text">
 									Weight
 								</v-card-text>
@@ -77,7 +104,9 @@
 									{{userData.user_weight}} kg
 								</v-card-title>
 							</v-card>
-							<v-card class="mt-5 mr-5" :color="getBMIColor">
+						</v-col>
+						<v-col>
+							<v-card class="ma-5" :color="getBMIColor">
 								<v-card-text class="pb-0 white--text">
 									BMI
 								</v-card-text>
@@ -89,13 +118,6 @@
 					</v-row>
 				</v-card>
 			</v-col>
-			<v-col class="pa-3" cols="12" sm="12" md="6">
-				<v-card height="450px">
-					<v-card-text>
-						General
-					</v-card-text>
-				</v-card>
-			</v-col>
 		</v-row>
 	</v-content>
 </template>
@@ -104,9 +126,32 @@
 	export default {
 		name: 'Profil',
 		data: () => ({
-			userData: {}
+			userData: {},
+			image: '',
+			value: [
+				60,
+				62,
+				64,
+				66,
+				70,
+				70,
+				72,
+				72,
+				70,
+				68,
+				70,
+				72
+			],
 		}),
 		methods: {
+			imgToBase64(e) {
+				var file = e.target.files[0]
+				var reader = new FileReader()
+				reader.onload = () => {
+					this.image = reader.result
+				}
+				reader.readAsDataURL(file)
+			}
 		},
 		created() {
 			this.userData = this.$store.state.user

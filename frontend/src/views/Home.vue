@@ -14,20 +14,20 @@
 					<h1 id="home-title">Work harder. <br> Be focused. <br> Succeed.</h1>
 					<v-btn v-show="!isLoggedIn" class="mt-12 mr-5" color="info" x-large @click="log()">
 						<v-icon class="mr-2">mdi-account-plus</v-icon>
-						Sign Up
+						<span class="white--text">Sign up</span>
 					</v-btn>
 					<v-btn v-show="isLoggedIn" class="mt-12 mr-5" :color="setColor" x-large to="/Profil">
 						<v-icon class="mr-2">mdi-account-plus</v-icon>
-						Profil
+						<span class="white--text">Profil</span>
 					</v-btn>
 					<v-btn v-show="!isLoggedIn" class="mt-12" color="success" x-large
 						@click="openLogInDialog('Profil')">
 						<v-icon class="mr-2">mdi-login</v-icon>
-						Log in
+						<span class="white--text">Sign up</span>
 					</v-btn>
 					<v-btn v-show="isLoggedIn" class="mt-12" :color="setColor" x-large to="/Today">
 						<v-icon class="mr-2">mdi-login</v-icon>
-						Today's Workout
+						<span class="white--text">Today's Workout</span>
 					</v-btn>
 					<v-row justify="center">
 						<v-dialog v-model="logInDialog" max-width="600px">
