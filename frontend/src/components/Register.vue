@@ -51,45 +51,62 @@
 				</v-stepper-content>
 				<v-stepper-content step="2">
 					<v-card class="mb-12 elevation-0 pa-1">
-						<v-form ref="form" v-model="valid2" :lazy-validation="lazy">
+						<v-form ref="form" v-model="validTwo" :lazy-validation="lazy">
 							<v-row no-gutters>
 								<v-col>
-									<v-text-field solo v-model="userData.req_firstname" label="Firstname" required>
+									<v-text-field class="pa-1" solo v-model="userData.req_firstname" label="Firstname"
+										required>
 									</v-text-field>
 								</v-col>
 								<v-col>
-									<v-text-field solo v-model="userData.req_lastname" label="Lastname" required>
+									<v-text-field class="pa-1" solo v-model="userData.req_lastname" label="Lastname"
+										required>
 									</v-text-field>
 								</v-col>
 							</v-row>
 							<v-row no-gutters>
 								<v-col>
-									<v-text-field solo v-model="userData.req_yearOfBirth" :counter="4"
+									<v-text-field class="pa-1" solo v-model="userData.req_yearOfBirth" :counter="4"
 										label="Year of Birth" required>
 									</v-text-field>
-									<v-select solo v-model="userData.req_sex" :items="sexs"
-										:rules="[v => !!v || 'Sex is required']" label="Color" required></v-select>
+								</v-col>
+								<v-col>
+									<v-select class="pa-1" solo v-model="userData.req_sex" :items="sexs"
+										:rules="[v => !!v || 'Sex is required']" label="Sex" required></v-select>
 								</v-col>
 							</v-row>
 							<v-row no-gutters>
 								<v-col>
-									<v-text-field solo v-model="userData.req_height" label="Height" required>
+									<v-text-field class="pa-1" solo v-model="userData.req_height" label="Height"
+										required>
 									</v-text-field>
-									<v-text-field solo v-model="userData.req_weight" label="Weight" required>
+								</v-col>
+								<v-col>
+									<v-text-field class="pa-1" solo v-model="userData.req_weight" label="Weight"
+										required>
 									</v-text-field>
 								</v-col>
 							</v-row>
 							<v-row no-gutters>
 								<v-col>
-									<v-select solo v-model="userData.req_equipment" :items="equipments"
+									<v-select class="pa-1" solo v-model="userData.req_equipment" :items="equipments"
 										:rules="[v => !!v || 'Select your equipment status']" label="Equipment"
 										required></v-select>
 								</v-col>
 							</v-row>
+							<v-row no-gutters>
+								<v-col>
+									<template>
+										<!-- <v-file-input class="pa-1" type="file" label="File input" v-model="userData.req_image" @change="imgToBase64" outlined
+											prepend-icon="mdi-camera">
+										</v-file-input> -->
+										<input @change="imgToBase64" class="py-5" type="file" accept="image/*">
+									</template>
+								</v-col>
+							</v-row>
 
-							<v-btn :disabled="!valid2" v-show="alertData.continue" color="primary" class="mr-4"
-								@click="e1 = 2">
-								Continue
+							<v-btn :disabled="!validTwo" color="primary" class="mr-4" @click="finishRegistration">
+								Finish
 							</v-btn>
 
 							<v-btn color="error" class="mr-4" @click="reset">
@@ -97,13 +114,9 @@
 							</v-btn>
 						</v-form>
 					</v-card>
-					<v-btn color="primary" @click="e1 = 3">
-						Continue
-					</v-btn>
-					<v-btn text>Cancel</v-btn>
 				</v-stepper-content>
 				<v-stepper-content step="3">
-					<v-card class="mb-12" color="grey lighten-1" height="200px"></v-card>
+					<v-img src="./../assets/co-workout-2.svg" max-height="450"></v-img>
 					<v-btn color="primary" @click="e1 = 1">
 						Log in!
 					</v-btn>
@@ -124,7 +137,7 @@
 				userData: {},
 				alertData: {},
 				valid: true,
-				valid2: true,
+				validTwo: true,
 				name: '',
 				nameRules: [
 					v => !!v || 'Name is required',
@@ -132,7 +145,7 @@
 				],
 				passwordRules: [
 					v => !!v || 'Password is required',
-					v => (v && v.length >= 10) || 'Password must be at least 10 characters long',
+					v => (v && v.length >= 8) || 'Password must be at least 8 characters long',
 				],
 				email: '',
 				emailRules: [
@@ -170,8 +183,17 @@
 					console.error(error)
 				}
 			},
-			validate() {
-				this.$refs.form.validate()
+			imgToBase64(e) {
+				var file = e.target.files[0]
+				var reader = new FileReader()
+				reader.onload = () => {
+					this.userData.req_image = reader.result
+				}
+				reader.readAsDataURL(file)
+			},
+			finishRegistration() {
+				console.log(this.userData);
+				this.e1 = 3
 			},
 			reset() {
 				this.$refs.form.reset()
