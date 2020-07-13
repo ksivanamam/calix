@@ -1,5 +1,5 @@
 <template>
-	<v-snackbar class="ml-2" top right v-model="snackbarOn" :color="snackbarColor">
+	<v-snackbar class="ml-2" right v-model="snackbarOn" :color="snackbarColor">
 		<span class="white--text">{{snackbarMessage}}</span>
 	</v-snackbar>
 </template>

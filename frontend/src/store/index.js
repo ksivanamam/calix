@@ -4,7 +4,6 @@ import axios from 'axios'
 import router from '../router/index'
 import vxps from '../../node_modules/vuex-persistedstate'
 
-
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -63,6 +62,14 @@ export default new Vuex.Store({
 		}
 	},
 	actions: {
+		async register(context, data) {
+			try {
+				var registerData = await axios.post('/openRoute/register', data).then(response => response.data)
+				context.commit('setAlert', {registerData})
+			} catch(error) {
+				console.error(error.message)
+			}
+		},
 		// ANCHOR Calls a mutation to set the token.
 		async login(context, data) {
 			try {

@@ -7,19 +7,18 @@ var router = express.Router()
 //!SECTION
 
 //SECTION Interfaces
-//ANCHOR Checks credentials of new user
-router.post('/checkCredentials', async (req, res) => {
+//ANCHOR Checks username of new user
+router.post('/checkUsername', async (req, res) => {
 	try {
-		console.log(req.body);
 		var {
 			req_username,
 		} = req.body
-		var DBUser = await knex('users')
+		var DBUsername = await knex('users')
 			.where({
 				user_username: req_username
 			})
-		DBUser = DBUser[0]
-		if (DBUser == null) {
+		DBUsername = DBUsername[0]
+		if (DBUsername == null) {
 			var usernameStatus = {
 				alertValue: true,
 				alertType: 'success',
@@ -27,7 +26,7 @@ router.post('/checkCredentials', async (req, res) => {
 			}
 			return res.json({
 				usernameStatus: usernameStatus,
-				continue: true
+				usernameCheck: true
 			})
 		} else {
 			var usernameStatus = {
@@ -37,15 +36,57 @@ router.post('/checkCredentials', async (req, res) => {
 			}
 			return res.json({
 				usernameStatus: usernameStatus,
-				continue: false
+				usernameCheck: false
 			})
 		}
 	} catch (error) {
 		console.error(error.message)
 		var errorMessage = {
-			notifyerOn: true,
-			notifyerColor: 'error',
-			notifyerMessage: 'Unable to check credentials.'
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Unable to check username.'
+		}
+		res.send(errorMessage)
+	}
+})
+//ANCHOR Checks email of new user
+router.post('/checkEmail', async (req, res) => {
+	try {
+		var {
+			req_email,
+		} = req.body
+		var DBEmail = await knex('users')
+			.where({
+				user_email: req_email
+			})
+		DBEmail = DBEmail[0]
+		if (DBEmail == null) {
+			var usernameStatus = {
+				alertValue: true,
+				alertType: 'success',
+				alertMessage: 'Email is available.'
+			}
+			return res.json({
+				usernameStatus: usernameStatus,
+				emailCheck: true
+			})
+		} else {
+			var usernameStatus = {
+				alertValue: true,
+				alertType: 'error',
+				alertMessage: 'Email is unavailable.'
+			}
+			return res.json({
+				usernameStatus: usernameStatus,
+				emailCheck: false
+			})
+		}
+	} catch (error) {
+		console.error(error.message)
+		var errorMessage = {
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Unable to check email.'
 		}
 		res.send(errorMessage)
 	}
@@ -60,6 +101,7 @@ router.post('/register', async (req, res) => {
 			req_firstname,
 			req_lastname,
 			req_yearOfBirth,
+			req_image,
 			req_height,
 			req_weight,
 			req_equipment,
@@ -80,6 +122,7 @@ router.post('/register', async (req, res) => {
 				snackbarMessage: 'User ' + req_username + ' or email ' + req_email + ' already exists. Try another one.'
 			}
 			res.send(usernameTakenMessage)
+			console.log(usernameTakenMessage)
 		} else {
 			var salt = 10
 			var hashedPassword = await bcrypt.hash(req_password, salt)
@@ -91,6 +134,7 @@ router.post('/register', async (req, res) => {
 					user_firstname: req_firstname,
 					user_lastname: req_lastname,
 					user_yearOfBirth: req_yearOfBirth,
+					user_image: req_image,
 					user_height: req_height,
 					user_weight: req_weight,
 					user_equipment: req_equipment,
@@ -103,6 +147,7 @@ router.post('/register', async (req, res) => {
 				snackbarMessage: 'Registered as ' + req_username
 			}
 			res.send(successMessage)
+			console.log(successMessage);
 		}
 	} catch (error) {
 		console.error(error.message);
@@ -121,7 +166,6 @@ router.post('/login', async (req, res) => {
 		req_username,
 		req_password
 	} = req.body
-	console.log(req.body);
 	var DBUser = await knex('users')
 		.where({
 			user_username: req_username

@@ -13,12 +13,12 @@
 			</v-stepper-header>
 			<v-stepper-items>
 				<v-stepper-content step="1">
-					<v-card class="mb-12 elevation-0 pa-1">
+					<v-card class="mb-12 elevation-0 pa-2">
 						<v-row no-gutters>
 							<v-col cols="12" sm="12" md="12">
 								<v-form ref="form" v-model="valid" :lazy-validation="lazy">
 									<v-text-field solo v-model="userData.req_username" :counter="10" :rules="nameRules"
-										label="Username" @blur="checkCredentials" required>
+										label="Username" @blur="checkUsername" required>
 									</v-text-field>
 
 									<v-text-field solo v-model="userData.req_password" :rules="passwordRules"
@@ -26,18 +26,30 @@
 									</v-text-field>
 
 									<v-text-field solo v-model="userData.req_email" :rules="emailRules" label="E-mail"
-										required>
+										@blur="checkEmail" required>
 									</v-text-field>
 
 									<v-select solo v-model="userData.req_color" :items="colors"
 										:rules="[v => !!v || 'Color is required']" label="Color" required></v-select>
 
-									<v-alert :type="alertData.alertType" :value="alertData.alertValue">
-										<span class="white--text">{{alertData.alertMessage}}</span>
-									</v-alert>
+									<v-row no-gutters>
+										<v-col>
+											<v-alert class="pa-1 mr-1" :type="alertDataUsername.alertType"
+												:value="alertDataUsername.alertValue">
+												<span class="white--text">{{alertDataUsername.alertMessage}}</span>
+											</v-alert>
+										</v-col>
+										<v-col>
+											<v-alert class="pa-1 ml-1" :type="alertDataEmail.alertType"
+												:value="alertDataEmail.alertValue">
+												<span class="white--text">{{alertDataEmail.alertMessage}}</span>
+											</v-alert>
+										</v-col>
+									</v-row>
 
-									<v-btn :disabled="!valid" v-show="alertData.continue" color="primary" class="mr-4"
-										@click="e1 = 2">
+									<v-btn :disabled="!valid"
+										v-show="alertDataUsername.usernameCheck && alertDataEmail.emailCheck"
+										color="primary" class="mr-4" @click="e1 = 2">
 										Continue
 									</v-btn>
 
@@ -97,9 +109,6 @@
 							<v-row no-gutters>
 								<v-col>
 									<template>
-										<!-- <v-file-input class="pa-1" type="file" label="File input" v-model="userData.req_image" @change="imgToBase64" outlined
-											prepend-icon="mdi-camera">
-										</v-file-input> -->
 										<input @change="imgToBase64" class="py-5" type="file" accept="image/*">
 									</template>
 								</v-col>
@@ -116,11 +125,10 @@
 					</v-card>
 				</v-stepper-content>
 				<v-stepper-content step="3">
-					<v-img src="./../assets/co-workout-2.svg" max-height="450"></v-img>
-					<v-btn color="primary" @click="e1 = 1">
+					<v-img class="mx-auto" src="./../assets/co-workout-2.svg" max-width="450"></v-img>
+					<v-btn color="primary" @click="login">
 						Log in!
 					</v-btn>
-					<v-btn text>Cancel</v-btn>
 				</v-stepper-content>
 			</v-stepper-items>
 		</v-stepper>
@@ -135,7 +143,8 @@
 			return {
 				e1: 1,
 				userData: {},
-				alertData: {},
+				alertDataUsername: {},
+				alertDataEmail: {},
 				valid: true,
 				validTwo: true,
 				name: '',
@@ -172,13 +181,22 @@
 			}
 		},
 		methods: {
-			async checkCredentials() {
+			async checkUsername() {
 				try {
-					var alertData = await axios.post('/openRoute/checkCredentials', this.userData).then(response =>
+					var alertData = await axios.post('/openRoute/checkUsername', this.userData).then(response =>
 						response.data)
-					console.log(alertData);
-					this.alertData = alertData.usernameStatus
-					this.alertData.continue = alertData.continue
+					this.alertDataUsername = alertData.usernameStatus
+					this.alertDataUsername.usernameCheck = alertData.usernameCheck
+				} catch (error) {
+					console.error(error)
+				}
+			},
+			async checkEmail() {
+				try {
+					var alertData = await axios.post('/openRoute/checkEmail', this.userData).then(response =>
+						response.data)
+					this.alertDataEmail = alertData.usernameStatus
+					this.alertDataEmail.emailCheck = alertData.emailCheck
 				} catch (error) {
 					console.error(error)
 				}
@@ -192,11 +210,24 @@
 				reader.readAsDataURL(file)
 			},
 			finishRegistration() {
+				var userData = this.userData
+				this.$store.dispatch('register', userData)
 				console.log(this.userData);
 				this.e1 = 3
 			},
+			async login() {
+				try {
+					var credentials = this.userData
+					this.$store.dispatch('login', {
+						credentials
+					})
+				} catch (error) {
+					console.error(error)
+				}
+			},
 			reset() {
 				this.$refs.form.reset()
+				console.log(this.userData);
 			}
 		},
 		computed: {
