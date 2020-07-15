@@ -16,8 +16,8 @@
 						<v-icon class="mr-2">mdi-account-plus</v-icon>
 						<span class="white--text">Register</span>
 					</v-btn>
-					<v-btn v-show="isLoggedIn" class="mt-12 mr-5" :color="setColor" x-large to="/Profil">
-						<v-icon class="mr-2" color="white">mdi-account-plus</v-icon>
+					<v-btn v-show="isLoggedIn" class="mt-12 mr-5" :color="setSecondaryColor" x-large to="/Profil">
+						<v-icon class="mr-2" color="white">mdi-account</v-icon>
 						<span class="white--text">Profil</span>
 					</v-btn>
 					<v-btn v-show="!isLoggedIn" class="mt-12" color="success" x-large
@@ -25,8 +25,8 @@
 						<v-icon class="mr-2">mdi-login</v-icon>
 						<span class="white--text">Login</span>
 					</v-btn>
-					<v-btn v-show="isLoggedIn" class="mt-12" :color="setColor" x-large to="/Today">
-						<v-icon class="mr-2" color="white">mdi-login</v-icon>
+					<v-btn v-show="isLoggedIn" class="mt-12" :color="setSecondaryColor" x-large to="/Today">
+						<v-icon class="mr-2" color="white">mdi-calendar</v-icon>
 						<span class="white--text">Today's Workout</span>
 					</v-btn>
 					<v-row justify="center">
@@ -70,8 +70,8 @@
 			isLoggedIn() {
 				return this.$store.getters.isLoggedIn
 			},
-			setColor() {
-				return this.$store.state.user.user_color
+			setSecondaryColor() {
+				return this.$store.state.user.user_color + ' darken-3'
 			}
 		}
 	}
