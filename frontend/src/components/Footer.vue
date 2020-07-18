@@ -1,5 +1,5 @@
 <template>
-	<v-footer class="font-weight-medium" :color="setColor">
+	<v-footer class="font-weight-medium" :color="setPrimaryColor">
 			<v-col class="text-center" cols="12">
 				<span class="white--text">
 					{{ new Date().getFullYear() }} — <strong class="white--text">CaliX</strong>
@@ -15,7 +15,7 @@
 			//...
 		}),
 		computed: {
-			setColor() {
+			setPrimaryColor() {
 				if (this.$store.state.user.user_color) {
 					return this.$store.state.user.user_color
 				} else {

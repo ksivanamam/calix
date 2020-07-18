@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-app-bar app :color="setColor" dark>
+		<v-app-bar app :color="setPrimaryColor" dark>
 			<div class="d-flex align-center">
 				<v-app-bar-nav-icon v-show="isLoggedIn" @click.stop="navigationDrawer = !navigationDrawer">
 				</v-app-bar-nav-icon>
@@ -120,7 +120,7 @@
 				var sex = this.$store.state.user.user_image
 				return sex
 			},
-			setColor() {
+			setPrimaryColor() {
 				if (this.$store.state.token) {
 					return this.$store.state.user.user_color
 				} else {

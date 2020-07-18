@@ -1,6 +1,6 @@
 <template>
 	<v-container fluid>
-		<v-data-iterator :items="items" :items-per-page.sync="itemsPerPage" :page="page" :search="search"
+		<v-data-iterator class="ma-5" :items="items" :items-per-page.sync="itemsPerPage" :page="page" :search="search"
 			:sort-by="sortBy.toLowerCase()" :sort-desc="sortDesc" hide-default-footer>
 			<template v-slot:header>
 				<v-card>
@@ -101,18 +101,19 @@
 					'exercise_type',
 					'exercise_engagement'
 				],
-				shitKeys: [
-					'shit',
-					'kek'
+				sortOptions: [
+					'Strength',
+					'Endurance',
+					'Speed',
+					'Flexibility'
 				],
 				items: [],
 			}
 		},
 		methods: {
 			init() {
-				this.$store.dispatch('getExercises')
-				this.items = this.$store.state.exercises
-				console.log(this.showKeys, this.keys, this.shitKeys);
+				this.$store.dispatch('getPublicExercises')
+				this.items = this.$store.state.publicExercises
 			},
 			nextPage() {
 				if (this.page + 1 <= this.numberOfPages) this.page += 1
@@ -120,7 +121,7 @@
 			formerPage() {
 				if (this.page - 1 >= 1) this.page -= 1
 			},
-			updteItemsPerPage(number) {
+			updateItemsPerPage(number) {
 				this.itemsPerPage = number
 			},
 		},

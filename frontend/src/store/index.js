@@ -12,7 +12,10 @@ export default new Vuex.Store({
 	state: {
 		token: localStorage.getItem('token') || '',
 		user: {},
-		exercises: [],
+		publicExercises: [],
+		customExercises: [],
+		publicWorkouts: [],
+		customWorkouts: [],
 		snackbar: {
 			snackbarOn: false,
 			snackbarColor: '',
@@ -39,11 +42,29 @@ export default new Vuex.Store({
 			state.token = ''
 			state.user = ''
 		},
-		setExercises: (state, exerciseData) => {
-			state.exercises = exerciseData
+		setPublicExercises: (state, exerciseData) => {
+			state.publicExercises = exerciseData
 		},
-		resetExercises: (state) => {
-			state.exercises = []
+		setCustomExercises: (state, exerciseData) => {
+			state.customExercises = exerciseData
+		},
+		resetPublicExercises: (state) => {
+			state.publicExercises = []
+		},
+		resetCustomExercises: (state) => {
+			state.customExercises = []
+		},
+		setPublicWorkouts: (state, workoutData) => {
+			state.publicWorkouts = workoutData
+		},
+		setCustomWorkouts: (state, workoutData) => {
+			state.customWorkouts = workoutData
+		},
+		resetPublicWorkouts: (state) => {
+			state.publicWorkouts = []
+		},
+		resetCustomWorkouts: (state) => {
+			state.customWorkouts = []
 		},
 		//ANCHOR Sets the snackbar data in object.
 		setSnackbar: (state, snackbarData) => {
@@ -121,10 +142,21 @@ export default new Vuex.Store({
 				}, 2500);
 			}
 		},
-		async getExercises(context) {
+		async getPublicExercises(context) {
 			var exercises = await axios.get('/protectedRoute/publicExercises').then(response => response.data)
-			console.log(exercises);
-			context.commit('setExercises', exercises)
+			context.commit('setPublicExercises', exercises)
+		},
+		async getCustomExercises(context) {
+			var exercises = await axios.get('/protectedRoute/customExercises').then(response => response.data)
+			context.commit('setCustomExercises', exercises)
+		},
+		async getPublicWorkouts(context) {
+			var workouts = await axios.get('/protectedRoute/publicWorkouts').then(response => response.data)
+			context.commit('setPublicWorkouts', workouts)
+		},
+		async getCustomWorkouts(context) {
+			var workouts = await axios.get('/protectedRoute/customWorkouts').then(response => response.data)
+			context.commit('setCustomWorkouts', workouts)
 		},
 		callSnackbar(context, data) {
 			context.commit('setSnackbar', data.snackbarData)

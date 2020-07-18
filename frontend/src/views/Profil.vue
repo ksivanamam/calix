@@ -16,7 +16,7 @@
 		</v-row>
 		<v-row no-gutters>
 			<v-col class="pa-3" cols="12" sm="12" md="6">
-				<v-card height="450px">
+				<v-card height="450px" :class="set">
 					<v-card-text>
 						Personal data
 					</v-card-text>
@@ -157,6 +157,13 @@
 			this.userData = this.$store.state.user
 		},
 		computed: {
+			setPrimaryColor() {
+				if (this.$store.state.token) {
+					return this.$store.state.user.user_color
+				} else {
+					return 'info'
+				}
+			},
 			getBMI() {
 				var height = this.userData.user_height
 				var heightInCm = height / 100
