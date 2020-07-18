@@ -1,7 +1,7 @@
 {
 	"sqltools.connections": [
 		{
-			"database": "${workspaceFolder:calix}/backend/db/dev.sqlite3",
+			"database": "${workspaceFolder:calix}/db/dev.sqlite3",
 			"driver": "SQLite",
 			"name": "calix",
 			"previewLimit": 50

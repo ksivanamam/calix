@@ -12,6 +12,7 @@ export default new Vuex.Store({
 	state: {
 		token: localStorage.getItem('token') || '',
 		user: {},
+		exercises: [],
 		snackbar: {
 			snackbarOn: false,
 			snackbarColor: '',
@@ -32,6 +33,17 @@ export default new Vuex.Store({
 		//ANCHOR Sets the user in obejct state.
 		setUser: (state, userData) => {
 			state.user = userData
+		},
+		// ANCHOR Resets the token and user by setting it's values to ''
+		logout: state => {
+			state.token = ''
+			state.user = ''
+		},
+		setExercises: (state, exerciseData) => {
+			state.exercises = exerciseData
+		},
+		resetExercises: (state) => {
+			state.exercises = []
 		},
 		//ANCHOR Sets the snackbar data in object.
 		setSnackbar: (state, snackbarData) => {
@@ -55,11 +67,6 @@ export default new Vuex.Store({
 				alertMessage: ''
 			}
 		},
-		// ANCHOR Resets the token and user by setting it's values to ''
-		logout: state => {
-			state.token = ''
-			state.user = ''
-		}
 	},
 	actions: {
 		async register(context, data) {
@@ -113,6 +120,11 @@ export default new Vuex.Store({
 					context.commit('resetSnackbar')
 				}, 2500);
 			}
+		},
+		async getExercises(context) {
+			var exercises = await axios.get('/protectedRoute/publicExercises').then(response => response.data)
+			console.log(exercises);
+			context.commit('setExercises', exercises)
 		},
 		callSnackbar(context, data) {
 			context.commit('setSnackbar', data.snackbarData)
