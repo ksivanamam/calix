@@ -122,19 +122,29 @@
 						Edit
 					</v-card-text>
 					<v-card-actions>
-						<v-btn color="warning" dark>Change personal data</v-btn>
-						<v-btn color="warning" dark>Change stats</v-btn>
-						<v-btn color="warning" dark>Change password</v-btn>
+						<v-btn color="warning" @click="setProfilDialog(1)">Change personal data</v-btn>
+						<v-btn color="warning" @click="setProfilDialog(2)">Change password</v-btn>
 					</v-card-actions>
 				</v-card>
 			</v-col>
 		</v-row>
+		<v-dialog v-model="profilDialog.on" :overlay="false" max-width="750px"
+			transition="dialog-transition">
+			<EditPersonalData v-show="profilDialog.option == 1" />
+			<v-card v-show="profilDialog.option == 2">
+				hello
+			</v-card>
+		</v-dialog>
 	</v-content>
 </template>
 
 <script>
+	import EditPersonalData from '../components/EditPersonalData'
 	export default {
 		name: 'Profil',
+		components: {
+			'EditPersonalData': EditPersonalData
+		},
 		data: () => ({
 			userData: {},
 			image: '',
@@ -152,9 +162,24 @@
 				70,
 				72
 			],
+			profilDialog: {
+				on: false,
+				option: 1
+			}
 		}),
+		methods: {
+			init() {
+				this.userData = this.$store.state.user
+			},
+			setProfilDialog(option) {
+				this.profilDialog = {
+					on: true,
+					option: option
+				}
+			}
+		},
 		created() {
-			this.userData = this.$store.state.user
+			this.init()
 		},
 		computed: {
 			setPrimaryColor() {
