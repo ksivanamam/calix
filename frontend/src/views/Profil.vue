@@ -7,7 +7,7 @@
 						<v-card class="d-flex pa-2 elevation-0">
 							<v-img width="75px" :src="userData.user_image"></v-img>
 						</v-card>
-						<v-card class="d-flex pa-2 elevation-0">
+						<v-card class="d-flex pa-2 elevation-0 font-weight-bold">
 							{{userData.user_firstname}} {{userData.user_lastname}}
 						</v-card>
 					</v-card-title>
@@ -16,7 +16,7 @@
 		</v-row>
 		<v-row no-gutters>
 			<v-col class="pa-3" cols="12" sm="12" md="6">
-				<v-card height="450px" :class="set">
+				<v-card height="450px">
 					<v-card-text>
 						Personal data
 					</v-card-text>
@@ -24,53 +24,51 @@
 						<v-col>
 							<v-list-item two-line>
 								<v-list-item-content>
-									<v-list-item-subtitle>ID</v-list-item-subtitle>
-									<v-list-item-title>{{userData.user_PK}}</v-list-item-title>
-								</v-list-item-content>
-							</v-list-item>
-							<v-list-item two-line>
-								<v-list-item-content>
-									<v-list-item-subtitle>Username</v-list-item-subtitle>
+									<v-list-item-subtitle class="pb-2">Username</v-list-item-subtitle>
 									<v-list-item-title>{{userData.user_username}}</v-list-item-title>
-								</v-list-item-content>
-							</v-list-item>
-							<v-list-item two-line>
-								<v-list-item-content>
-									<v-list-item-subtitle>Firstname</v-list-item-subtitle>
-									<v-list-item-title>{{userData.user_firstname}}</v-list-item-title>
-								</v-list-item-content>
-							</v-list-item>
-							<v-list-item two-line>
-								<v-list-item-content>
-									<v-list-item-subtitle>Lastname</v-list-item-subtitle>
-									<v-list-item-title>{{userData.user_lastname}}</v-list-item-title>
-								</v-list-item-content>
-							</v-list-item>
-							<v-list-item two-line>
-								<v-list-item-content>
-									<v-list-item-subtitle>E-Mail</v-list-item-subtitle>
-									<v-list-item-title>{{userData.user_email}}</v-list-item-title>
 								</v-list-item-content>
 							</v-list-item>
 						</v-col>
 						<v-col>
 							<v-list-item two-line>
 								<v-list-item-content>
-									<v-list-item-subtitle>Year of birth</v-list-item-subtitle>
+									<v-list-item-subtitle class="pb-2">Firstname</v-list-item-subtitle>
+									<v-list-item-title>{{userData.user_firstname}}</v-list-item-title>
+								</v-list-item-content>
+							</v-list-item>
+						</v-col>
+						<v-col>
+							<v-list-item two-line>
+								<v-list-item-content>
+									<v-list-item-subtitle class="pb-2">Lastname</v-list-item-subtitle>
+									<v-list-item-title>{{userData.user_lastname}}</v-list-item-title>
+								</v-list-item-content>
+							</v-list-item>
+						</v-col>
+					</v-row>
+					<v-row no-glutter>
+						<v-col>
+							<v-list-item two-line>
+								<v-list-item-content>
+									<v-list-item-subtitle class="pb-2">Year of birth</v-list-item-subtitle>
 									<v-list-item-title>{{userData.user_yearOfBirth}}</v-list-item-title>
 								</v-list-item-content>
 							</v-list-item>
+						</v-col>
+						<v-col>
 							<v-list-item two-line>
 								<v-list-item-content>
-									<v-list-item-subtitle>Sex</v-list-item-subtitle>
+									<v-list-item-subtitle class="pb-2">Sex</v-list-item-subtitle>
 									<v-list-item-title v-if="userData.user_sex">Male</v-list-item-title>
 									<v-list-item-title v-else>Female</v-list-item-title>
 								</v-list-item-content>
 							</v-list-item>
+						</v-col>
+						<v-col>
 							<v-list-item two-line>
 								<v-list-item-content>
-									<v-list-item-subtitle>Favourite color</v-list-item-subtitle>
-									<v-list-item-title>{{userData.user_color}}</v-list-item-title>
+									<v-list-item-subtitle class="pb-2">E-Mail</v-list-item-subtitle>
+									<v-list-item-title>{{userData.user_email}}</v-list-item-title>
 								</v-list-item-content>
 							</v-list-item>
 						</v-col>
@@ -82,8 +80,6 @@
 					<v-card-text>
 						Stats
 					</v-card-text>
-					<!-- <v-img :src="image"></v-img>
-					<input @change="imgToBase64" class="custom-input" type="file" accept="image/*"> -->
 					<v-row no-glutter>
 						<v-col>
 							<v-card class="ma-5" color="blue-grey">
@@ -119,6 +115,20 @@
 				</v-card>
 			</v-col>
 		</v-row>
+		<v-row no-gutters>
+			<v-col class="pa-3" cols="12" sm="12" md="12">
+				<v-card>
+					<v-card-text>
+						Edit
+					</v-card-text>
+					<v-card-actions>
+						<v-btn color="warning" dark>Change personal data</v-btn>
+						<v-btn color="warning" dark>Change stats</v-btn>
+						<v-btn color="warning" dark>Change password</v-btn>
+					</v-card-actions>
+				</v-card>
+			</v-col>
+		</v-row>
 	</v-content>
 </template>
 
@@ -143,16 +153,6 @@
 				72
 			],
 		}),
-		methods: {
-			imgToBase64(e) {
-				var file = e.target.files[0]
-				var reader = new FileReader()
-				reader.onload = () => {
-					this.image = reader.result
-				}
-				reader.readAsDataURL(file)
-			}
-		},
 		created() {
 			this.userData = this.$store.state.user
 		},

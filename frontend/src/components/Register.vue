@@ -109,7 +109,7 @@
 							<v-row no-gutters>
 								<v-col>
 									<template>
-										<input @change="imgToBase64" class="py-5" type="file" accept="image/*">
+										<input @change="imgToBase64" class="py-5" type="file" accept="image/png">
 									</template>
 								</v-col>
 							</v-row>
