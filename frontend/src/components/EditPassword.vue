@@ -2,7 +2,7 @@
 	<div>
 		<v-card>
 			<v-card-title primary-title>
-				Edit profil data
+				Edit passowrd
 			</v-card-title>
 			<v-row no-gutters>
 				<v-col class="pa-3" cols="12" sm="12" md="12">
@@ -10,19 +10,18 @@
 						<v-container>
 							<v-row no-gutters>
 								<v-col cols="12" sm="12" md="12">
-									<v-text-field solo placeholder="Email" v-model="personalData.req_email">
+									<v-text-field solo type="password" label="Old password" hint="At least 8 characters" v-model="passwords.req_old_password">
 									</v-text-field>
-									<v-select solo placeholder="Color" :items="colors" v-model="personalData.req_color">
-									</v-select>
+									<v-text-field solo type="password" label="New password" hint="At least 8 characters" v-model="stats.req_new_password">
+									</v-text-field>
 								</v-col>
 							</v-row>
 						</v-container>
-						<small>*indicates required field</small>
 					</v-card-text>
 					<v-card-actions>
 						<v-spacer></v-spacer>
-						<v-btn color="success" @click="updatePersonalData">Update</v-btn>
-						<v-btn color="warning" @click="resetPersonalData">Reset</v-btn>
+						<v-btn color="success" @click="updateStats">Update password</v-btn>
+						<v-btn color="warning" @click="resetStats">Reset</v-btn>
 					</v-card-actions>
 				</v-col>
 			</v-row>
@@ -36,9 +35,9 @@
 	export default {
 		data: () => ({
 			userData: {},
-			personalData: {
-				req_email: '',
-				req_color: ''
+			passwords: {
+				req_old_password: '',
+				req_new_password: ''
 			},
 			colors: [
 				'red',

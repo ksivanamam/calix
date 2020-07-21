@@ -16,7 +16,46 @@
 		</v-row>
 		<v-row no-gutters>
 			<v-col class="pa-3" cols="12" sm="12" md="6">
-				<v-card height="450px">
+				<v-card min-height="240px">
+					<v-card-text>
+						Stats
+					</v-card-text>
+					<v-row no-glutter>
+						<v-col>
+							<v-card class="ma-5" color="blue-grey" hover>
+								<v-card-text class="pb-0 white--text">
+									Height
+								</v-card-text>
+								<v-card-title class="white--text" primary-title>
+									{{userData.user_height}} cm
+								</v-card-title>
+							</v-card>
+						</v-col>
+						<v-col>
+							<v-card class="ma-5" color="blue-grey">
+								<v-card-text class="pb-0 white--text">
+									Weight
+								</v-card-text>
+								<v-card-title class="white--text" primary-title>
+									{{userData.user_weight}} kg
+								</v-card-title>
+							</v-card>
+						</v-col>
+						<v-col>
+							<v-card class="ma-5" :color="getBMIColor">
+								<v-card-text class="pb-0 white--text">
+									BMI
+								</v-card-text>
+								<v-card-title class="white--text" primary-title>
+									{{getBMI}}
+								</v-card-title>
+							</v-card>
+						</v-col>
+					</v-row>
+				</v-card>
+			</v-col>
+			<v-col class="pa-3" cols="12" sm="12" md="6">
+				<v-card min-height="240px">
 					<v-card-text>
 						Personal data
 					</v-card-text>
@@ -75,45 +114,6 @@
 					</v-row>
 				</v-card>
 			</v-col>
-			<v-col class="pa-3" cols="12" sm="12" md="6">
-				<v-card height="450px">
-					<v-card-text>
-						Stats
-					</v-card-text>
-					<v-row no-glutter>
-						<v-col>
-							<v-card class="ma-5" color="blue-grey">
-								<v-card-text class="pb-0 white--text">
-									Height
-								</v-card-text>
-								<v-card-title class="white--text" primary-title>
-									{{userData.user_height}} cm
-								</v-card-title>
-							</v-card>
-						</v-col>
-						<v-col>
-							<v-card class="ma-5" color="blue-grey">
-								<v-card-text class="pb-0 white--text">
-									Weight
-								</v-card-text>
-								<v-card-title class="white--text" primary-title>
-									{{userData.user_weight}} kg
-								</v-card-title>
-							</v-card>
-						</v-col>
-						<v-col>
-							<v-card class="ma-5" :color="getBMIColor">
-								<v-card-text class="pb-0 white--text">
-									BMI
-								</v-card-text>
-								<v-card-title class="white--text" primary-title>
-									{{getBMI}}
-								</v-card-title>
-							</v-card>
-						</v-col>
-					</v-row>
-				</v-card>
-			</v-col>
 		</v-row>
 		<v-row no-gutters>
 			<v-col class="pa-3" cols="12" sm="12" md="12">
@@ -122,28 +122,39 @@
 						Edit
 					</v-card-text>
 					<v-card-actions>
-						<v-btn color="warning" @click="setProfilDialog(1)">Change personal data</v-btn>
-						<v-btn color="warning" @click="setProfilDialog(2)">Change password</v-btn>
+						<v-row no-gutters>
+							<v-col class="my-1" cols="12" sm="12">
+								<v-btn block color="warning" @click="setProfilDialog(1)">Change stats</v-btn>
+							</v-col>
+							<v-col class="my-1" cols="12" sm="12">
+								<v-btn block color="warning" @click="setProfilDialog(2)">Change personal data</v-btn>
+							</v-col>
+							<v-col class="my-1" cols="12" sm="12">
+								<v-btn block color="warning" @click="setProfilDialog(3)">Change password</v-btn>
+							</v-col>
+						</v-row>
 					</v-card-actions>
 				</v-card>
 			</v-col>
 		</v-row>
-		<v-dialog v-model="profilDialog.on" :overlay="false" max-width="750px"
-			transition="dialog-transition">
-			<EditPersonalData v-show="profilDialog.option == 1" />
-			<v-card v-show="profilDialog.option == 2">
-				hello
-			</v-card>
+		<v-dialog v-model="profilDialog.on" :overlay="false" max-width="750px" transition="dialog-transition">
+			<EditStats v-show="profilDialog.option == 1" />
+			<EditPersonalData v-show="profilDialog.option == 2" />
+			<EditPassword v-show="profilDialog.option == 3" />
 		</v-dialog>
 	</v-content>
 </template>
 
 <script>
+	import EditStats from '../components/EditStats'
 	import EditPersonalData from '../components/EditPersonalData'
+	import EditPassword from '../components/EditPassword'
 	export default {
 		name: 'Profil',
 		components: {
-			'EditPersonalData': EditPersonalData
+			'EditStats': EditStats,
+			'EditPersonalData': EditPersonalData,
+			'EditPassword': EditPassword,
 		},
 		data: () => ({
 			userData: {},
