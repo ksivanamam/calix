@@ -63,11 +63,11 @@
 					req_weight: this.$store.state.user.user_weight
 				}
 			},
-			async update() {
+			async updatePersonalData() {
 				try {
-					var newUserData = this.newUserData
-					this.$store.dispatch('updateUserData', {
-						newUserData
+					var personalData = this.personalData
+					this.$store.dispatch('updatePersonalData', {
+						personalData
 					})
 				} catch (error) {
 					console.error(error)
@@ -75,9 +75,6 @@
 			},
 			resetPersonalData() {
 				this.personalData = {}
-			},
-			resetStats() {
-				this.stats = {}
 			}
 		},
 		created() {

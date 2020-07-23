@@ -40,24 +40,17 @@ router.get('/profil', async (req, res) => {
 })
 
 //ANCHOR Changes user data to the given data in req.body
-router.put('/profil', async (req, res) => {
+router.put('/updateStats', async (req, res) => {
 	try {
+		console.log(req.body);
 		var {
-			req_email,
-			req_yearOfBirth,
 			req_height,
-			req_weight,
-			req_equipment,
-			req_color
+			req_weight
 		} = req.body
 		await knex('users')
 			.update({
-				user_email: req_email,
-				user_yearOfBirth: req_yearOfBirth,
 				user_height: req_height,
-				user_weight: req_weight,
-				user_equipment: req_equipment,
-				user_color: req_color
+				user_weight: req_weight
 			})
 			.where({
 				user_PK: req.decodedToken.user_PK
@@ -65,7 +58,7 @@ router.put('/profil', async (req, res) => {
 		var successMessage = {
 			snackbarOn: true,
 			snackbarColor: 'success',
-			snackbarMessage: 'Profil data successfully changed.'
+			snackbarMessage: 'Stats successfully updated.'
 		}
 		res.send(successMessage)
 	} catch (error) {
@@ -73,7 +66,7 @@ router.put('/profil', async (req, res) => {
 		var errorMessage = {
 			snackbarOn: true,
 			snackbarColor: 'error',
-			snackbarMessage: 'Profil data cannot be changed. Try again.'
+			snackbarMessage: 'Unable to update stats.'
 		}
 		res.send(errorMessage)
 	}

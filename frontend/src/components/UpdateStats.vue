@@ -35,11 +35,7 @@
 <script>
 	export default {
 		data: () => ({
-			userData: {},
-			stats: {
-				height: null,
-				weight: null
-			},
+			stats: {},
 			colors: [
 				'red',
 				'pink',
@@ -54,27 +50,20 @@
 		}),
 		methods: {
 			init() {
-				this.personalData = {
-					req_email: this.$store.state.user.user_email,
-					req_color: this.$store.state.user.user_color
-				}
 				this.stats = {
 					req_height: this.$store.state.user.user_height,
 					req_weight: this.$store.state.user.user_weight
 				}
 			},
-			async update() {
+			async updateStats() {
 				try {
-					var newUserData = this.newUserData
-					this.$store.dispatch('updateUserData', {
-						newUserData
+					var newStats = this.stats
+					this.$store.dispatch('updateStats', {
+						newStats
 					})
 				} catch (error) {
 					console.error(error)
 				}
-			},
-			resetPersonalData() {
-				this.personalData = {}
 			},
 			resetStats() {
 				this.stats = {}

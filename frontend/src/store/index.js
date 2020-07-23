@@ -93,8 +93,10 @@ export default new Vuex.Store({
 		async register(context, data) {
 			try {
 				var registerData = await axios.post('/openRoute/register', data).then(response => response.data)
-				context.commit('setAlert', {registerData})
-			} catch(error) {
+				context.commit('setAlert', {
+					registerData
+				})
+			} catch (error) {
 				console.error(error.message)
 			}
 		},
@@ -141,6 +143,16 @@ export default new Vuex.Store({
 					context.commit('resetSnackbar')
 				}, 2500);
 			}
+		},
+		async updateStats(context, data) {
+			console.log(data);
+			var editStatsResponse = await axios.put('/protectedRoute/updateStats', data.newStats).then(response => response.data)
+			var user = await axios.get('/protectedRoute/profil').then(response => response.data[0])
+			context.commit('setUser', user)
+			context.commit('setSnackbar', editStatsResponse)
+			setTimeout(() => {
+				context.commit('resetSnackbar')
+			}, 2500);
 		},
 		async getPublicExercises(context) {
 			var exercises = await axios.get('/protectedRoute/publicExercises').then(response => response.data)

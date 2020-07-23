@@ -124,13 +124,13 @@
 					<v-card-actions>
 						<v-row no-gutters>
 							<v-col class="my-1" cols="12" sm="12">
-								<v-btn block color="warning" @click="setProfilDialog(1)">Change stats</v-btn>
+								<v-btn block color="warning" @click="openProfilDialog(1)">Change stats</v-btn>
 							</v-col>
 							<v-col class="my-1" cols="12" sm="12">
-								<v-btn block color="warning" @click="setProfilDialog(2)">Change personal data</v-btn>
+								<v-btn block color="warning" @click="openProfilDialog(2)">Change personal data</v-btn>
 							</v-col>
 							<v-col class="my-1" cols="12" sm="12">
-								<v-btn block color="warning" @click="setProfilDialog(3)">Change password</v-btn>
+								<v-btn block color="warning" @click="openProfilDialog(3)">Change password</v-btn>
 							</v-col>
 						</v-row>
 					</v-card-actions>
@@ -138,7 +138,7 @@
 			</v-col>
 		</v-row>
 		<v-dialog v-model="profilDialog.on" :overlay="false" max-width="750px" transition="dialog-transition">
-			<EditStats v-show="profilDialog.option == 1" />
+			<UpdateStats v-show="profilDialog.option == 1" />
 			<EditPersonalData v-show="profilDialog.option == 2" />
 			<EditPassword v-show="profilDialog.option == 3" />
 		</v-dialog>
@@ -146,13 +146,13 @@
 </template>
 
 <script>
-	import EditStats from '../components/EditStats'
+	import UpdateStats from '../components/UpdateStats'
 	import EditPersonalData from '../components/EditPersonalData'
 	import EditPassword from '../components/EditPassword'
 	export default {
 		name: 'Profil',
 		components: {
-			'EditStats': EditStats,
+			'UpdateStats': UpdateStats,
 			'EditPersonalData': EditPersonalData,
 			'EditPassword': EditPassword,
 		},
@@ -182,7 +182,7 @@
 			init() {
 				this.userData = this.$store.state.user
 			},
-			setProfilDialog(option) {
+			openProfilDialog(option) {
 				this.profilDialog = {
 					on: true,
 					option: option
