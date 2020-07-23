@@ -17,7 +17,6 @@
 								</v-col>
 							</v-row>
 						</v-container>
-						<small>*indicates required field</small>
 					</v-card-text>
 					<v-card-actions>
 						<v-spacer></v-spacer>
@@ -57,10 +56,6 @@
 				this.personalData = {
 					req_email: this.$store.state.user.user_email,
 					req_color: this.$store.state.user.user_color
-				}
-				this.stats = {
-					req_height: this.$store.state.user.user_height,
-					req_weight: this.$store.state.user.user_weight
 				}
 			},
 			async updatePersonalData() {

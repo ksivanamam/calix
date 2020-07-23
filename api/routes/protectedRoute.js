@@ -39,10 +39,9 @@ router.get('/profil', async (req, res) => {
 	}
 })
 
-//ANCHOR Changes user data to the given data in req.body
+//ANCHOR Changes user stats to the given data in req.body
 router.put('/updateStats', async (req, res) => {
 	try {
-		console.log(req.body);
 		var {
 			req_height,
 			req_weight
@@ -67,6 +66,38 @@ router.put('/updateStats', async (req, res) => {
 			snackbarOn: true,
 			snackbarColor: 'error',
 			snackbarMessage: 'Unable to update stats.'
+		}
+		res.send(errorMessage)
+	}
+})
+
+//ANCHOR Changes personal data to the given data in req.body
+router.put('/updatePersonalData', async (req, res) => {
+	try {
+		var {
+			req_email,
+			req_color
+		} = req.body
+		await knex('users')
+			.update({
+				user_email: req_email,
+				user_color: req_color
+			})
+			.where({
+				user_PK: req.decodedToken.user_PK
+			})
+		var successMessage = {
+			snackbarOn: true,
+			snackbarColor: 'success',
+			snackbarMessage: 'Personal data successfully updated.'
+		}
+		res.send(successMessage)
+	} catch (error) {
+		console.error(error.message)
+		var errorMessage = {
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Unable to update personal data.'
 		}
 		res.send(errorMessage)
 	}

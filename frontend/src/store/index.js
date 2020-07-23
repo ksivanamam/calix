@@ -145,11 +145,19 @@ export default new Vuex.Store({
 			}
 		},
 		async updateStats(context, data) {
-			console.log(data);
-			var editStatsResponse = await axios.put('/protectedRoute/updateStats', data.newStats).then(response => response.data)
+			var updateStatsResponse = await axios.put('/protectedRoute/updateStats', data.newStats).then(response => response.data)
 			var user = await axios.get('/protectedRoute/profil').then(response => response.data[0])
 			context.commit('setUser', user)
-			context.commit('setSnackbar', editStatsResponse)
+			context.commit('setSnackbar', updateStatsResponse)
+			setTimeout(() => {
+				context.commit('resetSnackbar')
+			}, 2500);
+		},
+		async updatePersonalData(context, data) {
+			var updatePersonalDataResponse = await axios.put('/protectedRoute/updatePersonalData', data.personalData).then(response => response.data)
+			var user = await axios.get('/protectedRoute/profil').then(response => response.data[0])
+			context.commit('setUser', user)
+			context.commit('setSnackbar', updatePersonalDataResponse)
 			setTimeout(() => {
 				context.commit('resetSnackbar')
 			}, 2500);

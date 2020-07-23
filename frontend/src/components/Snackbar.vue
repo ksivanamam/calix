@@ -1,5 +1,5 @@
 <template>
-	<v-snackbar class="ml-2" right v-model="snackbarOn" :color="snackbarColor">
+	<v-snackbar class="ml-2" right v-model="snackbarOn" :color="snackbarColor" :timeout="timeout">
 		<span class="white--text">{{snackbarMessage}}</span>
 	</v-snackbar>
 </template>
@@ -8,7 +8,7 @@
 	export default {
 		data() {
 			return {
-				//...
+				timeout: 3000
 			}
 		},
 		computed: {

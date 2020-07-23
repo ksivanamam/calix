@@ -28,8 +28,6 @@
 			</v-row>
 		</v-card>
 	</div>
-
-
 </template>
 
 <script>

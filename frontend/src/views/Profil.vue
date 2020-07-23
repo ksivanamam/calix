@@ -124,13 +124,22 @@
 					<v-card-actions>
 						<v-row no-gutters>
 							<v-col class="my-1" cols="12" sm="12">
-								<v-btn block color="warning" @click="openProfilDialog(1)">Change stats</v-btn>
+								<v-btn block :color="setSecondaryColor" @click="openProfilDialog(1)">
+									<v-icon class="mr-5" color="white">mdi-tune</v-icon>
+									<span class="white--text">Update stats</span>
+								</v-btn>
 							</v-col>
 							<v-col class="my-1" cols="12" sm="12">
-								<v-btn block color="warning" @click="openProfilDialog(2)">Change personal data</v-btn>
+								<v-btn block :color="setSecondaryColor" @click="openProfilDialog(2)">
+									<v-icon class="mr-5" color="white">mdi-account-cog</v-icon>
+									<span class="white--text">Update personal data</span>
+								</v-btn>
 							</v-col>
 							<v-col class="my-1" cols="12" sm="12">
-								<v-btn block color="warning" @click="openProfilDialog(3)">Change password</v-btn>
+								<v-btn block :color="setSecondaryColor" @click="openProfilDialog(3)">
+									<v-icon class="mr-5" color="white">mdi-lock-reset</v-icon>
+									<span class="white--text">Update password</span>
+								</v-btn>
 							</v-col>
 						</v-row>
 					</v-card-actions>
@@ -139,22 +148,22 @@
 		</v-row>
 		<v-dialog v-model="profilDialog.on" :overlay="false" max-width="750px" transition="dialog-transition">
 			<UpdateStats v-show="profilDialog.option == 1" />
-			<EditPersonalData v-show="profilDialog.option == 2" />
-			<EditPassword v-show="profilDialog.option == 3" />
+			<UpdatePersonalData v-show="profilDialog.option == 2" />
+			<UpdatePassword v-show="profilDialog.option == 3" />
 		</v-dialog>
 	</v-content>
 </template>
 
 <script>
 	import UpdateStats from '../components/UpdateStats'
-	import EditPersonalData from '../components/EditPersonalData'
-	import EditPassword from '../components/EditPassword'
+	import UpdatePersonalData from '../components/UpdatePersonalData'
+	import UpdatePassword from '../components/UpdatePassword'
 	export default {
 		name: 'Profil',
 		components: {
 			'UpdateStats': UpdateStats,
-			'EditPersonalData': EditPersonalData,
-			'EditPassword': EditPassword,
+			'UpdatePersonalData': UpdatePersonalData,
+			'UpdatePassword': UpdatePassword,
 		},
 		data: () => ({
 			userData: {},
@@ -199,6 +208,9 @@
 				} else {
 					return 'info'
 				}
+			},
+			setSecondaryColor() {
+				return this.$store.state.user.user_color + ' darken-3'
 			},
 			getBMI() {
 				var height = this.userData.user_height
