@@ -128,6 +128,49 @@ router.delete('/delProfil', async (req, res) => {
 	}
 })
 
+//ANCHOR Checks email of new user
+router.post('/checkEmail', async (req, res) => {
+	try {
+		var {
+			req_email,
+		} = req.body
+		var DBEmail = await knex('users')
+			.where({
+				user_email: req_email
+			})
+		DBEmail = DBEmail[0]
+		if (DBEmail == null || DBEmail.user_PK == req.decodedToken.user_PK) {
+			var usernameStatus = {
+				alertValue: true,
+				alertType: 'success',
+				alertMessage: 'Email is available.'
+			}
+			return res.json({
+				usernameStatus: usernameStatus,
+				emailCheck: true
+			})
+		} else {
+			var usernameStatus = {
+				alertValue: true,
+				alertType: 'error',
+				alertMessage: 'Email is unavailable.'
+			}
+			return res.json({
+				usernameStatus: usernameStatus,
+				emailCheck: false
+			})
+		}
+	} catch (error) {
+		console.error(error.message)
+		var errorMessage = {
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Unable to check email.'
+		}
+		res.send(errorMessage)
+	}
+})
+
 //ANCHOR Send all exercises in table "exercises"
 router.get('/publicExercises', async (req, res) => {
 	try {

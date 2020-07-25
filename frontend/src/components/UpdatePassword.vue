@@ -10,10 +10,19 @@
 						<v-container>
 							<v-row no-gutters>
 								<v-col cols="12" sm="12" md="12">
-									<v-text-field solo type="password" label="Old password" hint="At least 8 characters" v-model="passwords.req_old_password">
-									</v-text-field>
-									<v-text-field solo type="password" label="New password" hint="At least 8 characters" v-model="passwords.req_new_password">
-									</v-text-field>
+									<v-form ref="form" v-model="valid" :lazy-validation="lazy">
+										<v-text-field solo v-model="passwords.req_old_password" label="Old Password"
+											@blur="checkPassword" required>
+										</v-text-field>
+										<v-text-field solo v-model="passwords.req_new_password" :rules="passwordRules"
+											label="New Password" required>
+										</v-text-field>
+										<v-btn :disabled="!valid" v-show="alertDataPassword.passwordCheck"
+											color="success" class="mr-4" @click="updatePassword">
+											Update
+										</v-btn>
+										<v-btn color="warning" @click="resetPasswords">Reset form</v-btn>
+									</v-form>
 								</v-col>
 							</v-row>
 						</v-container>
@@ -30,8 +39,16 @@
 </template>
 
 <script>
+	import axios from "axios";
 	export default {
 		data: () => ({
+			valid: true,
+			lazy: false,
+			passwordRules: [
+				v => !!v || 'Password is required',
+				v => (v && v.length >= 8) || 'Password must be at least 8 characters long',
+			],
+			alertDataPassword: {},
 			passwords: {
 				req_old_password: '',
 				req_new_password: ''
@@ -49,11 +66,22 @@
 			]
 		}),
 		methods: {
+			async checkPassword() {
+				try {
+					var alertData = await axios.post('/protectedRoute/checkEmail', this.personalData).then(response =>
+						response.data)
+					this.alertDataEmail = alertData.usernameStatus
+					this.alertDataEmail.emailCheck = alertData.emailCheck
+					console.log(this.alertDataEmail);
+				} catch (error) {
+					console.error(error)
+				}
+			},
 			async updatePassword() {
 				try {
-					var newUserData = this.newUserData
-					this.$store.dispatch('updateUserData', {
-						newUserData
+					var passwords = this.passwords
+					this.$store.dispatch('updatePassword', {
+						passwords
 					})
 				} catch (error) {
 					console.error(error)

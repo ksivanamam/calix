@@ -16,13 +16,13 @@
 					<v-card class="mb-12 elevation-0 pa-2">
 						<v-row no-gutters>
 							<v-col cols="12" sm="12" md="12">
-								<v-form ref="form" v-model="valid" :lazy-validation="lazy">
+								<v-form ref="formE1" v-model="valid" :lazy-validation="lazy">
 									<v-text-field solo v-model="userData.req_username" :counter="10" :rules="nameRules"
-										label="Username" @blur="checkUsername" required>
+										label="Username*" @blur="checkUsername" required>
 									</v-text-field>
 
 									<v-text-field solo v-model="userData.req_password" :rules="passwordRules"
-										label="Password" required>
+										label="Password*" required>
 									</v-text-field>
 
 									<v-text-field solo v-model="userData.req_email" :rules="emailRules" label="E-mail"
@@ -30,8 +30,8 @@
 									</v-text-field>
 
 									<v-select solo v-model="userData.req_color" :items="colors"
-										:rules="[v => !!v || 'Color is required']" label="Color" required></v-select>
-
+										:rules="[v => !!v || 'Color is required']" label="Color*" required></v-select>
+									<small>*indicates required field</small>
 									<v-row no-gutters>
 										<v-col>
 											<v-alert class="pa-1 mr-1" :type="alertDataUsername.alertType"
@@ -46,14 +46,13 @@
 											</v-alert>
 										</v-col>
 									</v-row>
-
 									<v-btn :disabled="!valid"
 										v-show="alertDataUsername.usernameCheck && alertDataEmail.emailCheck"
 										color="primary" class="mr-4" @click="e1 = 2">
 										Continue
 									</v-btn>
 
-									<v-btn color="error" class="mr-4" @click="reset">
+									<v-btn color="error" class="mr-4" @click="resetE1">
 										Reset Form
 									</v-btn>
 								</v-form>
@@ -63,15 +62,15 @@
 				</v-stepper-content>
 				<v-stepper-content step="2">
 					<v-card class="mb-12 elevation-0 pa-1">
-						<v-form ref="form" v-model="validTwo" :lazy-validation="lazy">
+						<v-form ref="formE2" v-model="validTwo" :lazy-validation="lazy">
 							<v-row no-gutters>
 								<v-col>
-									<v-text-field class="pa-1" solo v-model="userData.req_firstname" label="Firstname"
+									<v-text-field class="pa-1" solo v-model="userData.req_firstname" label="Firstname*"
 										required>
 									</v-text-field>
 								</v-col>
 								<v-col>
-									<v-text-field class="pa-1" solo v-model="userData.req_lastname" label="Lastname"
+									<v-text-field class="pa-1" solo v-model="userData.req_lastname" label="Lastname*"
 										required>
 									</v-text-field>
 								</v-col>
@@ -79,22 +78,22 @@
 							<v-row no-gutters>
 								<v-col>
 									<v-text-field class="pa-1" solo v-model="userData.req_yearOfBirth" :counter="4"
-										label="Year of Birth" required>
+										label="Year of Birth*" required>
 									</v-text-field>
 								</v-col>
 								<v-col>
 									<v-select class="pa-1" solo v-model="userData.req_sex" :items="sexs"
-										:rules="[v => !!v || 'Sex is required']" label="Sex" required></v-select>
+										:rules="[v => !!v || 'Sex is required']" label="Sex*" required></v-select>
 								</v-col>
 							</v-row>
 							<v-row no-gutters>
 								<v-col>
-									<v-text-field class="pa-1" solo v-model="userData.req_height" label="Height"
+									<v-text-field class="pa-1" solo v-model="userData.req_height" label="Height*"
 										required>
 									</v-text-field>
 								</v-col>
 								<v-col>
-									<v-text-field class="pa-1" solo v-model="userData.req_weight" label="Weight"
+									<v-text-field class="pa-1" solo v-model="userData.req_weight" label="Weight*"
 										required>
 									</v-text-field>
 								</v-col>
@@ -102,7 +101,7 @@
 							<v-row no-gutters>
 								<v-col>
 									<v-select class="pa-1" solo v-model="userData.req_equipment" :items="equipments"
-										:rules="[v => !!v || 'Select your equipment status']" label="Equipment"
+										:rules="[v => !!v || 'Select your equipment status']" label="Equipment*"
 										required></v-select>
 								</v-col>
 							</v-row>
@@ -113,12 +112,11 @@
 									</template>
 								</v-col>
 							</v-row>
-
 							<v-btn :disabled="!validTwo" color="primary" class="mr-4" @click="finishRegistration">
 								Finish
 							</v-btn>
 
-							<v-btn color="error" class="mr-4" @click="reset">
+							<v-btn color="error" class="mr-4" @click="resetE2">
 								Reset Form
 							</v-btn>
 						</v-form>
@@ -147,7 +145,6 @@
 				alertDataEmail: {},
 				valid: true,
 				validTwo: true,
-				name: '',
 				nameRules: [
 					v => !!v || 'Name is required',
 					v => (v && v.length <= 10) || 'Name must be less than 10 characters',
@@ -176,7 +173,6 @@
 					'yes',
 					'no'
 				],
-				checkbox: false,
 				lazy: false,
 			}
 		},
@@ -225,9 +221,11 @@
 					console.error(error)
 				}
 			},
-			reset() {
-				this.$refs.form.reset()
-				console.log(this.userData);
+			resetE1() {
+				this.$refs.formE1.reset()
+			},
+			resetE2() {
+				this.$refs.formE2.reset()
 			}
 		},
 		computed: {

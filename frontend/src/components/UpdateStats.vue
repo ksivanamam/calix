@@ -6,24 +6,29 @@
 			</v-card-title>
 			<v-row no-gutters>
 				<v-col class="pa-3" cols="12" sm="12" md="12">
-						<v-card-text>
-							<v-container>
-								<v-row no-gutters>
-									<v-col cols="12" sm="12" md="12">
-										<v-text-field solo placeholder="Height" v-model="stats.req_height">
+					<v-card-text>
+						<v-container>
+							<v-row no-gutters>
+								<v-col cols="12" sm="12" md="12">
+									<v-form ref="form" v-model="valid" :lazy-validation="lazy">
+										<v-text-field solo v-model="stats.req_height" :rules="heightRules"
+											label="Height" @blur="checkIfEmpty" required>
 										</v-text-field>
-										<v-text-field solo placeholder="Weight" v-model="stats.req_weight">
+
+										<v-text-field solo v-model="stats.req_weight" :rules="weightRules"
+											label="Height" @blur="checkIfEmpty" required>
 										</v-text-field>
-									</v-col>
-								</v-row>
-							</v-container>
-							<small>*indicates required field</small>
-						</v-card-text>
-						<v-card-actions>
-							<v-spacer></v-spacer>
-							<v-btn color="success" @click="updateStats">Update</v-btn>
-							<v-btn color="warning" @click="resetStats">Reset</v-btn>
-						</v-card-actions>
+										<v-btn :disabled="!valid" v-show="stats.req_height && stats.req_height"
+											color="success" class="mr-4" @click="updateStats">
+											Update
+										</v-btn>
+										<v-btn color="warning" @click="resetStats">Reset form</v-btn>
+									</v-form>
+								</v-col>
+							</v-row>
+						</v-container>
+						<small>*indicates required field</small>
+					</v-card-text>
 				</v-col>
 			</v-row>
 		</v-card>
@@ -33,18 +38,17 @@
 <script>
 	export default {
 		data: () => ({
+			valid: true,
+			lazy: true,
+			heightRules: [
+				v => !!v || 'Height is required',
+				v => (v && v.length >= 0) || 'Height must not be empty'
+			],
+			weightRules: [
+				v => !!v || 'Weight is required',
+				v => (v && v.length >= 0) || 'Height must not be empty'
+			],
 			stats: {},
-			colors: [
-				'red',
-				'pink',
-				'purple',
-				'indigo',
-				'blue',
-				'cyan',
-				'teal',
-				'green',
-				'orange'
-			]
 		}),
 		methods: {
 			init() {
@@ -52,6 +56,9 @@
 					req_height: this.$store.state.user.user_height,
 					req_weight: this.$store.state.user.user_weight
 				}
+			},
+			checkIfEmpty() {
+
 			},
 			async updateStats() {
 				try {

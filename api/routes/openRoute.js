@@ -60,6 +60,7 @@ router.post('/checkEmail', async (req, res) => {
 				user_email: req_email
 			})
 		DBEmail = DBEmail[0]
+		console.log(DBEmail.user_PK);
 		if (DBEmail == null) {
 			var usernameStatus = {
 				alertValue: true,

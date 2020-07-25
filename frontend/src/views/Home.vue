@@ -63,7 +63,6 @@
 			openHomeDialog(option) {
 				this.homeDialog.option = option
 				this.homeDialog.on = true
-				console.log(this.homeDialog.option);
 			},
 		},
 		computed: {
