@@ -2,6 +2,7 @@
 var express = require('../node_modules/express')
 var router = express.Router()
 var knex = require('./../knexReference')
+var bcrypt = require('./../node_modules/bcryptjs')
 //!SECTION
 
 //SECTION Interfaces for all users
@@ -73,31 +74,93 @@ router.put('/updateStats', async (req, res) => {
 
 //ANCHOR Changes personal data to the given data in req.body
 router.put('/updatePersonalData', async (req, res) => {
-	try {
-		var {
-			req_email,
-			req_color
-		} = req.body
-		await knex('users')
-			.update({
-				user_email: req_email,
-				user_color: req_color
-			})
-			.where({
-				user_PK: req.decodedToken.user_PK
-			})
-		var successMessage = {
-			snackbarOn: true,
-			snackbarColor: 'success',
-			snackbarMessage: 'Personal data successfully updated.'
+	var {
+		req_email,
+		req_color
+	} = req.body
+	var DBEmail = await knex('users')
+		.where({
+			user_email: req_email
+		})
+	DBEmail = DBEmail[0]
+	if (DBEmail == null || DBEmail.user_PK == req.decodedToken.user_PK) {
+		try {
+			await knex('users')
+				.update({
+					user_email: req_email,
+					user_color: req_color
+				})
+				.where({
+					user_PK: req.decodedToken.user_PK
+				})
+			var successMessage = {
+				snackbarOn: true,
+				snackbarColor: 'success',
+				snackbarMessage: 'Successfully updated personal data.'
+			}
+			res.send(successMessage)
+		} catch (error) {
+			console.error(error.message)
+			var errorMessage = {
+				snackbarOn: true,
+				snackbarColor: 'error',
+				snackbarMessage: 'Unable to update personal data.'
+			}
+			res.send(errorMessage)
 		}
-		res.send(successMessage)
-	} catch (error) {
-		console.error(error.message)
+	} else {
 		var errorMessage = {
 			snackbarOn: true,
 			snackbarColor: 'error',
-			snackbarMessage: 'Unable to update personal data.'
+			snackbarMessage: 'Email is unavailable.'
+		}
+		res.send(errorMessage)
+	}
+})
+
+//ANCHOR Changes password to the given data in req.body
+router.put('/updatePassword', async (req, res) => {
+	var {
+		req_old_password,
+		req_new_password
+	} = req.body
+	var DBUser = await knex('users')
+		.where({
+			user_PK: req.decodedToken.user_PK
+		})
+	DBUser = DBUser[0]
+	if (await bcrypt.compare(req_old_password, DBUser.user_password)) {
+		try {
+			var salt = 10
+			var hashedPassword = await bcrypt.hash(req_new_password, salt)
+			await knex('users')
+				.update({
+					user_password: hashedPassword
+				})
+				.where({
+					user_PK: req.decodedToken.user_PK
+				})
+			var successMessage = {
+				snackbarOn: true,
+				snackbarColor: 'success',
+				snackbarMessage: 'Password successfully updated.'
+			}
+			res.send(successMessage)
+		} catch (error) {
+			console.error(error.message)
+			var errorMessage = {
+				snackbarOn: true,
+				snackbarColor: 'error',
+				snackbarMessage: 'Unable to update password.'
+			}
+			res.send(errorMessage)
+		}
+
+	} else {
+		var errorMessage = {
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Password is incorrect.'
 		}
 		res.send(errorMessage)
 	}
@@ -258,17 +321,17 @@ router.put('/customExercises/:exercise_PK', async (req, res) => {
 			req_type
 		} = req.body
 		await knex('exercises')
-		.update({
-			exercise_name: req_name,
-			exercise_weighted: req_weighted,
-			exercise_advanced: req_advanced,
-			exercise_engagement: req_engagement,
-			exercise_type: req_type,
-		})
-		.where({
-			exercise_user_FK: req.decodedToken.user_PK,
-			exercise_PK: req.params.exercise_PK
-		})
+			.update({
+				exercise_name: req_name,
+				exercise_weighted: req_weighted,
+				exercise_advanced: req_advanced,
+				exercise_engagement: req_engagement,
+				exercise_type: req_type,
+			})
+			.where({
+				exercise_user_FK: req.decodedToken.user_PK,
+				exercise_PK: req.params.exercise_PK
+			})
 		var successMessage = {
 			snackbarOn: true,
 			snackbarColor: 'success',
@@ -288,7 +351,6 @@ router.put('/customExercises/:exercise_PK', async (req, res) => {
 
 //ANCHOR Deletes custom exercies from exercise library
 router.delete('/customExercises/:exercises_PK', async (req, res) => {
-	console.log(req.decodedToken.user_PK)
 	try {
 		await knex('exercises')
 			.delete()
@@ -341,11 +403,11 @@ router.get('/customWorkouts', async (req, res) => {
 				workout_public: false,
 				workout_user_FK: req.decodedToken.user_PK
 			})
-			// .join(
-			// 	'workoutExercises',
-			// 	'workoutExercises.workoutExercise_workout_FK',
-			// 	'workouts.workout_PK'
-			// )
+		// .join(
+		// 	'workoutExercises',
+		// 	'workoutExercises.workoutExercise_workout_FK',
+		// 	'workouts.workout_PK'
+		// )
 		res.send(data)
 	} catch (error) {
 		console.error(error.message)
@@ -685,18 +747,18 @@ router.post('/plans/:plan_day', async (req, res) => {
 			req_plan_workout_FK,
 		} = req.body
 		await knex('plans')
-		.insert({
-			plan_user_FK: req.decodedToken.user_PK,
-			plan_workout_FK: req_plan_workout_FK,
-			plan_day: req.params.plan_day
-		})
+			.insert({
+				plan_user_FK: req.decodedToken.user_PK,
+				plan_workout_FK: req_plan_workout_FK,
+				plan_day: req.params.plan_day
+			})
 		var errorMessage = {
 			snackbarOn: true,
 			snackbarColor: 'success',
 			snackbarMessage: 'Workout successfully added to plan.'
 		}
 		res.send(successMessage)
-	} catch(error) {
+	} catch (error) {
 		console.error(error.message)
 		var errorMessage = {
 			snackbarOn: true,
@@ -707,31 +769,31 @@ router.post('/plans/:plan_day', async (req, res) => {
 	}
 })
 
- //ANCHOR Deletes workout in weekly plan
- router.delete('/plans/:plan_PK', async (req, res) => {
-	 try {
+//ANCHOR Deletes workout in weekly plan
+router.delete('/plans/:plan_PK', async (req, res) => {
+	try {
 		await knex('plans')
-		.del()
-		.where({
-			plan_user_FK: req.decodedToken.user_PK,
-			plan_PK: req.params.plan_PK
-		})
+			.del()
+			.where({
+				plan_user_FK: req.decodedToken.user_PK,
+				plan_PK: req.params.plan_PK
+			})
 		var errorMessage = {
 			snackbarOn: true,
 			snackbarColor: 'success',
 			snackbarMessage: 'Workout successfully deleted from plan.'
 		}
 		res.send(successMessage)
-	 } catch(error) {
-		 console.error(error.message)
-		 var errorMessage = {
-			 snackbarOn: true,
-			 snackbarColor: 'error',
-			 snackbarMessage: 'Unable to delete workout in weekly plan. Try again.'
-		 }
-		 res.send(errorMessage)
-	 }
- })
+	} catch (error) {
+		console.error(error.message)
+		var errorMessage = {
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: 'Unable to delete workout in weekly plan. Try again.'
+		}
+		res.send(errorMessage)
+	}
+})
 // !SECTION
 
 // SECTION Exports

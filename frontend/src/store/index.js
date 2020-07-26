@@ -69,7 +69,6 @@ export default new Vuex.Store({
 		//ANCHOR Sets the snackbar data in object.
 		setSnackbar: (state, snackbarData) => {
 			state.snackbar = snackbarData
-			console.log(snackbarData);
 		},
 		resetSnackbar: (state) => {
 			state.snackbar = {
@@ -102,26 +101,32 @@ export default new Vuex.Store({
 		},
 		// ANCHOR Calls a mutation to set the token.
 		async login(context, data) {
-			try {
-				var token = await axios.post('/openRoute/login', data.credentials).then(response => response.data.accessToken)
-				context.commit('setToken', token)
-				axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-				var user = await axios.get('/protectedRoute/profil').then(response => response.data[0])
-				context.commit('setUser', user)
-				router.push('/Profil')
-				var snackbarData = {
-					snackbarOn: true,
-					snackbarColor: 'success',
-					snackbarMessage: 'Successfully logged in.'
+			var loginResponse = await axios.post('/openRoute/login', data.credentials).then(response => response.data)
+			if (!loginResponse.passwordIncorrectMessage) {
+				try {
+					context.commit('setToken', loginResponse.accessToken)
+					axios.defaults.headers.common['Authorization'] = `Bearer ${loginResponse.accessToken}`
+					var user = await axios.get('/protectedRoute/profil').then(response => response.data[0])
+					context.commit('setUser', user)
+					router.push('/Profil')
+					var snackbarData = {
+						snackbarOn: true,
+						snackbarColor: 'success',
+						snackbarMessage: 'Successfully logged in.'
+					}
+					context.commit('setSnackbar', snackbarData)
+					setTimeout(() => {
+						context.commit('resetSnackbar')
+					}, 2500);
+				} catch (error) {
+					console.log(error);
 				}
-				context.commit('setSnackbar', snackbarData)
+			} else {
+				context.commit('setSnackbar', loginResponse.passwordIncorrectMessage)
 				setTimeout(() => {
 					context.commit('resetSnackbar')
 				}, 2500);
-			} catch (error) {
-				console.error(error);
 			}
-
 		},
 		// ANCHOR Calls a mutation to reset the state object.
 		logout(context, data) {
@@ -162,6 +167,13 @@ export default new Vuex.Store({
 				context.commit('resetSnackbar')
 			}, 2500);
 		},
+		async updatePassword(context, data) {
+			var updatePasswordResponse = await axios.put('/protectedRoute/updatePassword', data.passwords).then(response => response.data)
+			context.commit('setSnackbar', updatePasswordResponse)
+			setTimeout(() => {
+				context.commit('resetSnackbar')
+			}, 2500);
+		},
 		async getPublicExercises(context) {
 			var exercises = await axios.get('/protectedRoute/publicExercises').then(response => response.data)
 			context.commit('setPublicExercises', exercises)
@@ -186,7 +198,6 @@ export default new Vuex.Store({
 		},
 		callAlert(context, data) {
 			context.commit('setAlert', data.alertData)
-			console.log(data.alertData);
 			setTimeout(() => {
 				context.commit('resetAlert')
 			}, 2500);

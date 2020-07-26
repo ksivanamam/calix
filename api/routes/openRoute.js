@@ -60,7 +60,6 @@ router.post('/checkEmail', async (req, res) => {
 				user_email: req_email
 			})
 		DBEmail = DBEmail[0]
-		console.log(DBEmail.user_PK);
 		if (DBEmail == null) {
 			var usernameStatus = {
 				alertValue: true,
@@ -123,7 +122,6 @@ router.post('/register', async (req, res) => {
 				snackbarMessage: 'User ' + req_username + ' or email ' + req_email + ' already exists. Try another one.'
 			}
 			res.send(usernameTakenMessage)
-			console.log(usernameTakenMessage)
 		} else {
 			var salt = 10
 			var hashedPassword = await bcrypt.hash(req_password, salt)
@@ -148,7 +146,6 @@ router.post('/register', async (req, res) => {
 				snackbarMessage: 'Registered as ' + req_username
 			}
 			res.send(successMessage)
-			console.log(successMessage);
 		}
 	} catch (error) {
 		console.error(error.message);
@@ -208,7 +205,9 @@ router.post('/login', async (req, res) => {
 					snackbarColor: 'error',
 					snackbarMessage: 'Password is incorrect. Try again.'
 				}
-				res.send(passwordIncorrectMessage)
+				res.json({
+					passwordIncorrectMessage: passwordIncorrectMessage
+				})
 			}
 		} catch (error) {
 			console.error(error.message);
