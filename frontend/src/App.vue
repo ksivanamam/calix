@@ -10,9 +10,9 @@
 </template>
 
 <script>
-	import Snackbar from './components/Snackbar'
-	import Footer from './components/Footer'
-	import Navbar from './components/Navbar'
+	import Snackbar from './components/cross_platform/CrossPlatformSnackbar'
+	import Footer from './components/cross_platform/CrossPlatformFooter'
+	import Navbar from './components/cross_platform/CrossPlatformNavbar'
 	export default {
 		name: 'App',
 		components: {

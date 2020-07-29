@@ -1,118 +1,12 @@
 <template>
 	<v-content>
-		<v-row no-glutter>
-			<v-col class="pa-5" cols="12" sm="12" md="12">
-				<v-card>
-					<v-card-title primary-title>
-						<v-card class="d-flex pa-2 elevation-0">
-							<v-img width="75px" :src="userData.user_image"></v-img>
-						</v-card>
-						<v-card class="d-flex pa-2 elevation-0 font-weight-bold">
-							{{userData.user_firstname}} {{userData.user_lastname}}
-						</v-card>
-					</v-card-title>
-				</v-card>
-			</v-col>
-		</v-row>
+		<CrossPlatformProfilBar />
 		<v-row no-gutters>
 			<v-col class="pa-3" cols="12" sm="12" md="6">
-				<v-card min-height="240px">
-					<v-card-text>
-						Stats
-					</v-card-text>
-					<v-row no-glutter>
-						<v-col>
-							<v-card class="ma-5" color="blue-grey" hover>
-								<v-card-text class="pb-0 white--text">
-									Height
-								</v-card-text>
-								<v-card-title class="white--text" primary-title>
-									{{userData.user_height}} cm
-								</v-card-title>
-							</v-card>
-						</v-col>
-						<v-col>
-							<v-card class="ma-5" color="blue-grey">
-								<v-card-text class="pb-0 white--text">
-									Weight
-								</v-card-text>
-								<v-card-title class="white--text" primary-title>
-									{{userData.user_weight}} kg
-								</v-card-title>
-							</v-card>
-						</v-col>
-						<v-col>
-							<v-card class="ma-5" :color="getBMIColor">
-								<v-card-text class="pb-0 white--text">
-									BMI
-								</v-card-text>
-								<v-card-title class="white--text" primary-title>
-									{{getBMI}}
-								</v-card-title>
-							</v-card>
-						</v-col>
-					</v-row>
-				</v-card>
+			<CrossPlatformProfilStats />
 			</v-col>
 			<v-col class="pa-3" cols="12" sm="12" md="6">
-				<v-card min-height="240px">
-					<v-card-text>
-						Personal data
-					</v-card-text>
-					<v-row no-glutter>
-						<v-col>
-							<v-list-item two-line>
-								<v-list-item-content>
-									<v-list-item-subtitle class="pb-2">Username</v-list-item-subtitle>
-									<v-list-item-title>{{userData.user_username}}</v-list-item-title>
-								</v-list-item-content>
-							</v-list-item>
-						</v-col>
-						<v-col>
-							<v-list-item two-line>
-								<v-list-item-content>
-									<v-list-item-subtitle class="pb-2">Firstname</v-list-item-subtitle>
-									<v-list-item-title>{{userData.user_firstname}}</v-list-item-title>
-								</v-list-item-content>
-							</v-list-item>
-						</v-col>
-						<v-col>
-							<v-list-item two-line>
-								<v-list-item-content>
-									<v-list-item-subtitle class="pb-2">Lastname</v-list-item-subtitle>
-									<v-list-item-title>{{userData.user_lastname}}</v-list-item-title>
-								</v-list-item-content>
-							</v-list-item>
-						</v-col>
-					</v-row>
-					<v-row no-glutter>
-						<v-col>
-							<v-list-item two-line>
-								<v-list-item-content>
-									<v-list-item-subtitle class="pb-2">Year of birth</v-list-item-subtitle>
-									<v-list-item-title>{{userData.user_yearOfBirth}}</v-list-item-title>
-								</v-list-item-content>
-							</v-list-item>
-						</v-col>
-						<v-col>
-							<v-list-item two-line>
-								<v-list-item-content>
-									<v-list-item-subtitle class="pb-2">Sex</v-list-item-subtitle>
-									<v-list-item-title v-if="userData.user_sex">Male</v-list-item-title>
-									<v-list-item-title v-else>Female</v-list-item-title>
-								</v-list-item-content>
-							</v-list-item>
-						</v-col>
-						<v-col>
-							<v-list-item two-line>
-								<v-list-item-content>
-									<v-list-item-subtitle class="pb-2">E-Mail</v-list-item-subtitle>
-									<v-list-item-title>{{userData.user_email}}</v-list-item-title>
-								</v-list-item-content>
-							</v-list-item>
-						</v-col>
-					</v-row>
-				</v-card>
+			<CrossPlatformProfilPersonalData />
 			</v-col>
 		</v-row>
 		<v-row no-gutters>
@@ -155,12 +49,18 @@
 </template>
 
 <script>
-	import UpdateStats from '../components/UpdateStats'
-	import UpdatePersonalData from '../components/UpdatePersonalData'
-	import UpdatePassword from '../components/UpdatePassword'
+	import CrossPlatformProfilBar from '../components/cross_platform/CrossPlatformProfilBar'
+	import CrossPlatformProfilStats from '../components/cross_platform/CrossPlatformProfilStats'
+	import CrossPlatformProfilPersonalData from '../components/cross_platform/CrossPlatformProfilPersonalData'
+	import UpdateStats from '../components/cross_platform/CrossPlatformUpdateStats'
+	import UpdatePersonalData from '../components/cross_platform/CrossPlatformUpdatePersonalData'
+	import UpdatePassword from '../components/cross_platform/CrossPlatformUpdatePassword'
 	export default {
 		name: 'Profil',
 		components: {
+			'CrossPlatformProfilBar': CrossPlatformProfilBar,
+			'CrossPlatformProfilStats': CrossPlatformProfilStats,
+			'CrossPlatformProfilPersonalData': CrossPlatformProfilPersonalData,
 			'UpdateStats': UpdateStats,
 			'UpdatePersonalData': UpdatePersonalData,
 			'UpdatePassword': UpdatePassword,

@@ -112,7 +112,7 @@
 		},
 		methods: {
 			init() {
-				this.$store.dispatch('getCustomExercises')
+				this.$store.dispatch('getCustomWorkouts')
 				this.items = this.$store.state.customWorkouts
 			},
 			nextPage() {

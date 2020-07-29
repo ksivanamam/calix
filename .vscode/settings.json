@@ -3,7 +3,7 @@
 		{
 			"database": "${workspaceFolder:calix}/db/dev.sqlite3",
 			"driver": "SQLite",
-			"name": "calix",
+			"name": "calixConnection",
 			"previewLimit": 50
 		}
 	],

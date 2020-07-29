@@ -53,8 +53,8 @@
 </template>
 
 <script>
-	import PublicExercises from './../components/PublicExercises'
-	import CustomExercises from './../components/CustomExercises'
+	import PublicExercises from './../components/cross_platform/CrossPlatformPublicExercises'
+	import CustomExercises from './../components/cross_platform/CrossPlatformCustomExercises'
 	export default {
 		name: 'Exercises',
 		components: {

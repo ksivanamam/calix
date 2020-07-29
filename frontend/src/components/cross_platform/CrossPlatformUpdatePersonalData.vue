@@ -17,11 +17,11 @@
 										<v-select solo v-model="personalData.req_color" :items="colors"
 											:rules="[v => !!v || 'Color is required']" label="Color*" required>
 										</v-select>
-										<v-btn :disabled="!valid" color="success"
-											class="mr-4" @click="updatePersonalData">
+										<v-btn :disabled="!valid" color="success" class="mr-4 ma-1"
+											@click="updatePersonalData">
 											Update
 										</v-btn>
-										<v-btn color="warning" class="mr-4" @click="resetPersonalData">
+										<v-btn color="warning" class="mr-4 ma-1" @click="resetPersonalData">
 											Reset Form
 										</v-btn>
 									</v-form>

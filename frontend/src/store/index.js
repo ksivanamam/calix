@@ -188,6 +188,7 @@ export default new Vuex.Store({
 		},
 		async getCustomWorkouts(context) {
 			var workouts = await axios.get('/protectedRoute/customWorkouts').then(response => response.data)
+			console.log(workouts);
 			context.commit('setCustomWorkouts', workouts)
 		},
 		callSnackbar(context, data) {

@@ -17,10 +17,10 @@
 										<v-text-field solo type="password" v-model="passwords.req_new_password"
 											:rules="passwordRules" label="New Password" required>
 										</v-text-field>
-										<v-btn :disabled="!valid" color="success" class="mr-4" @click="updatePassword">
+										<v-btn :disabled="!valid" color="success" class="mr-4 ma-1" @click="updatePassword">
 											Update password
 										</v-btn>
-										<v-btn color="warning" @click="resetPasswords">Reset form</v-btn>
+										<v-btn class="ma-1" color="warning" @click="resetPasswords">Reset form</v-btn>
 									</v-form>
 								</v-col>
 							</v-row>

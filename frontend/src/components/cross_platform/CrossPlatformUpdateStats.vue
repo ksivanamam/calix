@@ -19,10 +19,10 @@
 											label="Height" @blur="checkIfEmpty" required>
 										</v-text-field>
 										<v-btn :disabled="!valid" v-show="stats.req_height && stats.req_height"
-											color="success" class="mr-4" @click="updateStats">
+											color="success" class="mr-4 ma-1" @click="updateStats">
 											Update
 										</v-btn>
-										<v-btn color="warning" @click="resetStats">Reset form</v-btn>
+										<v-btn class="ma-1" color="warning" @click="resetStats">Reset form</v-btn>
 									</v-form>
 								</v-col>
 							</v-row>
