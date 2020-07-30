@@ -18,9 +18,9 @@
 											:rules="passwordRules" label="New Password" required>
 										</v-text-field>
 										<v-btn :disabled="!valid" color="success" class="mr-4 ma-1" @click="updatePassword">
-											Update password
+											Update
 										</v-btn>
-										<v-btn class="ma-1" color="warning" @click="resetPasswords">Reset form</v-btn>
+										<v-btn class="ma-1" color="warning" @click="resetPasswords">Reset</v-btn>
 									</v-form>
 								</v-col>
 							</v-row>
@@ -41,22 +41,10 @@
 				v => !!v || 'Password is required',
 				v => (v && v.length >= 8) || 'Password must be at least 8 characters long',
 			],
-			alertDataPassword: {},
 			passwords: {
 				req_old_password: '',
 				req_new_password: ''
-			},
-			colors: [
-				'red',
-				'pink',
-				'purple',
-				'indigo',
-				'blue',
-				'cyan',
-				'teal',
-				'green',
-				'orange'
-			]
+			}
 		}),
 		methods: {
 			async updatePassword() {

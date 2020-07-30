@@ -55,16 +55,6 @@
 			this.init()
 		},
 		computed: {
-			setPrimaryColor() {
-				if (this.$store.state.token) {
-					return this.$store.state.user.user_color
-				} else {
-					return 'info'
-				}
-			},
-			setSecondaryColor() {
-				return this.$store.state.user.user_color + ' darken-3'
-			},
 			getBMI() {
 				var height = this.userData.user_height
 				var heightInCm = height / 100

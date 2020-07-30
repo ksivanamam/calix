@@ -22,7 +22,7 @@
 											Update
 										</v-btn>
 										<v-btn color="warning" class="mr-4 ma-1" @click="resetPersonalData">
-											Reset Form
+											Reset
 										</v-btn>
 									</v-form>
 								</v-col>

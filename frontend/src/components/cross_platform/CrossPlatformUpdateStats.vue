@@ -12,17 +12,17 @@
 								<v-col cols="12" sm="12" md="12">
 									<v-form ref="form" v-model="valid" :lazy-validation="lazy">
 										<v-text-field solo v-model="stats.req_height" :rules="heightRules"
-											label="Height" @blur="checkIfEmpty" required>
+											label="Height" required>
 										</v-text-field>
 
 										<v-text-field solo v-model="stats.req_weight" :rules="weightRules"
-											label="Height" @blur="checkIfEmpty" required>
+											label="Height" required>
 										</v-text-field>
 										<v-btn :disabled="!valid" v-show="stats.req_height && stats.req_height"
 											color="success" class="mr-4 ma-1" @click="updateStats">
 											Update
 										</v-btn>
-										<v-btn class="ma-1" color="warning" @click="resetStats">Reset form</v-btn>
+										<v-btn class="ma-1" color="warning" @click="resetStats">Reset</v-btn>
 									</v-form>
 								</v-col>
 							</v-row>
@@ -55,9 +55,6 @@
 					req_height: this.$store.state.user.user_height,
 					req_weight: this.$store.state.user.user_weight
 				}
-			},
-			checkIfEmpty() {
-
 			},
 			async updateStats() {
 				try {
