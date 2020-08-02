@@ -11,17 +11,17 @@
 </template>
 
 <script>
-	import DesktopSnackbar from './components/desktop/DesktopSnackbar'
-	import MobilSnackbar from './components/mobil/MobilSnackbar'
-	import Footer from './components/cross_platform/CrossPlatformFooter'
-	import Navbar from './components/cross_platform/CrossPlatformNavbar'
+	import Navbar from './components/cross_platform/universal/CrossPlatformNavbar'
+	import MobilSnackbar from './components/mobil/universal/MobilSnackbar'
+	import DesktopSnackbar from './components/desktop/universal/DesktopSnackbar'
+	import Footer from './components/cross_platform/universal/CrossPlatformFooter'
 	export default {
 		name: 'App',
 		components: {
-			'DesktopSnackbar': DesktopSnackbar,
+			'Navbar': Navbar,
 			'MobilSnackbar': MobilSnackbar,
+			'DesktopSnackbar': DesktopSnackbar,
 			'Footer': Footer,
-			'Navbar': Navbar
 		},
 		data: () => ({
 			// ...

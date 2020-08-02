@@ -6,8 +6,8 @@
 </template>
 
 <script>
-	import DesktopLandingPage from './../components/desktop/DesktopLandingPage'
-	import MobilLandingPage from './../components/mobil/MobilLandingPage'
+	import DesktopLandingPage from './../components/desktop/home/DesktopLandingPage'
+	import MobilLandingPage from './../components/mobil/home/MobilLandingPage'
 	export default {
 		components: {
 			'DesktopLandingPage': DesktopLandingPage,

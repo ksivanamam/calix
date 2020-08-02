@@ -123,7 +123,7 @@
 					</v-card>
 				</v-stepper-content>
 				<v-stepper-content step="3">
-					<v-img class="mx-auto" src="./../../assets/co-workout-2.svg" max-width="450"></v-img>
+					<v-img class="mx-auto" src="./../../../assets/co-workout-2.svg" max-width="450"></v-img>
 					<v-btn color="primary" @click="login">
 						Log in!
 					</v-btn>

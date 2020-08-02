@@ -1,6 +1,6 @@
 <template>
 	<v-content>
-		<CrossPlatformProfilBar />
+		<CrossPlatformUserBar />
 		<v-row no-gutters>
 			<v-col class="pa-3" cols="12" sm="12" md="6">
 				<CrossPlatformProfilStats />
@@ -18,14 +18,14 @@
 </template>
 
 <script>
-	import CrossPlatformProfilBar from '../components/cross_platform/CrossPlatformProfilBar'
-	import CrossPlatformProfilStats from '../components/cross_platform/CrossPlatformProfilStats'
-	import CrossPlatformProfilPersonalData from '../components/cross_platform/CrossPlatformProfilPersonalData'
-	import CrossPlatformProfilEdit from '../components/cross_platform/CrossPlatformProfilEdit'
+	import CrossPlatformUserBar from './../components/cross_platform/profil/CrossPlatformUserBar'
+	import CrossPlatformProfilStats from './../components/cross_platform/profil/CrossPlatformProfilStats'
+	import CrossPlatformProfilPersonalData from './../components/cross_platform/profil/CrossPlatformProfilPersonalData'
+	import CrossPlatformProfilEdit from './../components/cross_platform/profil/CrossPlatformProfilEdit'
 	export default {
 		name: 'Profil',
 		components: {
-			'CrossPlatformProfilBar': CrossPlatformProfilBar,
+			'CrossPlatformUserBar': CrossPlatformUserBar,
 			'CrossPlatformProfilStats': CrossPlatformProfilStats,
 			'CrossPlatformProfilPersonalData': CrossPlatformProfilPersonalData,
 			'CrossPlatformProfilEdit': CrossPlatformProfilEdit

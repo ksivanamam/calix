@@ -53,8 +53,8 @@
 </template>
 
 <script>
-	import PublicWorkouts from './../components/cross_platform/CrossPlatformPublicWorkouts'
-	import CustomWorkouts from './../components/cross_platform/CrossPlatformCustomWorkouts'
+	import PublicWorkouts from './../components/cross_platform/workouts/CrossPlatformPublicWorkouts'
+	import CustomWorkouts from './../components/cross_platform/workouts/CrossPlatformCustomWorkouts'
 	export default {
 		name: 'Exercises',
 		components: {

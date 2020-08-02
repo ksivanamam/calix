@@ -3,29 +3,25 @@
 		<v-container>
 			<v-row no-gutters>
 				<v-col cols="12" sm="12" md="5">
-
-					<v-card elevation="0">
-						<v-img src="./../../assets/obstacle-course-1.svg" width="1000"></v-img>
-					</v-card>
 				</v-col>
 				<v-col cols="12" sm="0" md="1">
 				</v-col>
 				<v-col class="mt-12" cols="12" sm="12" md="6">
-					<h1 id="home-title">Work harder. <br> Be focused. <br> Succeed.</h1>
-					<v-btn v-show="!isLoggedIn" class="mt-12 mr-5" color="info" x-large @click="openHomeDialog(true)">
+					<h1 class="hidden-sm-and-down" id="home-title">Work harder. <br> Be focused. <br> Succeed.</h1>
+					<v-btn block v-show="!isLoggedIn" class="mt-12 mr-5" color="info" x-large @click="openHomeDialog(true)">
 						<v-icon class="mr-2">mdi-account-plus</v-icon>
 						<span class="white--text">Register</span>
 					</v-btn>
-					<v-btn v-show="isLoggedIn" class="mt-12 mr-5" :color="setSecondaryColor" x-large to="/Profil">
+					<v-btn block v-show="isLoggedIn" class="mt-12 mr-5" :color="setSecondaryColor" x-large to="/Profil">
 						<v-icon class="mr-2" color="white">mdi-account</v-icon>
 						<span class="white--text">Profil</span>
 					</v-btn>
-					<v-btn v-show="!isLoggedIn" class="mt-12" color="success" x-large
+					<v-btn block v-show="!isLoggedIn" class="mt-12" color="success" x-large
 						@click="openHomeDialog(false)">
 						<v-icon class="mr-2">mdi-login</v-icon>
 						<span class="white--text">Login</span>
 					</v-btn>
-					<v-btn v-show="isLoggedIn" class="mt-12" :color="setSecondaryColor" x-large to="/Today">
+					<v-btn block v-show="isLoggedIn" class="mt-12" :color="setSecondaryColor" x-large to="/Today">
 						<v-icon class="mr-2" color="white">mdi-calendar</v-icon>
 						<span class="white--text">Today's Workout</span>
 					</v-btn>
@@ -42,8 +38,8 @@
 </template>
 
 <script>
-	import Login from './../cross_platform/CrossPlatformLogin'
-	import Register from './../cross_platform/CrossPlatformRegister'
+	import Login from './../../cross_platform/home/CrossPlatformLogin'
+	import Register from './../../cross_platform/home/CrossPlatformRegister'
 	export default {
 		name: 'Home',
 		components: {

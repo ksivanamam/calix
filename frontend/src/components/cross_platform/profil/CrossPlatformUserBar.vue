@@ -20,7 +20,7 @@
 
 <script>
 	export default {
-		name: 'CrossPlatformProfilBar',
+		name: 'CrossPlatformUserBar',
 		data: () => ({
 			userData: {}
 		}),

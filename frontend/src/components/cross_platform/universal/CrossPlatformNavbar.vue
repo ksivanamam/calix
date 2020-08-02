@@ -2,7 +2,7 @@
 	<div>
 		<v-app-bar app :color="setPrimaryColor" dark>
 			<div class="d-flex align-center">
-				<v-img src="./../../assets/logo-text-4.png" width="75px"></v-img>
+				<v-img src="./../../../assets/logo-text-4.png" width="75px"></v-img>
 				<v-app-bar-nav-icon v-show="isLoggedIn" @click.stop="navigationDrawer = !navigationDrawer">
 				</v-app-bar-nav-icon>
 			</div>
