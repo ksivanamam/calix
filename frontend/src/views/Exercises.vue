@@ -2,7 +2,7 @@
 	<v-content>
 		<v-row no-gutters>
 			<v-col class="pa-5" cols="12" sm="12" md="12">
-				<v-card>
+				<v-card class="hidden-sm-and-down">
 					<v-card-title primary-title>
 						<v-card class="d-flex pa-2 elevation-0">
 							<v-img width="75px">
@@ -13,8 +13,29 @@
 							Exercises
 						</v-card>
 						<v-spacer></v-spacer>
-						<v-btn v-show="!custom" class="white--text" :color="setSecondaryColor" @click="custom = true">To custom exercises</v-btn>
-						<v-btn v-show="custom" class="white--text" :color="setSecondaryColor" @click="custom = false">To public exercises</v-btn>
+						<v-btn v-show="!custom" class="white--text" :color="setSecondaryColor" @click="custom = true">To
+							custom exercises</v-btn>
+						<v-btn v-show="custom" class="white--text" :color="setSecondaryColor" @click="custom = false">To
+							public exercises</v-btn>
+					</v-card-title>
+				</v-card>
+				<v-card class="hidden-md-and-up">
+					<v-card-title primary-title>
+						<v-card class="d-flex pa-2 elevation-0">
+							<v-img width="75px">
+								<v-icon>mdi-book-open-variant</v-icon>
+							</v-img>
+						</v-card>
+						<v-card class="d-flex pa-2 elevation-0">
+							Exercises
+						</v-card>
+						<v-spacer></v-spacer>
+						<v-btn block v-show="!custom" class="white--text" :color="setSecondaryColor"
+							@click="custom = true">To
+							custom exercises</v-btn>
+						<v-btn block v-show="custom" class="white--text" :color="setSecondaryColor"
+							@click="custom = false">To
+							public exercises</v-btn>
 					</v-card-title>
 				</v-card>
 			</v-col>
@@ -32,7 +53,8 @@
 							Public
 						</v-card>
 					</v-card-title>
-					<PublicExercises v-show="!custom" />
+					<DesktopPublicExercises class="hidden-sm-and-down" v-show="!custom" />
+					<MobilPublicExercises class="hidden-md-and-up" v-show="!custom" />
 				</v-card>
 				<v-card class="mt-1" v-show="custom">
 					<v-card-title primary-title>
@@ -45,21 +67,33 @@
 							Custom
 						</v-card>
 					</v-card-title>
-					<CustomExercises v-show="custom" />
+					<DesktopCustomExercises class="hidden-sm-and-down" v-show="custom" />
+					<MobilCustomExercises class="hidden-md-and-up" v-show="custom" />
 				</v-card>
+			</v-col>
+		</v-row>
+		<v-row no-gutters>
+			<v-col class="pa-5" cols="12" sm="12" md="12">
+				<CrossPlatformAddExercise v-show="custom" />
 			</v-col>
 		</v-row>
 	</v-content>
 </template>
 
 <script>
-	import PublicExercises from './../components/cross_platform/exercises/CrossPlatformPublicExercises'
-	import CustomExercises from './../components/cross_platform/exercises/CrossPlatformCustomExercises'
+	import DesktopPublicExercises from './../components/desktop/exercises/DesktopPublicExercises'
+	import DesktopCustomExercises from './../components/desktop/exercises/DesktopCustomExercises'
+	import MobilPublicExercises from './../components/mobil/exercises/MobilPublicExercises'
+	import MobilCustomExercises from './../components/mobil/exercises/MobilCustomExercises'
+	import CrossPlatformAddExercise from './../components/cross_platform/exercises/CrossPlatformAddExercise'
 	export default {
 		name: 'Exercises',
 		components: {
-			'PublicExercises': PublicExercises,
-			'CustomExercises': CustomExercises
+			'DesktopPublicExercises': DesktopPublicExercises,
+			'DesktopCustomExercises': DesktopCustomExercises,
+			'MobilPublicExercises': MobilPublicExercises,
+			'MobilCustomExercises': MobilCustomExercises,
+			'CrossPlatformAddExercise': CrossPlatformAddExercise
 		},
 		data: () => ({
 			custom: false

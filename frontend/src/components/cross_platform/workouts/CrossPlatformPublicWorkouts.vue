@@ -85,6 +85,7 @@
 </template>
 
 <script>
+	import axios from 'axios'
 	export default {
 		data() {
 			return {
@@ -111,9 +112,9 @@
 			}
 		},
 		methods: {
-			init() {
-				this.$store.dispatch('getPublicWorkouts')
-				this.items = this.$store.state.publicWorkouts
+			async init() {
+				var workouts = await axios.get('/protectedRoute/customWorkouts').then(response => response.data)
+				this.items = workouts
 			},
 			nextPage() {
 				if (this.page + 1 <= this.numberOfPages) this.page += 1

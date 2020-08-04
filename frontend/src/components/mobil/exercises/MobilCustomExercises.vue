@@ -51,24 +51,6 @@
 
 			<template v-slot:footer>
 				<v-row class="mt-2" align="center" justify="center">
-					<span class="grey--text">Items per page</span>
-					<v-menu offset-y>
-						<template v-slot:activator="{ on, attrs }">
-							<v-btn dark text :color="setSecondaryColor" class="ml-2" v-bind="attrs" v-on="on">
-								{{ itemsPerPage }}
-								<v-icon>mdi-chevron-down</v-icon>
-							</v-btn>
-						</template>
-						<v-list>
-							<v-list-item v-for="(number, index) in itemsPerPageArray" :key="index"
-								@click="updateItemsPerPage(number)">
-								<v-list-item-title>{{ number }}</v-list-item-title>
-							</v-list-item>
-						</v-list>
-					</v-menu>
-
-					<v-spacer></v-spacer>
-
 					<span class="mr-4 grey--text">
 						Page {{ page }} of {{ numberOfPages }}
 					</span>
@@ -85,6 +67,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 	export default {
 		data() {
 			return {
@@ -111,9 +94,9 @@
 			}
 		},
 		methods: {
-			init() {
-				this.$store.dispatch('getCustomExercises')
-				this.items = this.$store.state.customExercises
+			async init() {
+				var exercises = await axios.get('/protectedRoute/customExercises').then(response => response.data)
+				this.items = exercises
 			},
 			nextPage() {
 				if (this.page + 1 <= this.numberOfPages) this.page += 1

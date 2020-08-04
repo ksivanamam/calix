@@ -16,6 +16,7 @@ axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
 Vue.config.productionTip = false
 
 new Vue({
+	axios,
 	router,
 	store,
 	vuetify,

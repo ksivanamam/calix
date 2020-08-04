@@ -27,9 +27,9 @@
 
 			<template v-slot:default="props">
 				<v-row>
-					<v-col v-for="item in props.items" :key="item.workout_PK" cols="12" sm="6" md="4" lg="3">
+					<v-col v-for="item in props.items" :key="item.exercise_PK" cols="12" sm="6" md="4" lg="3">
 						<v-card>
-							<v-card-title class="subheading font-weight-bold">{{ item.workout_name }}</v-card-title>
+							<v-card-title class="subheading font-weight-bold">{{ item.exercise_name }}</v-card-title>
 
 							<v-divider></v-divider>
 
@@ -98,9 +98,9 @@
 				sortBy: 'name',
 				showKeys: [],
 				keys: [
-					'workout_name',
-					'workout_focus',
-					'workout_difficulty'
+					'exercise_name',
+					'exercise_type',
+					'exercise_engagement'
 				],
 				sortOptions: [
 					'Strength',
@@ -113,8 +113,9 @@
 		},
 		methods: {
 			async init() {
-				var workouts = await axios.get('/protectedRoute/publicWorkouts').then(response => response.data)
-				this.items = workouts
+				var exercises = await axios.get('/protectedRoute/publicExercises').then(response => response
+					.data)
+				this.items = exercises
 			},
 			nextPage() {
 				if (this.page + 1 <= this.numberOfPages) this.page += 1
@@ -134,11 +135,11 @@
 				return Math.ceil(this.items.length / this.itemsPerPage)
 			},
 			filteredKeys() {
-				return this.keys.filter(key => key !== `workout_name`)
+				return this.keys.filter(key => key !== `exercise_name`)
 			},
 			filteredShowKeys() {
 				this.keys.forEach(element => {
-					this.showKeys.push(element.substr(8))
+					this.showKeys.push(element.substr(9))
 				});
 				return this.showKeys.filter(key => key !== 'name')
 			},

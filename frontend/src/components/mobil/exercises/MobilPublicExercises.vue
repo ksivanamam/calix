@@ -27,9 +27,9 @@
 
 			<template v-slot:default="props">
 				<v-row>
-					<v-col v-for="item in props.items" :key="item.workout_PK" cols="12" sm="6" md="4" lg="3">
+					<v-col v-for="item in props.items" :key="item.exercise_PK" cols="12" sm="6" md="4" lg="3">
 						<v-card>
-							<v-card-title class="subheading font-weight-bold">{{ item.workout_name }}</v-card-title>
+							<v-card-title class="subheading font-weight-bold">{{ item.exercise_name }}</v-card-title>
 
 							<v-divider></v-divider>
 
@@ -51,24 +51,6 @@
 
 			<template v-slot:footer>
 				<v-row class="mt-2" align="center" justify="center">
-					<span class="grey--text">Items per page</span>
-					<v-menu offset-y>
-						<template v-slot:activator="{ on, attrs }">
-							<v-btn dark text :color="setSecondaryColor" class="ml-2" v-bind="attrs" v-on="on">
-								{{ itemsPerPage }}
-								<v-icon>mdi-chevron-down</v-icon>
-							</v-btn>
-						</template>
-						<v-list>
-							<v-list-item v-for="(number, index) in itemsPerPageArray" :key="index"
-								@click="updateItemsPerPage(number)">
-								<v-list-item-title>{{ number }}</v-list-item-title>
-							</v-list-item>
-						</v-list>
-					</v-menu>
-
-					<v-spacer></v-spacer>
-
 					<span class="mr-4 grey--text">
 						Page {{ page }} of {{ numberOfPages }}
 					</span>
@@ -85,7 +67,7 @@
 </template>
 
 <script>
-	import axios from 'axios'
+import axios from 'axios'
 	export default {
 		data() {
 			return {
@@ -98,9 +80,9 @@
 				sortBy: 'name',
 				showKeys: [],
 				keys: [
-					'workout_name',
-					'workout_focus',
-					'workout_difficulty'
+					'exercise_name',
+					'exercise_type',
+					'exercise_engagement'
 				],
 				sortOptions: [
 					'Strength',
@@ -113,8 +95,9 @@
 		},
 		methods: {
 			async init() {
-				var workouts = await axios.get('/protectedRoute/publicWorkouts').then(response => response.data)
-				this.items = workouts
+				var exercises = await axios.get('/protectedRoute/publicExercises').then(response => response
+					.data)
+				this.items = exercises
 			},
 			nextPage() {
 				if (this.page + 1 <= this.numberOfPages) this.page += 1
@@ -134,11 +117,11 @@
 				return Math.ceil(this.items.length / this.itemsPerPage)
 			},
 			filteredKeys() {
-				return this.keys.filter(key => key !== `workout_name`)
+				return this.keys.filter(key => key !== `exercise_name`)
 			},
 			filteredShowKeys() {
 				this.keys.forEach(element => {
-					this.showKeys.push(element.substr(8))
+					this.showKeys.push(element.substr(9))
 				});
 				return this.showKeys.filter(key => key !== 'name')
 			},
