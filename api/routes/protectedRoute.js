@@ -276,6 +276,7 @@ router.get('/customExercises', async (req, res) => {
 //ANCHOR Adds a custom exercise
 router.post('/customExercises', async (req, res) => {
 	try {
+		console.log(req.body);
 		var {
 			req_name,
 			req_weighted,

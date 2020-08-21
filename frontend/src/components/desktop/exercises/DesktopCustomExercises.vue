@@ -80,13 +80,11 @@
 					</v-btn>
 				</v-row>
 			</template>
-
 		</v-data-iterator>
 	</v-container>
 </template>
 
 <script>
-	import axios from 'axios'
 	export default {
 		data() {
 			return {
@@ -114,8 +112,8 @@
 		},
 		methods: {
 			async init() {
-				var exercises = await axios.get('/protectedRoute/customExercises').then(response => response.data)
-				this.items = exercises
+				this.$store.dispatch('getCustomExercises')
+				this.items = this.$store.state.customExercises
 			},
 			nextPage() {
 				if (this.page + 1 <= this.numberOfPages) this.page += 1
@@ -129,6 +127,12 @@
 		},
 		created() {
 			this.init()
+		},
+		watch: {
+			// whenever question changes, this function will run
+			items: function () {
+				this.items = this.$store.state.customExercises
+			}
 		},
 		computed: {
 			numberOfPages() {

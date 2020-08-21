@@ -10,7 +10,7 @@
 			</v-col>
 		</v-row>
 		<v-row no-gutters>
-			<v-col class="pa-3" cols="12" sm="12" md="12">
+			<v-col class="pa-3" cols="12" sm="12" md="6">
 				<CrossPlatformProfilEdit />
 			</v-col>
 		</v-row>
