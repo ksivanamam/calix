@@ -1,0 +1,72 @@
+let emails = ["Christina Froidevaux", "Benno Jakob",
+	"Roland Salzmann",
+	"Michael Saier",
+	"Marianne Haldemann",
+	"Thomas Wiedenmayer",
+	"Roland Salzmann",
+	"Harry Hess",
+	"Reto Reuter",
+	"David Pfammatter",
+	"Peter Zumbach",
+	"Pascal Willfratt",
+	"Sarina Sommer",
+	"Sonja Ratze",
+	"Simone Studer",
+	"Sabine Beyeler",
+	"Christa Castel",
+	"Martin Schaer",
+	"Ruben Mäder",
+	"Matthias Burkhardt",
+	"Magali Bellot",
+	"Benjamin Freisberg",
+	"Barbara Grimm",
+	"Nadja Burri",
+	"Christine Lang",
+	"Giuseppina Renna",
+	"Thomas Flükiger",
+	"Frank Geister",
+	"Elisabeth Würsten",
+	"Manuel Rytz",
+	"Hermann Hunkeler",
+	"Mathias Wäfler",
+	"Stefan Hellinge",
+	"Christoph Thalmann",
+	"Silvia Krauer",
+	"Benjamin Freisberg",
+	"Franca Demarmels",
+	"Marianne Haldemann",
+	"Martin Bigler",
+	"Céline Künzle",
+	"Thomas Flükiger",
+	"Leticia Rodrigues",
+	"David Christen",
+	"Mathias Wäfler",
+	"Manuel Rentsch",
+	"Ruben Mäder",
+	"Marco Baumgartner",
+	"Urs Tschopp",
+	"Isabel Keller",
+	"Yaëlle Frutig",
+	"Tobias Lüthi",
+	"Ivo Knill",
+	"Martin Bigler",
+	"Rainer Disler",
+	"Martin Horst",
+	"Melanie Pfammatter-Spori",
+	"Martin Horst",
+	"Simon Fritsche",
+	"Isabelle Rast",
+	"Martin Lehmann",
+	"Jaana Saluz"
+]
+
+let newMails = []
+
+function pushFunction() {
+	emails.forEach(element => {
+		newMails.push(element.replace(' ', '.') + '@gibb.ch')
+	});
+	console.log(newMails);
+}
+
+pushFunction()
