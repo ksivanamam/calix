@@ -182,17 +182,11 @@ export default new Vuex.Store({
 			var exercises = await axios.get('/protectedRoute/customExercises').then(response => response.data)
 			context.commit('setCustomExercises', exercises)
 		},
-<<<<<<< HEAD
-		async postCustomExercise(context, data) {
-			var response = await axios.post('/protectedRoute/customExercises', data.newExercise).then(response => response.data)
-			context.commit('setSnackbar', response)
-=======
 		async addCustomExercise(context, data) {
 			var response = await axios.post('/protectedRoute/customExercises', data.newExercise).then(response => response.data)
 			context.commit('setSnackbar', response)
 			var exercises = await axios.get('/protectedRoute/customExercises').then(response => response.data)
 			context.commit('setCustomExercises', exercises)
->>>>>>> d48491537a3c8b53554eb36a8a7ae67e2957e74f
 			setTimeout(() => {
 				context.commit('resetSnackbar')
 			}, 2500);

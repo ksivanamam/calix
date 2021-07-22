@@ -113,14 +113,7 @@
 		methods: {
 			async init() {
 				this.$store.dispatch('getCustomExercises')
-<<<<<<< HEAD
-
 				this.items = this.$store.state.customExercises
-				// var exercises = await axios.get('/protectedRoute/customExercises').then(response => response.data)
-				// this.items = exercises
-=======
-				this.items = this.$store.state.customExercises
->>>>>>> d48491537a3c8b53554eb36a8a7ae67e2957e74f
 			},
 			nextPage() {
 				if (this.page + 1 <= this.numberOfPages) this.page += 1

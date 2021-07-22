@@ -85,18 +85,11 @@
 			openExerciseDialog() {
 				this.AddExerciseDialog.on = true
 			},
-<<<<<<< HEAD
-			createCustomExercise() {
-				var newExercise = this.newExercise
-				console.log(newExercise)
-				this.$store.dispatch('postCustomExercise', {newExercise})
-=======
 			async createCustomExercise() {
 				var newExercise = this.newExercise
 				this.$store.dispatch('addCustomExercise', {
 					newExercise
 				})
->>>>>>> d48491537a3c8b53554eb36a8a7ae67e2957e74f
 			},
 			resetCustomExercise() {
 				console.log('object');

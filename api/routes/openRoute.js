@@ -91,6 +91,21 @@ router.post('/checkEmail', async (req, res) => {
 		res.send(errorMessage)
 	}
 })
+//ANCHOR Checks token
+router.post('/checkToken', async (req, res) => {
+	try {
+		
+	} catch(error) {
+		console.error(error.message)
+		var errorMessage = {
+			snackbarOn: true,
+			snackbarColor: 'error',
+			snackbarMessage: ''
+		}
+		res.send(errorMessage)
+	}
+})
+
 //ANCHOR Creates a new user
 router.post('/register', async (req, res) => {
 	try {
