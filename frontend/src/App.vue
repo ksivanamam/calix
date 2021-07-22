@@ -24,7 +24,17 @@
 			'Footer': Footer,
 		},
 		data: () => ({
-			// ...
-		})
+		}),
+		methods: {
+			checkToken() {
+				var token = this.$store.state.token
+				this.$store.dispatch('checkToken', {
+					token
+				})
+			}
+		},
+		created() {
+			
+		}
 	};
 </script>

@@ -182,6 +182,13 @@ export default new Vuex.Store({
 			var exercises = await axios.get('/protectedRoute/customExercises').then(response => response.data)
 			context.commit('setCustomExercises', exercises)
 		},
+		async postCustomExercise(context, data) {
+			var response = await axios.post('/protectedRoute/customExercises', data.newExercise).then(response => response.data)
+			context.commit('setSnackbar', response)
+			setTimeout(() => {
+				context.commit('resetSnackbar')
+			}, 2500);
+		},
 		async getPublicWorkouts(context) {
 			var workouts = await axios.get('/protectedRoute/publicWorkouts').then(response => response.data)
 			context.commit('setPublicWorkouts', workouts)
@@ -191,8 +198,15 @@ export default new Vuex.Store({
 			console.log(workouts);
 			context.commit('setCustomWorkouts', workouts)
 		},
+		async checkToken(context, data) {
+			var validation = await axios.post('/protectedRoute/checkToken', data.token).then(response => response.data)
+			if (validation == true) {
+				context.commit('logout')
+			}
+		},
 		callSnackbar(context, data) {
-			context.commit('setSnackbar', data.snackbarData)
+			console.log(data.successMessage);
+			context.commit('setSnackbar', data)
 			setTimeout(() => {
 				context.commit('resetSnackbar')
 			}, 2500);

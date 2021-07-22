@@ -1,0 +1,644 @@
+{
+	"info": {
+		"_postman_id": "a9385e91-eb91-47d1-954c-b30b4404c3a2",
+		"name": "calix protected routes",
+		"description": "This collection is to be used to thest the protected routes inside the API.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "profil",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/profil",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"profil"
+					]
+				},
+				"description": "Use this to get the user data from one specific user."
+			},
+			"response": []
+		},
+		{
+			"name": "updateStats",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"req_height\": 180,\n\t\"req_weight\": 85\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/updateStats",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"updateStats"
+					]
+				},
+				"description": "Interface for updating stats like weight and height."
+			},
+			"response": []
+		},
+		{
+			"name": "updatePersonalData",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"req_email\": \"test@calix.ch\",\r\n    \"req_color\": \"pink\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/updatePersonalData",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"updatePersonalData"
+					]
+				},
+				"description": "Interface to update personal data like year of birth, etc."
+			},
+			"response": []
+		},
+		{
+			"name": "updatePassword",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"req_old_password\": \"test\",\r\n    \"req_new_password\": \"tost\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/updatePassword",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"updatePassword"
+					]
+				},
+				"description": "Interface to update password."
+			},
+			"response": []
+		},
+		{
+			"name": "profil",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/delProfil",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"delProfil"
+					]
+				},
+				"description": "Deletes testing profil."
+			},
+			"response": []
+		},
+		{
+			"name": "publicExercises",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/publicExercises",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"publicExercises"
+					]
+				},
+				"description": "Get all exercises from table \"exerciseLibrary\""
+			},
+			"response": []
+		},
+		{
+			"name": "customExercises",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/customExercises",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"customExercises"
+					]
+				},
+				"description": "Get all custom exercises made by user."
+			},
+			"response": []
+		},
+		{
+			"name": "customExercises",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"req_name\": \"x\",\n\t\"req_weighted\": true,\n\t\"req_advanced\": true,\n\t\"req_engagement\": \"ass\",\n\t\"req_type\": \"strength\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/customExercises",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"customExercises"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "customExercises",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"req_name\": \"y\",\n\t\"req_weighted\": false,\n\t\"req_advanced\": false,\n\t\"req_engagement\": \"ass\",\n\t\"req_type\": \"strength\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/customExercises/:exercise_PK",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"customExercises",
+						":exercise_PK"
+					],
+					"variable": [
+						{
+							"key": "exercise_PK",
+							"value": "20",
+							"type": "string"
+						}
+					]
+				},
+				"description": "Alters properties of custom exercise."
+			},
+			"response": []
+		},
+		{
+			"name": "customExercises",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/customExercises/:exercises_PK",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"customExercises",
+						":exercises_PK"
+					],
+					"variable": [
+						{
+							"key": "exercises_PK",
+							"value": "20",
+							"type": "string"
+						}
+					]
+				},
+				"description": "Deletes custom exercises made by user."
+			},
+			"response": []
+		},
+		{
+			"name": "publicWorkouts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/publicWorkouts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"publicWorkouts"
+					]
+				},
+				"description": "Get all workouts in table \"workouts\""
+			},
+			"response": []
+		},
+		{
+			"name": "customWorkouts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/customWorkouts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"customWorkouts"
+					]
+				},
+				"description": "Get custom workouts created by the user."
+			},
+			"response": []
+		},
+		{
+			"name": "customWorkouts",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"req_name\": \"y\",\n\t\"req_focus\": \"ass\",\n\t\"req_difficulty\": \"3\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/customWorkouts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"customWorkouts"
+					]
+				},
+				"description": "Get custom workouts created by the user."
+			},
+			"response": []
+		},
+		{
+			"name": "customWorkouts",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"req_name\": \"z\",\n    \"req_focus\": \"Back\",\n    \"req_difficulty\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/customWorkouts/:workout_PK",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"customWorkouts",
+						":workout_PK"
+					],
+					"variable": [
+						{
+							"key": "workout_PK",
+							"value": "9",
+							"type": "string"
+						}
+					]
+				},
+				"description": "Get custom workouts created by the user."
+			},
+			"response": []
+		},
+		{
+			"name": "customWorkouts",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/customWorkouts/:workout_PK",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"customWorkouts",
+						":workout_PK"
+					],
+					"variable": [
+						{
+							"key": "workout_PK",
+							"value": "9",
+							"type": "string"
+						}
+					]
+				},
+				"description": "Get custom workouts created by the user."
+			},
+			"response": []
+		},
+		{
+			"name": "workoutExercises",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/workoutExercises/:workout_PK",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"workoutExercises",
+						":workout_PK"
+					],
+					"variable": [
+						{
+							"key": "workout_PK",
+							"value": "1",
+							"type": "string"
+						}
+					]
+				},
+				"description": "Get all exercises inside a workout."
+			},
+			"response": []
+		},
+		{
+			"name": "workoutExercises",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"req_exercise_PK\": 19,\n    \"req_workoutExercise_sets\": 2,\n    \"req_workoutExercise_reps\": 10,\n    \"req_workout_PK\": 8\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/workoutExercises",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"workoutExercises"
+					]
+				},
+				"description": "Adds an exercise to a workout."
+			},
+			"response": []
+		},
+		{
+			"name": "workoutExercises",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"req_exercise_PK\": 19,\n    \"req_workoutExercise_sets\": 2,\n    \"req_workoutExercise_reps\": 10,\n    \"req_workout_PK\": 8\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/workoutExercises/:workoutExercise_PK",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"workoutExercises",
+						":workoutExercise_PK"
+					],
+					"variable": [
+						{
+							"key": "workoutExercise_PK",
+							"value": "11",
+							"type": "string"
+						}
+					]
+				},
+				"description": "Changes properties of exercises in workout."
+			},
+			"response": []
+		},
+		{
+			"name": "workoutExercise",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/workoutExercises/:workoutExercise_PK/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"workoutExercises",
+						":workoutExercise_PK",
+						""
+					],
+					"variable": [
+						{
+							"key": "workoutExercise_PK",
+							"value": "11",
+							"type": "string"
+						}
+					]
+				},
+				"description": "Deletes exercise in workout. Exercise remains in \"exerciseLibrary\" table."
+			},
+			"response": []
+		},
+		{
+			"name": "plans",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/plans",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"plans"
+					]
+				},
+				"description": "Get all data related to your weekly plan"
+			},
+			"response": []
+		},
+		{
+			"name": "plans",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"req_plan_workout_FK\": \"3\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2000/protectedRoute/plans/:plan_day",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"protectedRoute",
+						"plans",
+						":plan_day"
+					],
+					"variable": [
+						{
+							"key": "plan_day",
+							"value": "2",
+							"type": "string"
+						}
+					]
+				},
+				"description": "Adds workout to weekly plan."
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX1BLIjo2LCJ1c2VyX2FkbWluQXV0aG9yaXphdGlvbiI6MCwiaWF0IjoxNTk1Njg4MTY5LCJleHAiOjE1OTU3NzQ1Njl9.FV5QkVN1GUyn8QlEE2qUF-g4vrOcjY5syoYsZJ9NQ0g",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "2660f732-09a4-4003-8844-80c75cc7cc8b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "4fc69d95-66d0-4887-8519-e12c70e0f32b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

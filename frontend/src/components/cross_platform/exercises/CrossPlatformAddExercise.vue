@@ -51,7 +51,6 @@
 </template>
 
 <script>
-	import axios from 'axios'
 	export default {
 		data() {
 			return {
@@ -61,8 +60,8 @@
 				newExercise: {},
 				valid: true,
 				lazy: false,
-				weights: [true, false],
-				advanced: [true, false],
+				weights: ['true', 'false'],
+				advanced: ['true', 'false'],
 				types: ['Strength', 'Endurance', 'Speed', 'Flexibility'],
 				engagements: ['Biceps', 'Triceps', 'Upper back', 'Lower back', 'Thighs', 'Calves', 'Chest', 'Core'],
 				nameRules: [
@@ -86,9 +85,10 @@
 			openExerciseDialog() {
 				this.AddExerciseDialog.on = true
 			},
-			async createCustomExercise() {
-				var response = await axios.post('/protectedRoute/customExercises', this.newExercise).then(response => response.data)
-				console.log(response);
+			createCustomExercise() {
+				var newExercise = this.newExercise
+				console.log(newExercise)
+				this.$store.dispatch('postCustomExercise', {newExercise})
 			},
 			resetCustomExercise() {
 				console.log('object');

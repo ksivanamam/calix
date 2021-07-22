@@ -27,6 +27,7 @@
 		methods: {
 			init() {
 				this.userData = this.$store.state.user
+				console.log(this.userData.user_image)
 			}
 		},
 		created() {

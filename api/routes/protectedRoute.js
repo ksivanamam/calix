@@ -283,6 +283,7 @@ router.post('/customExercises', async (req, res) => {
 			req_engagement,
 			req_type
 		} = req.body
+		console.log(req.body)
 		await knex('exercises')
 			.insert({
 				exercise_name: req_name,
