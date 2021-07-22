@@ -67,7 +67,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 	export default {
 		data() {
 			return {
@@ -95,9 +94,8 @@ import axios from 'axios'
 		},
 		methods: {
 			async init() {
-				var exercises = await axios.get('/protectedRoute/publicExercises').then(response => response
-					.data)
-				this.items = exercises
+				this.$store.dispatch('getPublicExercises')
+				this.items = this.$store.state.publicExercises
 			},
 			nextPage() {
 				if (this.page + 1 <= this.numberOfPages) this.page += 1

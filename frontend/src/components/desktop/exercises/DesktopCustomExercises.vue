@@ -80,7 +80,6 @@
 					</v-btn>
 				</v-row>
 			</template>
-
 		</v-data-iterator>
 	</v-container>
 </template>
@@ -114,10 +113,14 @@
 		methods: {
 			async init() {
 				this.$store.dispatch('getCustomExercises')
+<<<<<<< HEAD
 
 				this.items = this.$store.state.customExercises
 				// var exercises = await axios.get('/protectedRoute/customExercises').then(response => response.data)
 				// this.items = exercises
+=======
+				this.items = this.$store.state.customExercises
+>>>>>>> d48491537a3c8b53554eb36a8a7ae67e2957e74f
 			},
 			nextPage() {
 				if (this.page + 1 <= this.numberOfPages) this.page += 1
@@ -131,6 +134,12 @@
 		},
 		created() {
 			this.init()
+		},
+		watch: {
+			// whenever question changes, this function will run
+			items: function () {
+				this.items = this.$store.state.customExercises
+			}
 		},
 		computed: {
 			numberOfPages() {
